@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}
+        Title
+    {% endblock %}</title>
+{% load static %}
+    <link rel="stylesheet" href="{% static "css/stylesheet.css" %}">
+</head>
+<body>
+    {% include 'menu.html' %}
+    {% block header %}
+        <H1>Справочники</H1>
+    {% endblock %}
+    {% block searchform %}
+        <form action="" method="get">
+            {% block searchform_name %}
+                {{ form }}
+            {% endblock %}
+            <button type="submit">Поиск</button>
+        </form>
+        <br>
+    {% endblock %}
+
+    {% block create %}
+        <a href="{% block create_ankor %}#{% endblock %}" class="button">Создать</a>
+    {% endblock %}
+
+    <table border="1">
+        {% block dimension_list %}
+            <tr>
+                <th>Наименование</th>
+                <th>Описание</th>
+                <th>Действия</th>
+            </tr>
+            {% for object in object_list %}
+                <tr>
+                    <td><a href="{% url url_detail object.pk %}">{{ object.name }}</a></td>
+                    <td>{{  object.description }}</td>
+                    <td></td>
+                </tr>
+            {% endfor %}
+        {% endblock %}
+    </table>
+    {% if is_paginated %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}">Пред.</a>
+                {% endif %}
+                <span class="page-current">
+                    Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">След.</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
+
+</body>
+</html>

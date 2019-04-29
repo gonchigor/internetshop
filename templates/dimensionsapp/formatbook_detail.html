@@ -1,0 +1,18 @@
+{% extends 'dimension_detail.html' %}
+{% block title %}
+  Формат {{ object.name }}
+{% endblock %}
+
+{% block to_list %}
+    <a href="{% url 'format_book_list' %}">Все форматы</a>
+{% endblock %}
+
+{% block page_name %}
+        Формат
+      {% endblock %}
+
+{% block dimension %}
+    {% include "dimension_template.html" %}
+{% endblock %}
+
+{% block update_url %}{% url 'format_book_update' object.pk%}{% endblock %}

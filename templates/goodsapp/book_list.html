@@ -1,0 +1,25 @@
+{% extends 'dimension_list.html' %}
+
+{% block title %}
+    Книги
+{% endblock %}
+
+{% block header %}
+        <H1>Книги</H1>
+{% endblock %}
+
+{% block searchform %}
+{% endblock %}
+
+{% block dimension_list %}
+            <tr>
+                <th>Наименование</th>
+                <th>Цена</th>
+            </tr>
+            {% for object in object_list %}
+                <tr>
+                    <td><a href="{% url 'book_detail' object.pk %}">{{ object.description }}</a></td>
+                    <td>{{  object.price }}</td>
+                </tr>
+            {% endfor %}
+        {% endblock %}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}
+        Title
+    {% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static "css/stylesheet.css" %}">
+</head>
+<body>
+  {% include 'menu.html' %}
+  {% block page_title %}
+      <h1>{% block page_name %}
+        Справочник
+      {% endblock %}</h1>
+
+  {% endblock %}
+  {% block dimension %}
+      None
+  {% endblock %}
+   {% block update %}
+       <a href="{% block update_url %}#{% endblock %}" class="button update-dimension">Править</a>
+    {% endblock %}
+</body>
+</html>

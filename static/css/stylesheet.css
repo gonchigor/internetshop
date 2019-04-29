@@ -1,0 +1,35 @@
+nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+nav li {
+    display: inline-block;
+    margin-left: -4px;
+}
+
+nav a {
+    display: block;
+    color: #0088cc;
+    background-color: #f5f5f5;
+    border-left: 1px solid #e5e5e5;
+    margin-left: -1px;
+    padding: 8px 10px;
+    text-decoration: none;
+}
+
+nav a:hover {
+    background-color: #eeeeee;
+}
+
+.button {
+    display: inline-block;
+    text-decoration: none;
+    background-color: #ededed;
+    padding: 2px 7px;
+    color: black;
+    border-radius: 3px;
+    margin-bottom: 7px;
+    border: 1px solid #7f7f7f;
+}

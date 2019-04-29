@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}
+        Title
+    {% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static "css/stylesheet.css" %}">
+</head>
+<body>
+    {% include 'menu.html' %}
+    <h1>{% block maincaption %}Title{% endblock %}</h1>
+    {% block dimension %}
+      <form method="post" action="">
+        {% csrf_token %}
+        {% block dimension_form %}
+            {{ form.as_p }}
+        {% endblock %}
+        <button type="submit" name="save">Сохранить</button>
+        <button type="submit" name="save-and-close"> Сохранить и закрыть</button>
+        {% if object %}
+          {% block saveas_button %}
+            <button type="submit" name="save-as" formaction="{% block saveas_url %}{% url 'format_book_create' %}{% endblock %}">Сохранить как</button>
+          {% endblock %}
+        {% endif %}
+
+
+      </form>
+    {% endblock %}
+</body>
+</html>
