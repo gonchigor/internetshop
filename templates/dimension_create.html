@@ -12,7 +12,7 @@
     {% include 'menu.html' %}
     <h1>{% block maincaption %}Title{% endblock %}</h1>
     {% block dimension %}
-      <form method="post" action="">
+      <form method="post" action="" {% block form_options %}{% endblock %}>
         {% csrf_token %}
         {% block dimension_form %}
             {{ form.as_p }}

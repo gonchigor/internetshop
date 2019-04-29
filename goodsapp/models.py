@@ -1,5 +1,6 @@
 from django.db import models
 from dimensionsapp import models as referen
+from django.urls import reverse_lazy
 
 # Create your models here.
 
@@ -31,6 +32,9 @@ class Book(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse_lazy('book_detail', kwargs={'pk': self.pk})
 
     class Meta:
         verbose_name = "книга"

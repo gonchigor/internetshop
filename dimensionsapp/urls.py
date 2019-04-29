@@ -4,9 +4,10 @@ from dimensionsapp.views import AuthorDetailView, SerieDetailView, JenreDetailVi
      JenreListView, PublishingHouseListView, FormatBookListView, BindingListView, AgeRestrictionListView, \
      MenuView, SerieCreateView, AuthorCreateView, JenreCreateView, PublishingHouseCreateView, \
      FormatBookCreateView, BindingCreateView, AgeRestrictionCreateView, AuthorUpdateView, SerieUpdateView, \
-     JenreUpdateView, PublishingHouseUpdateView, FormatBookUpdateView, BindingUpdateView, AgeRestrictionUpdateView
-from django.views.generic import TemplateView
-from goodsapp.views import BookDetailView, BookListView, BookCreateView
+     JenreUpdateView, PublishingHouseUpdateView, FormatBookUpdateView, BindingUpdateView, AgeRestrictionUpdateView, \
+     SerieDeleteView, AuthorDeleteView, JenreDeleteView, PublishingHouseDeleteView, FormatBookDeleteView, \
+     BindingDeleteView, AgeRestrictionDeleteView
+
 
 urlpatterns = [
 
@@ -41,6 +42,14 @@ urlpatterns = [
     path('format/<int:pk>/update/', FormatBookUpdateView.as_view(), name='format_book_update'),
     path('binding/<int:pk>/update/', BindingUpdateView.as_view(), name='binding_update'),
     path('agerestriction/<int:pk>/update/', AgeRestrictionUpdateView.as_view(), name='age_restriction_update'),
+
+    path('author/<int:pk>/delete/', AuthorDeleteView.as_view(), name='author_delete'),
+    path('serie/<int:pk>/delete/', SerieDeleteView.as_view(), name='serie_delete'),
+    path('jenre/<int:pk>/delete/', JenreDeleteView.as_view(), name='jenre_delete'),
+    path('publishing/<int:pk>/delete/', PublishingHouseDeleteView.as_view(), name='publishing_house_delete'),
+    path('format/<int:pk>/delete/', FormatBookDeleteView.as_view(), name='format_book_delete'),
+    path('binding/<int:pk>/delete/', BindingDeleteView.as_view(), name='binding_delete'),
+    path('agerestriction/<int:pk>/delete/', AgeRestrictionDeleteView.as_view(), name='age_restriction_delete'),
 
 
     path('', MenuView.as_view())

@@ -292,6 +292,36 @@ class AgeRestrictionUpdateView(UpdateView):
         return url
 
 
+class AuthorDeleteView(DeleteView):
+    model = Author
+    success_url = reverse_lazy('author_list')
+
+
 class SerieDeleteView(DeleteView):
     model = Serie
     success_url = reverse_lazy('serie_list')
+
+
+class JenreDeleteView(DeleteView):
+    model = Jenre
+    success_url = reverse_lazy('jenre_list')
+
+
+class PublishingHouseDeleteView(DeleteView):
+    model = PublishingHouse
+    success_url = reverse_lazy('publishing_house_list')
+
+
+class FormatBookDeleteView(DeleteView):
+    model = FormatBook
+    success_url = reverse_lazy('format_book_list')
+
+
+class BindingDeleteView(DeleteView):
+    model = Binding
+    success_url = reverse_lazy('binding_list')
+
+
+class AgeRestrictionDeleteView(DeleteView):
+    model = AgeRestriction
+    success_url = reverse_lazy('age_restriction_list')
