@@ -11,15 +11,18 @@
 {% block searchform %}
 {% endblock %}
 {% block create_ankor %}{% url 'book_create' %}{% endblock %}
-{% block dimension_list %}
-            <tr>
-                <th>Наименование</th>
-                <th>Цена</th>
-            </tr>
-            {% for object in object_list %}
-                <tr>
-                    <td><a href="{% url 'book_detail' object.pk %}">{{ object.description }}</a></td>
-                    <td>{{  object.price }}</td>
-                </tr>
-            {% endfor %}
-        {% endblock %}
+
+{% block list_header %}
+   <th>Наименование</th>
+    <th>Цена</th>
+{% endblock %}
+
+{% block list_element %}
+    <td>{{ object.description }}</td>
+    <td>{{  object.price }}</td>
+{% endblock %}
+
+
+{% block  url_view%}{% url 'book_detail' object.pk%}{% endblock %}
+{% block  url_edit%}{% url 'book_update' object.pk%}{% endblock %}
+{% block  url_delete%}{% url 'book_delete' object.pk%}{% endblock %}

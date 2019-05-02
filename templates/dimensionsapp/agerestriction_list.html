@@ -10,3 +10,7 @@
 
 {% block create_ankor%}{% url 'age_restriction_create' %}{% endblock %}
 
+{% block  url_view%}{% url 'age_restriction_detail' object.pk%}{% endblock %}
+{% block  url_edit%}{% url 'age_restriction_update' object.pk%}{% endblock %}
+{% block  url_delete%}{% url 'age_restriction_delete' object.pk%}{% endblock %}
+

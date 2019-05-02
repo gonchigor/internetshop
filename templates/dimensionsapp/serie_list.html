@@ -9,3 +9,7 @@
     {% endblock %}
 
 {% block create_ankor%}{% url 'serie_create' %}{% endblock %}
+
+{% block  url_view%}{% url 'serie_detail' object.pk%}{% endblock %}
+{% block  url_edit%}{% url 'serie_update' object.pk%}{% endblock %}
+{% block  url_delete%}{% url 'serie_delete' object.pk%}{% endblock %}

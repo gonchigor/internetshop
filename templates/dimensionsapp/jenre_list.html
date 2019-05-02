@@ -9,3 +9,7 @@
     {% endblock %}
 
 {% block create_ankor%}{% url 'jenre_create' %}{% endblock %}
+
+{% block  url_view%}{% url 'jenre_detail' object.pk%}{% endblock %}
+{% block  url_edit%}{% url 'jenre_update' object.pk%}{% endblock %}
+{% block  url_delete%}{% url 'jenre_delete' object.pk%}{% endblock %}

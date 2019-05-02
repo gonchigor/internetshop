@@ -10,3 +10,6 @@
 
 {% block create_ankor%}{% url 'format_book_create' %}{% endblock %}
 
+{% block  url_view%}{% url 'format_book_detail' object.pk%}{% endblock %}
+{% block  url_edit%}{% url 'format_book_update' object.pk%}{% endblock %}
+{% block  url_delete%}{% url 'format_book_delete' object.pk%}{% endblock %}

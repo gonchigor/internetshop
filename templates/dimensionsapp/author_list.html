@@ -4,21 +4,23 @@
     Авторы
 {% endblock %}
 {% block create_ankor%}{% url 'author_create' %}{% endblock %}
-{% block dimension_list %}
-            <tr>
-                <th>Имя</th>
-                <th>Описание</th>
-                <th>Биография</th>
-            </tr>
-            {% for object in object_list %}
-                <tr>
-                    <td><a href="{% url 'author_detail' object.pk %}">{{ object.name }}</a></td>
-                    <td>{{  object.description }}</td>
-                    <td>{{ object.biography }}</td>
-                </tr>
-            {% endfor %}
+
+{% block list_header %}
+    <th>Имя</th>
+    <th>Описание</th>
+    <th>Биография</th>
+{% endblock %}
+
+{% block list_element %}
+    <td>{{ object.name }}</td>
+    <td>{{  object.description }}</td>
+    <td>{{ object.biography }}</td>
 {% endblock %}
 
 {% block header %}
         <H1>Авторы</H1>
 {% endblock %}
+
+{% block  url_view%}{% url 'author_detail' object.pk%}{% endblock %}
+{% block  url_edit%}{% url 'author_update' object.pk%}{% endblock %}
+{% block  url_delete%}{% url 'author_delete' object.pk%}{% endblock %}

@@ -10,3 +10,7 @@
 
 {% block create_ankor%}{% url 'binding_create' %}{% endblock %}
 
+{% block  url_view%}{% url 'binding_detail' object.pk%}{% endblock %}
+{% block  url_edit%}{% url 'binding_update' object.pk%}{% endblock %}
+{% block  url_delete%}{% url 'binding_delete' object.pk%}{% endblock %}
+

@@ -30,15 +30,23 @@
     <table border="1">
         {% block dimension_list %}
             <tr>
-                <th>Наименование</th>
-                <th>Описание</th>
+                {% block list_header %}
+                    <th>Наименование</th>
+                    <th>Описание</th>
+                {% endblock %}
                 <th>Действия</th>
             </tr>
             {% for object in object_list %}
                 <tr>
-                    <td><a href="{% url url_detail object.pk %}">{{ object.name }}</a></td>
+                {% block list_element %}
+                    <td>{{ object.name }}</td>
                     <td>{{  object.description }}</td>
-                    <td></td>
+                {% endblock %}
+                    <td>
+                        <a href="{% block  url_view%}#{% endblock %}" title="Посмотреть">View</a>
+                        <a href="{% block  url_edit%}#{% endblock %}" title="Править">Edit</a>
+                        <a href="{% block  url_delete%}#{% endblock %}" title="Удалить">Delete</a>
+                    </td>
                 </tr>
             {% endfor %}
         {% endblock %}

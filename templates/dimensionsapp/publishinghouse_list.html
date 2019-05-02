@@ -9,3 +9,7 @@
     {% endblock %}
 
 {% block create_ankor%}{% url 'publishing_house_create' %}{% endblock %}
+
+{% block  url_view%}{% url 'publishing_house_detail' object.pk%}{% endblock %}
+{% block  url_edit%}{% url 'publishing_house_update' object.pk%}{% endblock %}
+{% block  url_delete%}{% url 'publishing_house_delete' object.pk%}{% endblock %}
