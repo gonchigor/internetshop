@@ -6,66 +6,93 @@
         Title
     {% endblock %}</title>
 {% load static %}
-    <link rel="stylesheet" href="{% static "css/stylesheet.css" %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    {% load crispy_forms_tags %}
 </head>
 <body>
-    {% include 'menu.html' %}
-    {% block header %}
-        <H1>Справочники</H1>
+    {% block navbar %}
+        {% include 'navbar.html' with search_tag="search" %}
     {% endblock %}
-    {% block searchform %}
-        <form action="" method="get">
-            {% block searchform_name %}
-                {{ form }}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                {% block header %}
+                <H1>Справочники</H1>
+                {% endblock %}
+            </div>
+
+            {% comment %}
+            {% block searchform %}
+                <form action="" method="get">
+                    {% block searchform_name %}
+                        {{ form|crispy }}
+                    {% endblock %}
+                    <button type="submit">Поиск</button>
+                </form>
+                <br>
             {% endblock %}
-            <button type="submit">Поиск</button>
-        </form>
-        <br>
-    {% endblock %}
+            {% endcomment %}
+            <div class="col text-right" >
 
-    {% block create %}
-        <a href="{% block create_ankor %}#{% endblock %}" class="button">Создать</a>
-    {% endblock %}
+                    {% block create %}
+                    <a href="{% block create_ankor %}#{% endblock %}" class="btn btn-primary" style="margin-top: 10px;">Добавить</a>
+                    {% endblock %}
 
-    <table border="1">
-        {% block dimension_list %}
-            <tr>
-                {% block list_header %}
-                    <th>Наименование</th>
-                    <th>Описание</th>
-                {% endblock %}
-                <th>Действия</th>
-            </tr>
-            {% for object in object_list %}
-                <tr>
-                {% block list_element %}
-                    <td>{{ object.name }}</td>
-                    <td>{{  object.description }}</td>
-                {% endblock %}
-                    <td>
-                        <a href="{% block  url_view%}#{% endblock %}" title="Посмотреть">View</a>
-                        <a href="{% block  url_edit%}#{% endblock %}" title="Править">Edit</a>
-                        <a href="{% block  url_delete%}#{% endblock %}" title="Удалить">Delete</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        {% endblock %}
-    </table>
-    {% if is_paginated %}
-        <div class="pagination">
-            <span class="page-links">
-                {% if page_obj.has_previous %}
-                    <a href="?page={{ page_obj.previous_page_number }}">Пред.</a>
-                {% endif %}
-                <span class="page-current">
-                    Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
-                </span>
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">След.</a>
-                {% endif %}
-            </span>
+            </div>
+
         </div>
-    {% endif %}
+
+        <table class="table table-bordered">
+            {% block dimension_list %}
+                <thead class="thead-light">
+                    <tr>
+                        {% block list_header %}
+                            <th>Наименование</th>
+                            <th>Описание</th>
+                        {% endblock %}
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for object in object_list %}
+                        <tr>
+                        {% block list_element %}
+                            <td>{{ object.name }}</td>
+                            <td>{{  object.description }}</td>
+                        {% endblock %}
+                            <td>
+                                <a href="{% block  url_view%}#{% endblock %}" title="Посмотреть"><i class="fas fa-book-open"></i></a>
+                                <a href="{% block  url_edit%}#{% endblock %}" title="Править"><i class="far fa-edit"></i></a>
+                                <a href="{% block  url_delete%}#{% endblock %}" title="Удалить"><i class="fas fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            {% endblock %}
+        </table>
+        {% if is_paginated %}
+            <div class="pagination">
+                <span class="page-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}">Пред.</a>
+                    {% endif %}
+                    <span class="page-current">
+                        Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+                    </span>
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">След.</a>
+                    {% endif %}
+                </span>
+            </div>
+        {% endif %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
 
 </body>
 </html>

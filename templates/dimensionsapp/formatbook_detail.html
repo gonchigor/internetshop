@@ -16,3 +16,5 @@
 {% endblock %}
 
 {% block update_url %}{% url 'format_book_update' object.pk%}{% endblock %}
+
+{% block delete_url %}{% url 'format_book_delete' object.pk%}{% endblock %}

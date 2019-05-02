@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     [
         'dimensionsapp',
         'goodsapp',
-        'menuapp'
+        'menuapp',
+        'home',
     ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

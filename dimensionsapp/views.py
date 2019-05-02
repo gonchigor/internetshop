@@ -41,7 +41,7 @@ class AgeRestrictionDetailView(DetailView):
 
 class ListViewFilter(ListView):
     form = SearchForm
-    paginate_by = 25
+    paginate_by = 15
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -61,17 +61,14 @@ class ListViewFilter(ListView):
 
 class SerieListView(ListViewFilter):
     model = Serie
-    extra_context = {'url_detail': 'serie_detail'}
 
 
 class JenreListView(ListViewFilter):
     model = Jenre
-    extra_context = {'url_detail': 'jenre_detail'}
 
 
 class PublishingHouseListView(ListViewFilter):
     model = PublishingHouse
-    extra_context = {'url_detail': 'publishing_house_detail'}
 
     # def get_context_data(self, *, object_list=None, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -81,27 +78,23 @@ class PublishingHouseListView(ListViewFilter):
 
 class FormatBookListView(ListViewFilter):
     model = FormatBook
-    extra_context = {'url_detail': 'format_book_detail'}
 
 
 class BindingListView(ListViewFilter):
     model = Binding
-    extra_context = {'url_detail': 'binding_detail', }
 
 
 class AgeRestrictionListView(ListViewFilter):
     model = AgeRestriction
-    extra_context = {'url_detail': 'age_restriction_detail'}
 
 
 class AuthorListView(ListViewFilter):
     model = Author
     form = SearchFormAuthor
-    extra_context = {'url_detail': 'author_detail'}
 
 
 class MenuView(TemplateView):
-    template_name = 'goodsapp/menu_view.html'
+    template_name = 'dimensionsapp/menu_view.html'
 
 
 class SerieCreateView(CreateView):

@@ -7,43 +7,53 @@
     <a href="{% url 'book_list' %}">Все книги</a>
 {% endblock %}
 
-
+{% block page_name %}
+        Книга
+      {% endblock %}
 
 {% block dimension %}
     <h3>{{ object.description }}</h3>
-    <div class="image-container" >
-        {% if object.image_field %}
-            <img src="{{ object.image_field.url }}" alt="{{ object.description }}" style="max-width: 250px;">
-        {% else %}
-            <p>Без фото</p>
-        {% endif %}
+    <div class="row">
+        <div class="col image-container" >
+            {% if object.image_field %}
+                <img src="{{ object.image_field.url }}" alt="{{ object.description }}" class="img-fluid">
+            {% else %}
+                <p>Без фото</p>
+            {% endif %}
 
-        <p><b>Цена: {{ object.price }} руб.</b></p>
-    </div>
-    <div>
-        <p><strong>Название:</strong> {{ object.name }}</p>
-        <p><strong>Авторы:</strong>
-            {% for  author  in object.authors.all%}
-                <a href="{% url 'author_detail' author.pk %}">{{ author.name }}</a>
-            {% endfor %}
-            </p>
-        <p><strong>Серия:</strong> {{ object.serie|default_if_none:"Не указана" }}</p>
-        <p><strong>Жанры:</strong>
-            {% for jenre in object.jenre.all %}
-                <a href="{% url 'jenre_detail' jenre.pk %}">{{ jenre.name }}</a>
-            {% endfor %}
-            </p>
-        <p><strong>Год издания:</strong> {{ object.year_publishing }}</p>
-        <p><strong>Количество страниц:</strong> {{ object.count_pages }}</p>
-        <p><strong>Переплет:</strong> {{ object.binding }}</p>
-        <p><strong>Формат:</strong> {{ object.format_book }}</p>
-        <p><strong>ISBN:</strong> {{ object.isbn }}</p>
-        <p><strong>Вес:</strong> {{ object.weight }} гр</p>
-        <p> {{ object.age_restriction }}</p>
-        <p><strong> {{ object.is_active|yesno:"Есть на складе,Нет на складе" }}</strong></p>
-        <p><strong>Рейтинг:</strong> {{ object.rate }}</p>
+            <p><b>Цена: {{ object.price }} руб.</b></p>
+            <p><strong>Дата создания: </strong> {{ object.date_create }}</p>
+            <p><strong>Дата последнего обновления: </strong> {{ object.date_update }} </p>
+        </div>
+        <div class="col">
+            <p><strong>Название:</strong> {{ object.name }}</p>
+            <p><strong>Авторы:</strong>
+                {% for  author  in object.authors.all%}
+                    <a href="{% url 'author_detail' author.pk %}">{{ author.name }}</a>
+                {% endfor %}
+                </p>
+            <p><strong>Серия:</strong> {{ object.serie|default_if_none:"Не указана" }}</p>
+            <p><strong>Жанры:</strong>
+                {% for jenre in object.jenre.all %}
+                    <a href="{% url 'jenre_detail' jenre.pk %}">{{ jenre.name }}</a>
+                {% endfor %}
+                </p>
+            <p><strong>Год издания:</strong> {{ object.year_publishing }}</p>
+            <p><strong>Количество страниц:</strong> {{ object.count_pages }}</p>
+            <p><strong>Переплет:</strong> {{ object.binding }}</p>
+            <p><strong>Формат:</strong> {{ object.format_book }}</p>
+            <p><strong>ISBN:</strong> {{ object.isbn }}</p>
+            <p><strong>Вес:</strong> {{ object.weight }} гр</p>
+            <p> {{ object.age_restriction }}</p>
+            <p><strong>Издательство:</strong> {{ object.publisher }}</p>
+            <p><strong>Количество книг в наличии:</strong> {{ object.count_books }}</p>
+            <p><strong> {{ object.is_active|yesno:"Есть на складе,Нет на складе" }}</strong></p>
+            <p><strong>Рейтинг:</strong> {{ object.rate }}</p>
+        </div>
     </div>
 
 {% endblock %}
 
 {% block update_url %}{% url 'book_update' object.pk %}{% endblock %}
+
+{% block delete_url %}{% url 'book_delete' object.pk%}{% endblock %}

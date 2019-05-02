@@ -16,3 +16,5 @@
 {% endblock %}
 
 {% block update_url %}{% url 'binding_update' object.pk%}{% endblock %}
+
+{% block delete_url %}{% url 'binding_delete' object.pk%}{% endblock %}

@@ -17,3 +17,5 @@
 {% endblock %}
 
 {% block update_url %}{% url 'author_update' object.pk%}{% endblock %}
+
+{% block delete_url %}{% url 'author_delete' object.pk%}{% endblock %}

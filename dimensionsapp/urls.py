@@ -52,5 +52,5 @@ urlpatterns = [
     path('agerestriction/<int:pk>/delete/', AgeRestrictionDeleteView.as_view(), name='age_restriction_delete'),
 
 
-    path('', MenuView.as_view())
+    path('', MenuView.as_view(), name='dimensions_list')
 ]
