@@ -3,6 +3,8 @@ from . import models
 from django.utils.html import format_html
 
 # Register your models here.
+
+
 class BookAdmin(admin.ModelAdmin):
     def image_tag(self, obj):
         if (obj.image_field == ""):
@@ -17,4 +19,4 @@ class BookAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.Book, BookAdmin)
-admin.site.register(models.Menu)
+
