@@ -26,3 +26,7 @@
 {% block  url_view%}{% url 'book_detail' object.pk%}{% endblock %}
 {% block  url_edit%}{% url 'book_update' object.pk%}{% endblock %}
 {% block  url_delete%}{% url 'book_delete' object.pk%}{% endblock %}
+
+{% block navbar %}
+        {% include 'navbar.html' with search_tag="search" active="book"%}
+    {% endblock %}

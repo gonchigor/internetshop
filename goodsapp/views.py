@@ -4,11 +4,23 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Book
 from .form import BookForm
 from django.urls import reverse_lazy
+from django.db.models import Q
 # Create your views here.
 
 
 class BookListView(ListView):
     model = Book
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if 'search' in self.request.GET.keys() and self.request.GET['search']:
+            queryset = Book.objects.all()
+            for s in self.request.GET['search'].split():
+                # queryset = queryset.filter(name__iexact=s)
+                queryset = queryset.filter(Q(authors__name__icontains=s) | Q(name__icontains=s))
+            context['object_list'] = queryset
+            context['search_string'] = self.request.GET['search']
+        return context
 
 
 class BookDetailView(DetailView):

@@ -12,10 +12,10 @@
 </head>
 <body>
     {% block navbar %}
-        {% include 'navbar.html' with search_tag="search" %}
+        {% include 'navbar.html' with search_tag="search" active="dimension"%}
     {% endblock %}
     <div class="container">
-        <div class="row">
+        <div class="row align-items-center">
             <div class="col">
                 {% block header %}
                 <H1>Справочники</H1>
@@ -36,7 +36,7 @@
             <div class="col text-right" >
 
                     {% block create %}
-                    <a href="{% block create_ankor %}#{% endblock %}" class="btn btn-primary" style="margin-top: 10px;">Добавить</a>
+                    <a href="{% block create_ankor %}#{% endblock %}" class="btn btn-primary" >Добавить</a>
                     {% endblock %}
 
             </div>

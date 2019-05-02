@@ -6,20 +6,20 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      <li class="nav-item {% if active == 'main' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'main-page' %}">Home <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item {% if active == 'dimension' %}active{% endif %}">
         <a class="nav-link" href="{% url 'dimensions_list' %}">Справочники</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item {% if active == 'book' %}active{% endif %}">
         <a class="nav-link" href="{% url 'book_list' %}">Книги</a>
       </li>
 
     </ul>
     {% if search_tag %}
         <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Поиск" name="{{ search_tag }}" aria-label="Search">
+          <input class="form-control mr-sm-2" type="search" placeholder="Поиск" name="{{ search_tag }}" aria-label="Search" {% if search_string %}value="{{ search_string }}" {% endif %}>
           <button class="btn btn-success my-2 my-sm-0" type="submit">Поиск</button>
         </form>
     {% endif %}

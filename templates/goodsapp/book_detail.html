@@ -10,6 +10,9 @@
 {% block page_name %}
         Книга
       {% endblock %}
+{% block navbar %}
+        {% include 'navbar.html' with active="book"%}
+    {% endblock %}
 
 {% block dimension %}
     <h3>{{ object.description }}</h3>

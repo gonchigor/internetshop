@@ -9,7 +9,9 @@
     {% load crispy_forms_tags %}
 </head>
 <body>
-    {% include 'navbar.html' %}
+    {% block navbar %}
+        {% include 'navbar.html' with active="dimension"%}
+    {% endblock %}
     <div class="container">
         <h1>{% block maincaption %}Title{% endblock %}</h1>
          <form method="post" action="">

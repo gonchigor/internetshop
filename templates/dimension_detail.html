@@ -11,7 +11,9 @@
 
 </head>
 <body>
-  {% include 'navbar.html' %}
+  {% block navbar %}
+        {% include 'navbar.html' with active="dimension"%}
+    {% endblock %}
   <div class="container">
       {% block page_title %}
       <h1>{% block page_name %}
