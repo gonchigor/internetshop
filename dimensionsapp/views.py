@@ -47,6 +47,7 @@ class ListViewFilter(ListView):
         context = super().get_context_data(**kwargs)
         if 'search' in self.request.GET:
             context['form'] = self.form({'search': self.request.GET['search']})
+            context['search_string'] = self.request.GET['search']
         else:
             context['form'] = self.form()
         return context
