@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Магазин книг</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
@@ -16,7 +17,7 @@
         </h2>
         <div class="card_list row">
             {% for object in object_list %}
-                <div class="card col-2" style="width: 18rem;">
+                <div class="card col-6 col-sm-4 col-lg-2">
                     {% if object.image_field %}
                         <img src="{{ object.image_field.url }}" class="card-img-top" alt="{{ object.name }}">
                     {% else %}

@@ -1,4 +1,5 @@
 {% extends 'dimension_detail.html' %}
+{% load tags1 %}
 {% block title %}
   Книга {{ object.description }}
 {% endblock %}
@@ -50,7 +51,7 @@
             <p> {{ object.age_restriction }}</p>
             <p><strong>Издательство:</strong> {{ object.publisher }}</p>
             <p><strong>Количество книг в наличии:</strong> {{ object.count_books }}</p>
-            <p><strong> {{ object.is_active|yesno:"Есть на складе,Нет на складе" }}</strong></p>
+            <p><strong> {{ object.is_active|boolparser }}</strong></p>
             <p><strong>Рейтинг:</strong> {{ object.rate }}</p>
         </div>
     </div>
