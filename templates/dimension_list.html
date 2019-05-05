@@ -8,7 +8,7 @@
 {% block body %}
     <div class="container">
         <div class="row align-items-center">
-            <div class="col">
+            <div class="col-auto">
                 {% block header %}
                 <H1>Справочники</H1>
                 {% endblock %}
@@ -27,7 +27,7 @@
             <div class="col text-right" >
 
                     {% block create %}
-                    <a href="{% block create_ankor %}#{% endblock %}" class="btn btn-primary" >Добавить</a>
+                    <a href="{% block create_ankor %}{{ object_list.model.get_create_url }}{% endblock %}" class="btn btn-primary my-1" >Добавить</a>
                     {% endblock %}
 
             </div>
@@ -53,9 +53,9 @@
                             <td>{{  object.description }}</td>
                         {% endblock %}
                             <td>
-                                <a href="{% block  url_view%}#{% endblock %}" title="Посмотреть"><i class="fas fa-book-open"></i></a>
-                                <a href="{% block  url_edit%}#{% endblock %}" title="Править"><i class="far fa-edit"></i></a>
-                                <a href="{% block  url_delete%}#{% endblock %}" title="Удалить"><i class="fas fa-trash"></i></a>
+                                <a href="{% block  url_view%}{{ object.get_detail_url }}{% endblock %}" title="Посмотреть"><i class="fas fa-book-open"></i></a>
+                                <a href="{% block  url_edit%}{{ object.get_update_url }}{% endblock %}" title="Править"><i class="far fa-edit"></i></a>
+                                <a href="{% block  url_delete%}{{ object.get_delete_url }}{% endblock %}" title="Удалить"><i class="fas fa-trash"></i></a>
                             </td>
                         </tr>
                     {% endfor %}

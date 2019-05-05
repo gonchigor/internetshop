@@ -123,6 +123,11 @@ class AuthorCreateView(CreateView):
             url = reverse_lazy('author_detail', kwargs={'pk': self.object.pk})
         return url
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print(context)
+        return context
+
 
 class JenreCreateView(CreateView):
     model = Jenre

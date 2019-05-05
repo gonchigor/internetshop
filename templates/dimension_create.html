@@ -7,7 +7,17 @@
 {% endblock %}
 {% block body %}
     <div class="container">
-        <h1>{% block maincaption %}Title{% endblock %}</h1>
+        <div class="row align-items-center">
+            <div class="col-auto">
+               <h1>{% block maincaption %}Title{% endblock %}</h1>
+            </div>
+            <div class="col text-right">
+                {% block list %}
+                      <a href="{% block list_ankor %}{{ form.Meta.model.get_list_url }}{% endblock %}" class="btn btn-primary my-1" >Список</a>
+                    {% endblock %}
+            </div>
+         </div>
+
         {% block dimension %}
           <form method="post" action="" {% block form_options %}{% endblock %}>
             {% csrf_token %}

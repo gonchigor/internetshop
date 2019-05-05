@@ -3,7 +3,7 @@
 {% block title %}
     Авторы
 {% endblock %}
-{% block create_ankor%}{% url 'author_create' %}{% endblock %}
+{# {% block create_ankor%}{% url 'author_create' %}{% endblock %} #}
 
 {% block list_header %}
     <th>Имя</th>
@@ -20,7 +20,8 @@
 {% block header %}
         <H1>Авторы</H1>
 {% endblock %}
-
+{% comment %}
 {% block  url_view%}{% url 'author_detail' object.pk%}{% endblock %}
 {% block  url_edit%}{% url 'author_update' object.pk%}{% endblock %}
 {% block  url_delete%}{% url 'author_delete' object.pk%}{% endblock %}
+{% endcomment %}

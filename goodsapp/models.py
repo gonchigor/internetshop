@@ -36,6 +36,23 @@ class Book(models.Model):
     def get_absolute_url(self):
         return reverse_lazy('book_detail', kwargs={'pk': self.pk})
 
+    @classmethod
+    def get_list_url(cls):
+        return reverse_lazy('book_list')
+
+    @classmethod
+    def get_create_url(cls):
+        return reverse_lazy('book_create')
+
+    def get_detail_url(self):
+        return reverse_lazy('book_detail', args=[self.pk])
+
+    def get_update_url(self):
+        return reverse_lazy('book_update', args=[self.pk])
+
+    def get_delete_url(self):
+        return reverse_lazy('book_delete', args=[self.pk])
+
     class Meta:
         verbose_name = "книга"
         verbose_name_plural = "книги"

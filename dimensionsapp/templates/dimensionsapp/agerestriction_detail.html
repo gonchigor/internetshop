@@ -3,19 +3,13 @@
   Возрастное ограничение {{ object.name }}
 {% endblock %}
 
-{% block to_list %}
-    <a href="{% url 'age_restriction_list' %}">Все возрастные ограничения</a>
-{% endblock %}
-
 {% block page_name %}
         Возрастное ограничение
       {% endblock %}
 
 {% block dimension %}
-    {% include "dimension_template.html" %}
+    <h3>{{ object.name }}</h3>
+    <p><strong>Номер в списке для сортировки:</strong> {{ object.order }}</p>
+    <p><strong>Описание:</strong> {{ object.description }}</p>
 {% endblock %}
-
-{% block update_url %}{% url 'age_restriction_update' object.pk%}{% endblock %}
-
-{% block delete_url %}{% url 'age_restriction_delete' object.pk%}{% endblock %}
 

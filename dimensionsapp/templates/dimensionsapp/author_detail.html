@@ -3,9 +3,6 @@
   Автор {{ object.name }}
 {% endblock %}
 
-{% block to_list %}
-    <a href="{% url 'author_list' %}">Все авторы</a>
-{% endblock %}
 
 {% block page_name %}
          Автор
@@ -15,7 +12,3 @@
     {% include "dimension_template.html" %}
     <p><strong>Биография:</strong> {{ object.biography }}</p>
 {% endblock %}
-
-{% block update_url %}{% url 'author_update' object.pk%}{% endblock %}
-
-{% block delete_url %}{% url 'author_delete' object.pk%}{% endblock %}
