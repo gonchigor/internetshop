@@ -53,6 +53,9 @@ class Book(models.Model):
     def get_delete_url(self):
         return reverse_lazy('book_delete', args=[self.pk])
 
+    def get_detail_customer_url(self):
+        return reverse_lazy('book-detail-customer', kwargs={'pk': self.pk})
+
     class Meta:
         verbose_name = "книга"
         verbose_name_plural = "книги"

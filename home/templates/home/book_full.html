@@ -5,38 +5,26 @@
   Книга {{ object.description }}
 {% endblock %}
 
-{% block page_name %}
-        Книга
-      {% endblock %}
 {% block navbar %}
-        {% include 'navbar.html' with active="book"%}
+        {% include 'navbar.html' with active="main"%}
     {% endblock %}
-
+{% block page_title %}
+        {% endblock %}
 {% block dimension %}
-    <h3>{{ object.description }}</h3>
+    <h1>{{ object.description }}</h1>
     <div class="row">
-        <div class="col image-container" >
+        <div class="col-4" >
             {% if object.image_field %}
-                <img src="{{ object.image_field.url }}" alt="{{ object.description }}" class="img-fluid">
+                <img src="{{ object.image_field.url }}" alt="{{ object.description }}" class="img-thumbnail">
             {% else %}
-                <img src="{% static 'images/nophoto.png' %}" class="img-fluid" alt="Нет фото">
+                <img src="{% static 'images/nophoto.png' %}" class="img-thumbnail" alt="Нет фото">
             {% endif %}
-
-            <p><b>Цена: {{ object.price }} руб.</b></p>
-            <p><strong>Дата создания: </strong> {{ object.date_create }}</p>
-            <p><strong>Дата последнего обновления: </strong> {{ object.date_update }} </p>
         </div>
-        <div class="col">
-            <p><strong>Название:</strong> {{ object.name }}</p>
-            <p><strong>Авторы:</strong>
-                {% for  author  in object.authors.all%}
-                    <a href="{{ author.get_detail_url }}">{{ author.name }}</a>
-                {% endfor %}
-                </p>
+        <div class="col-8">
             <p><strong>Серия:</strong> {{ object.serie|default_if_none:"Не указана" }}</p>
             <p><strong>Жанры:</strong>
                 {% for jenre in object.jenre.all %}
-                    <a href="{{  jenre.get_detail_url }}">{{ jenre.name }}</a>
+                    {{ jenre.name }}
                 {% endfor %}
                 </p>
             <p><strong>Год издания:</strong> {{ object.year_publishing }}</p>
@@ -47,10 +35,15 @@
             <p><strong>Вес:</strong> {{ object.weight }} гр</p>
             <p> {{ object.age_restriction }}</p>
             <p><strong>Издательство:</strong> {{ object.publisher }}</p>
-            <p><strong>Количество книг в наличии:</strong> {{ object.count_books }}</p>
-            <p><strong> {{ object.is_active|boolparser }}</strong></p>
             <p><strong>Рейтинг:</strong> {{ object.rate }}</p>
+            <p><strong> {{ object.is_active|boolparser }}</strong></p>
+            <p><b>Цена: {{ object.price }} руб.</b></p>
         </div>
     </div>
+    <button type="button" onclick="history.back()" class="btn btn-info" value="Назад">Назад</button>
+
 
 {% endblock %}
+
+{% block update %}{% endblock %}
+{% block delete %}{% endblock %}

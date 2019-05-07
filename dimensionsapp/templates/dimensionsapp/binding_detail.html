@@ -3,18 +3,10 @@
   Переплет {{ object.name }}
 {% endblock %}
 
-{% block to_list %}
-    <a href="{% url 'binding_list' %}">Все переплеты</a>
-{% endblock %}
-
 {% block page_name %}
         Переплет
       {% endblock %}
 
-{% block dimension %}
-    {% include "dimension_template.html" %}
-{% endblock %}
 
-{% block update_url %}{% url 'binding_update' object.pk%}{% endblock %}
 
-{% block delete_url %}{% url 'binding_delete' object.pk%}{% endblock %}
+

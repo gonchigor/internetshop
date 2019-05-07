@@ -3,18 +3,6 @@
   Жанр {{ object.name }}
 {% endblock %}
 
-{% block to_list %}
-    <a href="{% url 'jenre_list' %}">Все жанры</a>
-{% endblock %}
-
 {% block page_name %}
         Жанр
       {% endblock %}
-
-{% block dimension %}
-    {% include "dimension_template.html" %}
-{% endblock %}
-
-{% block update_url %}{% url 'jenre_update' object.pk%}{% endblock %}
-
-{% block delete_url %}{% url 'jenre_delete' object.pk%}{% endblock %}

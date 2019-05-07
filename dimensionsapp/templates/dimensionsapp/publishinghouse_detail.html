@@ -3,18 +3,6 @@
   Издательство {{ object.name }}
 {% endblock %}
 
-{% block to_list %}
-    <a href="{% url 'publishing_house_list' %}">Все издательства</a>
-{% endblock %}
-
 {% block page_name %}
         Издательство
       {% endblock %}
-
-{% block dimension %}
-    {% include "dimension_template.html" %}
-{% endblock %}
-
-{% block update_url %}{% url 'publishing_house_update' object.pk%}{% endblock %}
-
-{% block delete_url %}{% url 'publishing_house_delete' object.pk%}{% endblock %}

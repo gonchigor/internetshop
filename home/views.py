@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from goodsapp.models import Book
+from django.views.generic.detail import DetailView
 from django.db.models import Q
 
 COUNT_CARDS = 6
@@ -24,3 +25,8 @@ class BookTopNewListView(ListView):
             for s in self.request.GET['search'].split():
                 queryset = queryset.filter(Q(authors__name__icontains=s) | Q(name__icontains=s))
         return queryset
+
+
+class BookCustomerDetailView(DetailView):
+    model = Book
+    template_name = 'home/book_full.html'

@@ -9,6 +9,6 @@
       {% endblock %}
 
 {% block dimension %}
-    {% include "dimension_template.html" %}
+    {{ block.super }}
     <p><strong>Биография:</strong> {{ object.biography }}</p>
 {% endblock %}

@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
-    {% block title %}Магазин книг {% endblock %}
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-</head>
-<body>
+{% block title %}Магазин книг {% endblock %}
+{% load static %}
 {% block navbar %}
     {% include 'navbar.html' with search_tag='search' active='main'%}
 {% endblock %}
@@ -14,18 +12,21 @@
             Последние поступления
             {% endif %}
         </h2>
-        <div class="card_list row">
+        <div class="row flex-wrap">
             {% for object in object_list %}
-                <div class="card col-6 col-sm-4 col-lg-2">
-                    {% if object.image_field %}
-                        <img src="{{ object.image_field.url }}" class="card-img-top" alt="{{ object.name }}">
-                    {% else %}
-                        <p>Нет фото</p>
-                    {% endif %}
-
+                <div class="card col-6 col-sm-4 col-lg-2 pt-2 px-0">
+                    <div class="px-2">
+                        {% if object.image_field %}
+                            <img src="{{ object.image_field.url }}" class="card-img mh-100 mw-100" alt="{{ object.name }}">
+                        {% else %}
+                            <img src="{% static 'images/nophoto.png' %}" class="card-img-top mh-100" alt="Нет фото">
+                        {% endif %}
+                    </div>
                   <div class="card-body">
-                      <h5>{{ object.description }}</h5>
-                    <p class="card-text">Цена: {{ object.price }}</p>
+                      <a href="{{ object.get_detail_customer_url }}"> <h5>{{ object.description }}</h5> </a>
+                  </div>
+                  <div class="card-footer text-right">
+                      <p class="card-text">Цена: {{ object.price }}</p>
                   </div>
                 </div>
             {% endfor %}
