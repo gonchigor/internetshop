@@ -3,6 +3,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Book
 from .form import BookForm
+from dimensionsapp.models import Author
 from django.urls import reverse_lazy
 from django.db.models import Q
 # Create your views here.
@@ -21,7 +22,9 @@ class BookListView(ListView):
         queryset = super().get_queryset()
         if 'search' in self.request.GET.keys() and self.request.GET['search']:
             for s in self.request.GET['search'].split():
-                queryset = queryset.filter(Q(authors__namePublic__icontains=s) | Q(name__icontains=s))
+                authors = Author.objects.filter(namePublic__icontains=s).prefetch_related('book_set').values('book')
+                # authors = Author.objects.filter(namePublic__icontains=s).values('book')
+                queryset = queryset.filter(Q(name__icontains=s) | Q(pk__in=authors))
         return queryset
 
 
