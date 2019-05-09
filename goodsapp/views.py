@@ -21,7 +21,7 @@ class BookListView(ListView):
         queryset = super().get_queryset()
         if 'search' in self.request.GET.keys() and self.request.GET['search']:
             for s in self.request.GET['search'].split():
-                queryset = queryset.filter(Q(authors__name__icontains=s) | Q(name__icontains=s))
+                queryset = queryset.filter(Q(authors__namePublic__icontains=s) | Q(name__icontains=s))
         return queryset
 
 

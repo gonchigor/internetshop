@@ -13,11 +13,13 @@
 {% block create_ankor %}{% url 'book_create' %}{% endblock %}
 
 {% block list_header %}
+    <th>PK</th>
    <th>Наименование</th>
     <th>Цена</th>
 {% endblock %}
 
 {% block list_element %}
+    <td>{{ object.pk }}</td>
     <td>{{ object.description }}</td>
     <td>{{  object.price }}</td>
 {% endblock %}
