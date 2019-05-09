@@ -15,26 +15,28 @@
         <div class="row flex-wrap">
             {% for object in object_list %}
 
-                <div class="card col-4 col-sm-4 col-lg-2 pt-2 px-0">
+                <div class="card col-6 col-sm-4 col-lg-2 justify-content-between pt-1 px-0">
 
-                        <div class="px-2" style="height: 70%">
+                        <div>
                             {% if object.image_field %}
-                                <img src="{{ object.image_field.url }}" class="card-img mh-100 mw-100" alt="{{ object.name }}">
+                                <img src="{{ object.image_field.url }}" class="card-img-top" alt="{{ object.name }}">
                             {% else %}
-                                <img src="{% static 'images/nophoto.png' %}" class="card-img-top mh-100" alt="Нет фото">
+                                <img src="{% static 'images/nophoto.png' %}" class="card-img-top" alt="Нет фото">
                             {% endif %}
                         </div>
-                      <div class="card-body">
-                          <a href="{{ object.get_detail_customer_url }}">{{ object.description }}</a>
+                      <div class="card-body p-0"  >
+
                       </div>
-                      <div class="card-footer text-right">
+                    <div class="px-3 pb-2">
+                        <a href="{{ object.get_detail_customer_url }}" class="card-text">{{ object.description }}</a>
+                    </div>
+                    <div class="card-footer text-right ">
                           {% if object.is_active %}
-                            <p class="card-text">Цена: {{ object.price }}</p>
+                            <p class="card-text">{{ object.price }} р.</p>
                           {% else %}
                             <p class="card-text">Скоро в продаже</p>
                           {% endif %}
-                      </div>
-
+                    </div>
                 </div>
 
             {% endfor %}

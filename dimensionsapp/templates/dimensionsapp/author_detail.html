@@ -9,6 +9,8 @@
       {% endblock %}
 
 {% block dimension %}
-    {{ block.super }}
+    <h3>{{ object.name }}</h3>
+    <p><strong>Имя (для покупателя):</strong> {{ object.namePublic }}</p>
+    <p><strong>Описание:</strong> {{ object.description }}</p>
     <p><strong>Биография:</strong> {{ object.biography }}</p>
 {% endblock %}

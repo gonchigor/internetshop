@@ -28,7 +28,7 @@ class Book(models.Model):
     date_update = models.DateTimeField("Дата последнего изменения карточки", auto_now=True)
 
     def description(self):
-        return ', '.join([str(s) for s in self.authors.all()]) + " \"" + self.name + "\""
+        return ', '.join([s.namePublic for s in self.authors.all()]) + " \"" + self.name + "\""
 
     def __str__(self):
         return self.name

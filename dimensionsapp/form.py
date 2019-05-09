@@ -13,7 +13,7 @@ class SearchFormAuthor(forms.Form):
 class AuthorModel(forms.ModelForm):
     class Meta:
         model = Author
-        fields = '__all__'
+        fields = ['name', 'namePublic', 'description', 'biography']
 
 
 class JenreModel(forms.ModelForm):

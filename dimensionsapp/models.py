@@ -18,6 +18,7 @@ class Dimension(models.Model):
 
 class Author(Dimension):
     biography = models.TextField("Биография", blank=True, )
+    namePublic = models.CharField("Имя (для покупателя)", max_length=100)
 
     def get_absolute_url(self):
         return reverse_lazy('author_detail', args=[self.pk])

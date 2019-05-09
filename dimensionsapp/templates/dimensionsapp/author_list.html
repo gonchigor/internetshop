@@ -7,14 +7,14 @@
 
 {% block list_header %}
     <th>Имя</th>
+    <th>Имя (для покупателей)</th>
     <th>Описание</th>
-    <th>Биография</th>
 {% endblock %}
 
 {% block list_element %}
     <td>{{ object.name }}</td>
+    <td>{{ object.namePublic }}</td>
     <td>{{  object.description }}</td>
-    <td>{{ object.biography }}</td>
 {% endblock %}
 
 {% block header %}
