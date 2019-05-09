@@ -123,11 +123,6 @@ class AuthorCreateView(CreateView):
             url = reverse_lazy('author_detail', kwargs={'pk': self.object.pk})
         return url
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        print(context)
-        return context
-
 
 class JenreCreateView(CreateView):
     model = Jenre
@@ -257,12 +252,6 @@ class FormatBookUpdateView(UpdateView):
         elif 'save' in self.request.POST.keys():
             url = reverse_lazy('format_book_detail', kwargs={'pk': self.object.pk})
         return url
-
-    def post(self, request, *args, **kwargs):
-        result = super().post(request, *args, **kwargs)
-        if 'save-as' in self.request.POST.keys() and 'pk' in kwargs.keys():
-            print(self.object)
-        return result
 
 
 class BindingUpdateView(UpdateView):
