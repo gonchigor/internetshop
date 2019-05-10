@@ -56,7 +56,7 @@ class ListViewFilter(ListView):
         qs = super().get_queryset()
         if 'search' in self.request.GET and self.request.GET['search'] != '':
             name = self.request.GET['search']
-            qs = qs.filter(name__istartswith=name)
+            qs = qs.filter(name__icontains=name)
         return qs
 
 
@@ -70,11 +70,6 @@ class JenreListView(ListViewFilter):
 
 class PublishingHouseListView(ListViewFilter):
     model = PublishingHouse
-
-    # def get_context_data(self, *, object_list=None, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['url_detail'] = 'publishing_house_detail'
-    #     return context
 
 
 class FormatBookListView(ListViewFilter):

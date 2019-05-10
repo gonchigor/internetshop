@@ -2,6 +2,7 @@
 
 {% load static %}
 {% load crispy_forms_tags %}
+{% load paginator_page %}
 {% block navbar %}
     {% include 'navbar.html' with search_tag="search" active="dimension"%}
 {% endblock %}
@@ -67,7 +68,7 @@
             <ul class="pagination  justify-content-center">
                 {% if page_obj.has_previous %}
                     <li class="page-item">
-                        <a href="?page={{ page_obj.previous_page_number }}" class="page-link">Пред.</a>
+                        <a href="{{ view.request.GET|paginator_page:page_obj.previous_page_number }}" class="page-link">Пред.</a>
                     </li>
                 {% else %}
                     <li class="page-item disabled">
@@ -79,7 +80,7 @@
                 </li>
                 {% if page_obj.has_next %}
                     <li class="page-item">
-                        <a href="?page={{ page_obj.next_page_number }}" class="page-link">След.</a>
+                        <a href="{{ view.request.GET|paginator_page:page_obj.next_page_number }}" class="page-link">След.</a>
                     </li>
                 {% else %}
                     <li class="page-item disabled">
