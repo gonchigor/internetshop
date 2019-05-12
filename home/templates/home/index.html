@@ -15,7 +15,7 @@
         <div class="row flex-wrap">
             {% for object in object_list %}
 
-                <div class="card col-6 col-sm-4 col-lg-2 justify-content-between pt-1 px-0">
+                <div class="card col-sm-4 col-xl-2 justify-content-between pt-1 px-0">
 
                         <div class="px-1">
                             {% if object.image_field %}
@@ -28,14 +28,22 @@
 
                       </div>
                     <div class="px-3 pb-2">
-                        <a href="{{ object.get_detail_customer_url }}" class="card-text">{{ object.description }}</a>
+                        <p class="card-text">{{ object.description }}</p>
                     </div>
-                    <div class="card-footer text-right ">
+                    <div class="card-footer d-flex justify-content-between px-1 align-items-center">
+                        <div class="btn-group">
+                            <a href="{{ object.get_detail_customer_url }}" class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></a>
+                            {% if object.is_active %}
+                                <a href="#" class="btn btn-sm btn-outline-secondary"><i class="fas fa-cart-plus"></i></a>
+                            {% endif %}
+                        </div>
+                        <div class="text-break text-nowrap overflow-hidden">
                           {% if object.is_active %}
-                            <p class="card-text">{{ object.price }} р.</p>
+                            <p class="card-text font-weight-bold">{{ object.price }} руб.</p>
                           {% else %}
-                            <p class="card-text">Скоро в продаже</p>
+                            <p class="card-text text-truncate">Скоро в продаже</p>
                           {% endif %}
+                        </div>
                     </div>
                 </div>
 

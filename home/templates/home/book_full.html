@@ -2,17 +2,22 @@
 {% load boolparser %}
 {% load static %}
 {% block title %}
-  Книга {{ object.description }}
+    Книга {{ object.description }}
 {% endblock %}
 
 {% block navbar %}
-        {% include 'navbar.html' with active="main"%}
+    {% include 'navbar.html' with active="main" %}
 {% endblock %}
 {% block body %}
     <div class="container">
-        <h1>{{ object.description }}</h1>
+
+        {% block header %}
+            <h1 class="d-inline-block">{{ object.description }}</h1>
+        {% endblock %}
+
+
         <div class="row">
-            <div class="col-12 col-sm-6 col-lg-4" >
+            <div class="col-12 col-sm-6 col-lg-4">
                 {% if object.image_field %}
                     <img src="{{ object.image_field.url }}" alt="{{ object.description }}" class="img-thumbnail">
                 {% else %}
@@ -23,33 +28,75 @@
                 <table class="table table-sm">
                     <tr>
                         <td><strong>Серия:</strong></td>
-                        <td>{{ object.serie|default_if_none:"Не указана" }}</td></tr>
+                        <td>{{ object.serie|default_if_none:"Не указана" }}</td>
+                    </tr>
                     <tr>
                         <td><strong>Жанры:</strong></td>
                         <td>
-                        <table class="table-borderless">
-                            {% for jenre in object.jenre.all %}
-                                <tr><td class="px-0">{{ jenre.name }}</td></tr>
-                            {% endfor %}
-                        </table>
-                        </td></tr>
-                    <tr><td><strong>Год издания:</strong></td><td> {{ object.year_publishing }}</td></tr>
-                    <tr><td><strong>Количество страниц:</strong></td><td> {{ object.count_pages }}</td></tr>
-                    <tr><td><strong>Переплет:</strong></td><td> {{ object.binding }}</td></tr>
-                    <tr><td><strong>Формат:</strong></td><td> {{ object.format_book }}</td></tr>
-                    <tr><td><strong>ISBN:</strong></td><td> {{ object.isbn }}</td></tr>
-                    <tr><td><strong>Вес:</strong></td><td> {{ object.weight }} гр</td></tr>
-                    <tr><td><strong>Возрастные ограничения:</strong></td><td> {{ object.age_restrictions }}</td></tr>
-                    <tr><td><strong>Издательство:</strong></td><td> {{ object.publisher }}</td></tr>
-                    <tr><td><strong>Рейтинг:</strong></td><td> {{ object.rate }}</td></tr>
-                    <tr><td><strong>Наличие:</strong></td><td>{{ object.is_active|boolparser }}</td></tr>
-                {% if object.is_active %}
-                    <tr><td><strong>Цена: </strong></td><td><b>{{ object.price }} руб.</b></td></tr>
-                {% endif %}
+                            <table class="table-borderless">
+                                {% for jenre in object.jenre.all %}
+                                    <tr>
+                                        <td class="px-0">{{ jenre.name }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Год издания:</strong></td>
+                        <td> {{ object.year_publishing }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Количество страниц:</strong></td>
+                        <td> {{ object.count_pages }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Переплет:</strong></td>
+                        <td> {{ object.binding }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Формат:</strong></td>
+                        <td> {{ object.format_book }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ISBN:</strong></td>
+                        <td> {{ object.isbn }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Вес:</strong></td>
+                        <td> {{ object.weight }} гр</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Возрастные ограничения:</strong></td>
+                        <td> {{ object.age_restrictions }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Издательство:</strong></td>
+                        <td> {{ object.publisher }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Рейтинг:</strong></td>
+                        <td> {{ object.rate }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Наличие:</strong></td>
+                        <td>{{ object.is_active|boolparser }}</td>
+                    </tr>
+                    {% if object.is_active %}
+                        <tr>
+                            <td><strong>Цена: </strong></td>
+                            <td><b>{{ object.price }} руб.</b></td>
+                        </tr>
+                    {% endif %}
                 </table>
             </div>
         </div>
+
         <button type="button" onclick="history.back()" class="btn btn-info mt-1" value="Назад">Назад</button>
+        <div class="float-right text-right">
+            <a href="#" class="btn btn-lg btn-outline-secondary"><i class="fas fa-cart-plus"></i></a>
+        </div>
+
     </div>
 
 {% endblock %}
