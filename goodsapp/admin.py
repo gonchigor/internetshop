@@ -7,7 +7,7 @@ from django.utils.html import format_html
 
 class BookAdmin(admin.ModelAdmin):
     def image_tag(self, obj):
-        if (obj.image_field == ""):
+        if obj.image_field == "":
             return "Нет изображения"
         return format_html('<img src="{}" style="max-width:100px; max-height:150px;" />'.format(obj.image_field.url))
 

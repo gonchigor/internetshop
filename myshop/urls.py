@@ -22,7 +22,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('ref/', include('dimensionsapp.urls')),
     path('book/', include('goodsapp.urls')),
-    path('', include('home.urls'))
+    path('', include('home.urls')),
+    path('cart/', include('cartapp.urls')),
 ]
 
 if settings.DEBUG:

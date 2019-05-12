@@ -44,6 +44,7 @@ INSTALLED_APPS = [
         'goodsapp',
         'menuapp',
         'home',
+        'cartapp',
     ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
