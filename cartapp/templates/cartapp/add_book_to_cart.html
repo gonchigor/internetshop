@@ -1,0 +1,17 @@
+{% extends 'base_main.html' %}
+
+{% block title %}
+    Добавить в корзину
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <form method="post">
+            {% csrf_token %}
+            {{ form }}
+            <button type="button" onclick="history.back()" class="btn btn-info" value="Назад">Назад</button>
+            <button class="btn btn-success">ОК</button>
+
+        </form>
+    </div>
+{% endblock %}
