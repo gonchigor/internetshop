@@ -88,6 +88,12 @@
                             <td><b>{{ object.price }} руб.</b></td>
                         </tr>
                     {% endif %}
+                {% if cart_quantity %}
+                    <tr>
+                            <td><strong>Количество в корзине: </strong></td>
+                            <td>{{ cart_quantity }} </td>
+                        </tr>
+                {% endif %}
                 </table>
             </div>
         </div>
