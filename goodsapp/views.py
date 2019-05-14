@@ -22,7 +22,6 @@ class BookListView(ListView):
         queryset = super().get_queryset()
         if 'search' in self.request.GET.keys() and self.request.GET['search']:
             for s in self.request.GET['search'].split():
-                # authors = Author.objects.filter(namePublic__icontains=s).prefetch_related('book_set').values('book')
                 authors = Author.objects.filter(namePublic__icontains=s).values('book')
                 queryset = queryset.filter(Q(name__icontains=s) | Q(pk__in=authors))
         return queryset

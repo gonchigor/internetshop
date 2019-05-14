@@ -29,7 +29,7 @@
       </li>
     </ul>
     {% if search_tag %}
-        <form class="form-inline my-2 my-lg-0">
+        <form class="form-inline my-2 my-lg-0" {% if search_page %}action="{% url search_page %}"{% endif %}>
           <input class="form-control mr-sm-2" type="search" placeholder="Поиск" name="{{ search_tag }}" aria-label="Search" {% if search_string %}value="{{ search_string }}" {% endif %}>
           <button class="btn btn-success my-2 my-sm-0" type="submit">Поиск</button>
         </form>

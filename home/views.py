@@ -18,6 +18,11 @@ class BookTopNewListView(BookListView):
         return Book.objects.order_by('-date_create')[:COUNT_CARDS]
 
 
+class BookSearchListView(BookListView):
+    # queryset = Book.objects.order_by('-date_create')[:COUNT_CARDS]
+    template_name = "home/search.html"
+
+
 class BookCustomerDetailView(DetailView):
     model = Book
     template_name = 'home/book_full.html'
