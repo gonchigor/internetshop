@@ -204,3 +204,29 @@ class AgeRestriction(Dimension):
         ordering = ['order']
 
 
+class OrderStatus(Dimension):
+    def get_absolute_url(self):
+        return reverse_lazy('order_status_detail', args=[self.pk])
+
+    @classmethod
+    def get_list_url(cls):
+        return reverse_lazy('order_status_list')
+
+    @classmethod
+    def get_create_url(cls):
+        return reverse_lazy('order_status_create')
+
+    def get_detail_url(self):
+        return reverse_lazy('order_status_detail', args=[self.pk])
+
+    def get_update_url(self):
+        return reverse_lazy('order_status_update', args=[self.pk])
+
+    def get_delete_url(self):
+        return reverse_lazy('order_status_delete', args=[self.pk])
+
+    class Meta(Dimension.Meta):
+        verbose_name = 'статус заказа'
+        verbose_name_plural = 'статусы заказа'
+
+

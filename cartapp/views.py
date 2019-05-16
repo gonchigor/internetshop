@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import Cart, BookInCart
 from goodsapp.models import Book
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import UpdateView, DeleteView
 from django.urls import reverse_lazy
 
 # Create your views here.
@@ -29,3 +29,7 @@ class AddBookToCartView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('book-detail-customer', args=[self.object.book.pk])
+
+
+class BookInCartDeleteView(DeleteView):
+    model = BookInCart

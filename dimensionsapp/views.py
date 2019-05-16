@@ -1,9 +1,10 @@
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from dimensionsapp.models import Author, Serie, Jenre, PublishingHouse, FormatBook, Binding, \
-    AgeRestriction
+    AgeRestriction, OrderStatus
 from dimensionsapp.form import SearchFormAuthor, AuthorModel, JenreModel, SerieModel, \
-    PublishingHouseModel, FormatBookModel, BindingModel, AgeRestrictionModel, SearchForm
+    PublishingHouseModel, FormatBookModel, BindingModel, AgeRestrictionModel, SearchForm, \
+    OrderStatusModel
 from django.views.generic import TemplateView, ListView
 from django.views.generic import DeleteView
 from django.urls import reverse_lazy
@@ -37,6 +38,10 @@ class BindingDetailView(DetailView):
 
 class AgeRestrictionDetailView(DetailView):
     model = AgeRestriction
+
+
+class OrderStatusDetailView(DetailView):
+    model = OrderStatus
 
 
 class ListViewFilter(ListView):
@@ -87,6 +92,10 @@ class AgeRestrictionListView(ListViewFilter):
 class AuthorListView(ListViewFilter):
     model = Author
     form = SearchFormAuthor
+
+
+class OrderStatusListView(ListViewFilter):
+    model = OrderStatus
 
 
 class MenuView(TemplateView):
@@ -184,6 +193,19 @@ class AgeRestrictionCreateView(CreateView):
         return url
 
 
+class OrderStatusCreateView(CreateView):
+    model = OrderStatus
+    form_class = OrderStatusModel
+
+    def get_success_url(self):
+        url = super().get_success_url()
+        if 'save-and-close' in self.request.POST.keys():
+            url = reverse_lazy('order_status_list')
+        elif 'save' in self.request.POST.keys():
+            url = reverse_lazy('order_status_detail', kwargs={'pk': self.object.pk})
+        return url
+
+
 class SerieUpdateView(UpdateView):
     model = Serie
     form_class = SerieModel
@@ -275,6 +297,19 @@ class AgeRestrictionUpdateView(UpdateView):
         return url
 
 
+class OrderStatusUpdateView(UpdateView):
+    model = OrderStatus
+    form_class = OrderStatusModel
+
+    def get_success_url(self):
+        url = super().get_success_url()
+        if 'save-and-close' in self.request.POST.keys():
+            url = reverse_lazy('order_status_list')
+        elif 'save' in self.request.POST.keys():
+            url = reverse_lazy('order_status_detail', kwargs={'pk': self.object.pk})
+        return url
+
+
 class AuthorDeleteView(DeleteView):
     model = Author
     success_url = reverse_lazy('author_list')
@@ -308,3 +343,8 @@ class BindingDeleteView(DeleteView):
 class AgeRestrictionDeleteView(DeleteView):
     model = AgeRestriction
     success_url = reverse_lazy('age_restriction_list')
+
+
+class OrderStatusDeleteView(DeleteView):
+    model = OrderStatus
+    success_url = reverse_lazy('order_status_list')

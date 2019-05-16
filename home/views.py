@@ -10,6 +10,7 @@ COUNT_CARDS = 6
 
 
 class BookTopNewListView(BookListView):
+    """Main page"""
     # queryset = Book.objects.order_by('-date_create')[:COUNT_CARDS]
     template_name = "home/index.html"
 
@@ -20,11 +21,13 @@ class BookTopNewListView(BookListView):
 
 
 class BookSearchListView(BookListView):
+    """Search page"""
     # queryset = Book.objects.order_by('-date_create')[:COUNT_CARDS]
     template_name = "home/search.html"
 
 
 class BookCustomerDetailView(DetailView):
+    """Book for customers"""
     model = Book
     template_name = 'home/book_full.html'
 

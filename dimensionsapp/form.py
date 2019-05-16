@@ -1,5 +1,5 @@
 from django import forms
-from .models import Author, Jenre, PublishingHouse, Serie, FormatBook, Binding, AgeRestriction
+from .models import Author, Jenre, PublishingHouse, Serie, FormatBook, Binding, AgeRestriction, OrderStatus
 
 
 class SearchForm(forms.Form):
@@ -49,4 +49,10 @@ class BindingModel(forms.ModelForm):
 class AgeRestrictionModel(forms.ModelForm):
     class Meta:
         model = AgeRestriction
+        fields = '__all__'
+
+
+class OrderStatusModel(forms.ModelForm):
+    class Meta:
+        model = OrderStatus
         fields = '__all__'

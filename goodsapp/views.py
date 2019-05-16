@@ -10,6 +10,7 @@ from django.db.models import Q
 
 
 class BookListView(ListView):
+    """List with books for managers """
     model = Book
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -28,6 +29,7 @@ class BookListView(ListView):
 
 
 class BookDetailView(DetailView):
+    """Book view for managers """
     model = Book
 
 

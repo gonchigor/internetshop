@@ -1,3 +1,8 @@
+"""
+Delete all sessions from database (including with authorizations).
+"""
+
+
 import os
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "myshop.settings")
