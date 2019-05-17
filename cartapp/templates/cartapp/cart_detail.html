@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Корзина
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Корзина</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>№</th>
+                <th>Название</th>
+                <th>Количество</th>
+                <th>Цена за единицу</th>
+                <th>Стоимость</th>
+                <th>Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for obj in object.books.all %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ obj.book.description }}</td>
+                    <td>{{ obj.quantity }}</td>
+                    <td>{{ obj.book.price }}</td>
+                    <td>{{ obj.cost }}</td>
+                    <td></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">Итого:</td>
+                    <td>{{ object.total_quantity }}</td>
+                    <td></td>
+                    <td>{{ object.total_cost }}</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+{% endblock %}

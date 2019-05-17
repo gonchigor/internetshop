@@ -3,6 +3,7 @@ from .models import Cart, BookInCart
 from goodsapp.models import Book
 from django.views.generic.edit import UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.views.generic.detail import DetailView
 
 # Create your views here.
 
@@ -33,3 +34,21 @@ class AddBookToCartView(UpdateView):
 
 class BookInCartDeleteView(DeleteView):
     model = BookInCart
+
+
+class CartDetailView(DetailView):
+    model = Cart
+
+    def get_object(self, queryset=None):
+        user = None
+        if self.request.user.is_authenticated:
+            user = self.request.user
+        cart_id = self.request.session.get('cart-id')
+        cart, created_cart = Cart.objects.get_or_create(pk=cart_id, defaults={'user': user})
+        if created_cart:
+            self.request.session['cart-id'] = cart.pk
+        return cart
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
