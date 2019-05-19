@@ -9,7 +9,8 @@
         <form method="post">
             {% csrf_token %}
             {{ form }}
-            <button type="button" onclick="history.back()" class="btn btn-info" value="Назад">Назад</button>
+            <input type="hidden" name="url" value="{{ url }}">
+            <a href="{{ url }}" class="btn btn-info">Назад</a>
             <button class="btn btn-success">ОК</button>
 
         </form>

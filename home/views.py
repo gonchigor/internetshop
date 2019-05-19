@@ -39,4 +39,5 @@ class BookCustomerDetailView(DetailView):
             book_in_cart_qs = BookInCart.objects.filter(cart=cart, book=self.object)
             if book_in_cart_qs.exists():
                 context['cart_quantity'] = book_in_cart_qs.get().quantity
+                context['cart_id'] = cart_id
         return context

@@ -37,13 +37,16 @@
 
 
                         <div class="btn-group float-right">
-                            <a href="{{ object.get_detail_customer_url }}" class="btn btn-outline-secondary"><i
+                            <a href="{{ object.get_detail_customer_url }}?type=search&search={{ search_string }}"
+                               class="btn btn-outline-secondary"><i
                                     class="fas fa-eye"></i></a>
 
-                            <a {% if object.is_active %}href="{% url 'add_book_to_cart' object.pk %}"
-                               class="btn btn-outline-secondary"{% else %}
+                            <a {% if object.is_active %}href="{% url 'add_book_to_cart' object.pk %}?type=search&search={{ search_string }}"
+                               class="btn btn-outline-secondary"
+                               {% else %}
                                tabindex="-1" href="" class="btn btn-outline-secondary disabled"
-                               aria-disabled="true"{% endif %}
+                               aria-disabled="true"
+                               {% endif %}
                             ><i class="fas fa-cart-plus"></i></a>
 
                         </div>

@@ -1,0 +1,21 @@
+{% extends 'dimension_delete.html' %}
+
+{% block navbar %}
+    {% include 'navbar.html' with active="cart" %}
+{% endblock %}
+
+{% block title %}
+    Удалить книгу из заказа
+{% endblock %}
+
+{% block maincaption %}Удалить книгу {{ object.book.description }} из заказа{% endblock %}
+
+{% block dimension_form %}
+    <p>Вы уверены?</p>
+    <input type="hidden" name="url" value="{{ url }}">
+{% endblock %}
+
+{% block buttons %}
+    <button type="submit" name="save" class="btn btn-danger">Да</button>
+    <a class="btn btn-secondary" href="{{ url }}">Нет</a>
+{% endblock %}

@@ -28,12 +28,25 @@ class AddBookToCartView(UpdateView):
             book_in_cart = BookInCart(cart=cart, book=book)
         return book_in_cart
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['url'] = self.request.META['HTTP_REFERER']
+        return context
+
     def get_success_url(self):
-        return reverse_lazy('book-detail-customer', args=[self.object.book.pk])
+        return self.request.POST['url']
 
 
 class BookInCartDeleteView(DeleteView):
     model = BookInCart
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['url'] = self.request.META['HTTP_REFERER']
+        return context
+
+    def get_success_url(self):
+        return self.request.POST['url']
 
 
 class CartDetailView(DetailView):
@@ -51,4 +64,5 @@ class CartDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['get'] = self.request.GET
         return context

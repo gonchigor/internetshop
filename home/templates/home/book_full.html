@@ -88,19 +88,30 @@
                             <td><b>{{ object.price }} руб.</b></td>
                         </tr>
                     {% endif %}
-                {% if cart_quantity %}
-                    <tr>
+                    {% if cart_quantity %}
+                        <tr>
                             <td><strong>Количество в корзине: </strong></td>
                             <td>{{ cart_quantity }} </td>
                         </tr>
-                {% endif %}
+                    {% endif %}
                 </table>
             </div>
         </div>
 
         <button type="button" onclick="history.back()" class="btn btn-info mt-1" value="Назад">Назад</button>
         <div class="float-right text-right">
-            <a href="{% url 'add_book_to_cart' object.pk%}" class="btn btn-lg btn-outline-secondary"><i class="fas fa-cart-plus"></i></a>
+            {% if cart_quantity %}
+                <a href="{% url 'book_in_cart_delete' cart_id %}" class="btn btn-lg btn-outline-danger"><i class="fas fa-trash"></i></a>
+                <a href="{% url 'add_book_to_cart' object.pk %}" class="btn btn-lg btn-outline-secondary"><i class="fas fa-edit"></i></a>
+            {% else %}
+                <a {% if object.is_active %}href="{% url 'add_book_to_cart' object.pk %}?type=search&search={{ search_string }}"
+                   class="btn btn-lg btn-outline-secondary"
+                   {% else %}
+                   tabindex="-1" href="" class="btn btn-lg btn-outline-secondary disabled"
+                   aria-disabled="true"
+                   {% endif %}
+                ><i class="fas fa-cart-plus"></i></a>
+            {% endif %}
         </div>
 
     </div>

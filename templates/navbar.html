@@ -30,6 +30,9 @@
             <li class="nav-item {% if active == 'book' %}active{% endif %}">
                 <a class="nav-link" href="{% url 'book_list' %}">Книги</a>
             </li>
+            <li class="nav-item {% if active == 'cart' %}active{% endif %}">
+                <a class="nav-link" href="{% url 'cart_detail' %}">Корзина</a>
+            </li>
         </ul>
         {% if search_tag %}
             <form class="form-inline my-2 my-lg-0" {% if search_page %}action="{% url search_page %}"{% endif %}>

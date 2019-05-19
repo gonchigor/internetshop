@@ -4,6 +4,10 @@
     Корзина
 {% endblock %}
 
+{% block navbar %}
+    {% include 'navbar.html' with active="cart" %}
+{% endblock %}
+
 {% block body %}
     <div class="container">
         <h1>Корзина</h1>
@@ -26,7 +30,10 @@
                     <td>{{ obj.quantity }}</td>
                     <td>{{ obj.book.price }}</td>
                     <td>{{ obj.cost }}</td>
-                    <td></td>
+                    <td>
+                        <a href="{%  url 'book_in_cart_delete' obj.pk %}"><i class="fas fa-trash text-danger"></i></a>
+                        <a href="{%  url 'add_book_to_cart' obj.book.pk %}"><i class="fas fa-edit"></i></a>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
