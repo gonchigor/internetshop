@@ -3,6 +3,7 @@ from goodsapp.models import Book
 from goodsapp.views import BookListView
 from django.views.generic.detail import DetailView
 from cartapp.models import Cart, BookInCart
+from django.urls import reverse_lazy
 
 
 COUNT_CARDS = 6
@@ -38,6 +39,16 @@ class BookCustomerDetailView(DetailView):
             cart = Cart.objects.get(pk=cart_id)
             book_in_cart_qs = BookInCart.objects.filter(cart=cart, book=self.object)
             if book_in_cart_qs.exists():
-                context['cart_quantity'] = book_in_cart_qs.get().quantity
-                context['cart_id'] = cart_id
+                book_in_cart = book_in_cart_qs.get()
+                context['cart_quantity'] = book_in_cart.quantity
+                context['book_in_cart_id'] = book_in_cart.pk
+        context['get_response'] = self.request.GET.urlencode()
+        redirect = self.request.GET.get('type', 'main')
+        if redirect == 'main':
+            url_back = reverse_lazy('main-page')
+        elif redirect == 'search':
+            url_back = reverse_lazy('book-search') + '?search=' + self.request.GET.get('search', ' ')
+        else:
+            url_back = reverse_lazy('main-page')
+        context['url'] = url_back
         return context
