@@ -51,28 +51,24 @@ class BookInCartDeleteView(DeleteView):
 
 
 # class CartDetailView(DetailView, FormMixin):
-#     model = Cart
-#     form_class = OrderConfirmForm
-#
-#     def get_object(self, queryset=None):
-#         user = None
-#         if self.request.user.is_authenticated:
-#             user = self.request.user
-#         cart_id = self.request.session.get('cart-id')
-#         cart, created_cart = Cart.objects.get_or_create(pk=cart_id, defaults={'user': user})
-#         if created_cart:
-#             self.request.session['cart-id'] = cart.pk
-#         return cart
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['get'] = self.request.GET
-#         return context
-#
-#     def get_initial(self):
-#         cart_id = self.request.session.get('cart-id', 0)
-#         initial = {
-#             'status': order_status_new,
-#             'cart': cart_id
-#         }
-#         return initial
+class CartDetailView(DetailView):
+    model = Cart
+    # form_class = OrderConfirmForm
+
+    def get_object(self, queryset=None):
+        cart_id = self.request.GET.get('cart')
+        cart = Cart.objects.get(pk=cart_id)
+        return cart
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['get'] = self.request.GET
+        return context
+
+    # def get_initial(self):
+    #     cart_id = self.request.session.get('cart-id', 0)
+    #     initial = {
+    #         'status': order_status_new,
+    #         'cart': cart_id
+    #     }
+    #     return initial

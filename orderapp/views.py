@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
-
+from django.http import HttpResponseRedirect
 from dimensionsapp.models import OrderStatus
 from .models import Order
 from .form import OrderConfirmForm
@@ -19,8 +19,8 @@ class OrderCreateView(CreateView, CartContextMixin):
     # template_name = 'cartapp/cart_detail.html'
 
     def get_success_url(self):
-        del self.request.session['cart-id']
-        return super().get_success_url()
+        cart_id = self.request.session.pop('cart-id')
+        return reverse_lazy('cart_detail') + "?cart={}".format(cart_id)
 
     # def get_form(self, form_class=None):
     #     form = super().get_form(form_class)
@@ -33,6 +33,6 @@ class OrderCreateView(CreateView, CartContextMixin):
         self.object.cart = Cart.objects.get(pk=self.request.session.get('cart-id'))
         self.object.status = order_status_new
         self.object.save()
-        return super().form_valid(form)
+        return HttpResponseRedirect(self.get_success_url())
 
 
