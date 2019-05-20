@@ -13,6 +13,7 @@ class Order(models.Model):
                              related_query_name='order')
     status = models.ForeignKey(OrderStatus, on_delete=models.PROTECT, verbose_name='статус', related_name='order',
                                related_query_name='order')
+    name = models.CharField(verbose_name='имя', max_length=50)
     phone = models.CharField(max_length=15, verbose_name='телефон')
     email = models.EmailField(verbose_name='email', blank=True, null=True)
     delivery_adress = models.TextField(verbose_name='Адрес доставки')

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load crispy_forms_tags %}
 {% block title %}
     Корзина
 {% endblock %}
@@ -23,7 +23,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for obj in object.books.all %}
+            {% for obj in cart.books.all %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ obj.book.description }}</td>
@@ -40,12 +40,19 @@
             <tfoot>
                 <tr>
                     <td colspan="2">Итого:</td>
-                    <td>{{ object.total_quantity }}</td>
+                    <td>{{ cart.total_quantity }}</td>
                     <td></td>
-                    <td>{{ object.total_cost }}</td>
+                    <td>{{ cart.total_cost }}</td>
                     <td></td>
                 </tr>
             </tfoot>
         </table>
+    {% if cart.books.all %}
+    <form action="{% url 'order_create' %}" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button class="btn btn-success">Заказать</button>
+    </form>
+    {% endif %}
     </div>
 {% endblock %}

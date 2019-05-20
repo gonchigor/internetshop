@@ -31,7 +31,7 @@
                 <a class="nav-link" href="{% url 'book_list' %}">Книги</a>
             </li>
             <li class="nav-item {% if active == 'cart' %}active{% endif %}">
-                <a class="nav-link" href="{% url 'cart_detail' %}">Корзина</a>
+                <a class="nav-link" href="{% url 'order_create' %}">Корзина</a>
             </li>
         </ul>
         {% if search_tag %}
