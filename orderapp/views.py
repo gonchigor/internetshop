@@ -16,7 +16,7 @@ class OrderCreateView(CreateView, CartContextMixin):
     model = Order
     success_url = reverse_lazy('main-page')
     form_class = OrderConfirmForm
-    template_name = 'cartapp/cart_detail.html'
+    # template_name = 'cartapp/cart_detail.html'
 
     def get_success_url(self):
         del self.request.session['cart-id']

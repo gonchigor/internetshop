@@ -48,8 +48,8 @@
             </tfoot>
         </table>
         {% if cart.books.all %}
-            <form action="{% url 'order_create' %}" method="post" class="border border-primary rounded p-3">
-                <h2 class="text-center">Данные для доставки</h2>
+            <form action="{% url 'order_create' %}" method="post" class="border border-primary rounded p-3 mb-1">
+                <h2 class="text-center">Оформить заказ</h2>
                 {% csrf_token %}
                 {{ form|crispy }}
                 <button class="btn btn-success">Заказать</button>
