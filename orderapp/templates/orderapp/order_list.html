@@ -1,0 +1,25 @@
+{% extends 'dimension_list.html' %}
+
+{% block title %}
+    Заказы
+{% endblock %}
+
+{% block header %}<h1>Заказы</h1>{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html' with active="order"%}
+{% endblock %}
+
+{% block create %}
+
+{% endblock %}
+
+{% block list_header %}
+    <th>Наименование</th>
+    <th>Статус</th>
+{% endblock %}
+
+{% block list_element %}
+    <td>{{ object }}</td>
+    <td>{{ object.status.name }}</td>
+{% endblock %}

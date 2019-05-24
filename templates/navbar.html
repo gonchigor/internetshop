@@ -1,5 +1,9 @@
 <header class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Магазин книг</a>
+    {% if perms.orderapp.manager %}
+        <a class="navbar-brand" href="#">Магазин книг - администрирование</a>
+    {% else %}
+        <a class="navbar-brand" href="{% url 'main-page' %}">Магазин книг</a>
+    {% endif %}
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -7,40 +11,77 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item {% if active == 'main' %}active{% endif %}">
-                <a class="nav-link" href="{% url 'main-page' %}">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item dropdown {% if active == 'dimension' %}active{% endif %}">
-                <a class="nav-link dropdown-toggle" href="{% url 'dimensions_list' %}" id="navbarDropdown" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Справочники</a>
+            {% if not perms.orderapp.manager %}
+                <li class="nav-item {% if active == 'main' %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'main-page' %}">Home <span class="sr-only">(current)</span></a>
+                </li>
+            {% endif %}
+            {% if not perms.orderapp.manager %}
+                <li class="nav-item {% if active == 'cart' %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'order_create' %}">Корзина</a>
+                </li>
+            {% endif %}
+            {% if perms.orderapp.manager %}
+                <li class="nav-item {% if active == 'order' %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'order_list' %}">Заказы</a>
+                </li>
+            {% endif %}
+            {% if perms.orderapp.manager %}
+                <li class="nav-item dropdown {% if active == 'dimension' %}active{% endif %}">
+                    <a class="nav-link dropdown-toggle" href="{% url 'dimensions_list' %}" id="navbarDropdown"
+                       role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Справочники</a>
 
-                <div class="dropdown-menu bg-light" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{% url 'dimensions_list' %}">Справочники</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'author_list' %}">Авторы</a>
-                    <a class="dropdown-item" href="{% url 'serie_list' %}">Серии</a>
-                    <a class="dropdown-item" href="{% url 'jenre_list' %}">Жанры</a>
-                    <a class="dropdown-item" href="{% url 'publishing_house_list' %}">Издательства</a>
-                    <a class="dropdown-item" href="{% url 'binding_list' %}">Переплеты</a>
-                    <a class="dropdown-item" href="{% url 'format_book_list' %}">Форматы</a>
-                    <a class="dropdown-item" href="{% url 'age_restriction_list' %}">Возрастные ограничения</a>
-                    <a class="dropdown-item" href="{% url 'order_status_list' %}">Статусы заказа</a>
-                </div>
-            </li>
-            <li class="nav-item {% if active == 'book' %}active{% endif %}">
-                <a class="nav-link" href="{% url 'book_list' %}">Книги</a>
-            </li>
-            <li class="nav-item {% if active == 'cart' %}active{% endif %}">
-                <a class="nav-link" href="{% url 'order_create' %}">Корзина</a>
-            </li>
+                    <div class="dropdown-menu bg-light" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'dimensions_list' %}">Справочники</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'author_list' %}">Авторы</a>
+                        <a class="dropdown-item" href="{% url 'serie_list' %}">Серии</a>
+                        <a class="dropdown-item" href="{% url 'jenre_list' %}">Жанры</a>
+                        <a class="dropdown-item" href="{% url 'publishing_house_list' %}">Издательства</a>
+                        <a class="dropdown-item" href="{% url 'binding_list' %}">Переплеты</a>
+                        <a class="dropdown-item" href="{% url 'format_book_list' %}">Форматы</a>
+                        <a class="dropdown-item" href="{% url 'age_restriction_list' %}">Возрастные ограничения</a>
+                        <a class="dropdown-item" href="{% url 'order_status_list' %}">Статусы заказа</a>
+                    </div>
+                </li>
+            {% endif %}
+            {% if perms.orderapp.manager %}
+                <li class="nav-item {% if active == 'book' %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'book_list' %}">Книги</a>
+                </li>
+            {% endif %}
+
         </ul>
-        {% if search_tag %}
-            <form class="form-inline my-2 my-lg-0" {% if search_page %}action="{% url search_page %}"{% endif %}>
+
+        {% if perms.orderapp.manager %}
+            {% if search_tag %}
+                <form class="form-inline my-2 my-lg-0" {% if search_page %}action="{% url search_page %}"{% endif %}>
+                    <input class="form-control mr-sm-2" type="search" placeholder="Поиск" name="{{ search_tag }}"
+                           aria-label="Search" {% if search_string %}value="{{ search_string }}" {% endif %}>
+                    <button class="btn btn-success my-2 my-sm-0" type="submit">Поиск</button>
+                </form>
+            {% endif %}
+        {% else %}
+            <form class="form-inline my-2 my-lg-0" action="{% url 'book-search' %}">
                 <input class="form-control mr-sm-2" type="search" placeholder="Поиск" name="{{ search_tag }}"
                        aria-label="Search" {% if search_string %}value="{{ search_string }}" {% endif %}>
                 <button class="btn btn-success my-2 my-sm-0" type="submit">Поиск</button>
             </form>
         {% endif %}
+        <div class="ml-3 text-right">
+            {% if user.is_authenticated %}
+                <span class="">Добро пожаловать, {{ user.username }}</span>
+                <form action="{% url 'auth:log_out' %}" method="post">
+                    {% csrf_token %}
+                    <a href="#">Личный кабинет</a>
+                    <button class="btn btn-secondary btn-sm">Выйти</button>
+                </form>
+            {% else %}
+                <span>Вы не вошли на сайт</span>
+                <p class="m-0"><a href="#">Регистрация</a> <a href="{% url 'auth:log_in' %}">Вход</a></p>
+            {% endif %}
+        </div>
     </div>
 
 </header>

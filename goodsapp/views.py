@@ -1,16 +1,20 @@
 from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+# from django.views.generic.detail import DetailView
+# from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Book
 from .form import BookForm
 from dimensionsapp.models import Author
 from django.urls import reverse_lazy
 from django.db.models import Q
+from orderapp.permissions import ManagerAuthorizationRequired, ManagerUpdateView, ManagerDeleteView, ManagerCreateView,\
+    ManagerDetailView
+from django.http import HttpResponseRedirect
 # Create your views here.
 
 
-class BookListView(ListView):
-    """List with books for managers """
+class BaseBookListView(ListView):
+    """List with books.
+        This is abstact model"""
     model = Book
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -28,12 +32,16 @@ class BookListView(ListView):
         return queryset
 
 
-class BookDetailView(DetailView):
+class BookListView(ManagerAuthorizationRequired, BaseBookListView):
+    pass
+
+
+class BookDetailView(ManagerDetailView):
     """Book view for managers """
     model = Book
 
 
-class BookCreateView(CreateView):
+class BookCreateView(ManagerCreateView):
     model = Book
     form_class = BookForm
 
@@ -46,7 +54,7 @@ class BookCreateView(CreateView):
         return url
 
 
-class BookUpdateView(UpdateView):
+class BookUpdateView(ManagerUpdateView):
     model = Book
     form_class = BookForm
 
@@ -58,7 +66,11 @@ class BookUpdateView(UpdateView):
             url = reverse_lazy('book_detail', kwargs={'pk': self.object.pk})
         return url
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
-class BookDeleteView(DeleteView):
+
+class BookDeleteView(ManagerDeleteView):
     model = Book
     success_url = reverse_lazy('book_list')

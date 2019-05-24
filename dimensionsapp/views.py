@@ -1,46 +1,48 @@
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView
+# from django.views.generic.detail import DetailView
+# from django.views.generic.edit import CreateView, UpdateView
 from dimensionsapp.models import Author, Serie, Jenre, PublishingHouse, FormatBook, Binding, \
     AgeRestriction, OrderStatus
 from dimensionsapp.form import SearchFormAuthor, AuthorModel, JenreModel, SerieModel, \
     PublishingHouseModel, FormatBookModel, BindingModel, AgeRestrictionModel, SearchForm, \
     OrderStatusModel
 from django.views.generic import TemplateView, ListView
-from django.views.generic import DeleteView
+# from django.views.generic import DeleteView
 from django.urls import reverse_lazy
+from orderapp.permissions import ManagerDetailView, ManagerCreateView, ManagerDeleteView, \
+    ManagerListView, ManagerUpdateView, ManagerAuthorizationRequired
 # from goodsapp.models import Menu
 # Create your views here.
 
 
-class AuthorDetailView(DetailView):
+class AuthorDetailView(ManagerDetailView):
     model = Author
 
 
-class SerieDetailView(DetailView):
+class SerieDetailView(ManagerDetailView):
     model = Serie
 
 
-class JenreDetailView(DetailView):
+class JenreDetailView(ManagerDetailView):
     model = Jenre
 
 
-class PublishingHouseDetailView(DetailView):
+class PublishingHouseDetailView(ManagerDetailView):
     model = PublishingHouse
 
 
-class FormatBookDetailView(DetailView):
+class FormatBookDetailView(ManagerDetailView):
     model = FormatBook
 
 
-class BindingDetailView(DetailView):
+class BindingDetailView(ManagerDetailView):
     model = Binding
 
 
-class AgeRestrictionDetailView(DetailView):
+class AgeRestrictionDetailView(ManagerDetailView):
     model = AgeRestriction
 
 
-class OrderStatusDetailView(DetailView):
+class OrderStatusDetailView(ManagerDetailView):
     model = OrderStatus
 
 
@@ -65,44 +67,48 @@ class ListViewFilter(ListView):
         return qs
 
 
-class SerieListView(ListViewFilter):
+class ManagerListViewFilter(ManagerAuthorizationRequired, ListViewFilter):
+    pass
+
+
+class SerieListView(ManagerListViewFilter):
     model = Serie
 
 
-class JenreListView(ListViewFilter):
+class JenreListView(ManagerListViewFilter):
     model = Jenre
 
 
-class PublishingHouseListView(ListViewFilter):
+class PublishingHouseListView(ManagerListViewFilter):
     model = PublishingHouse
 
 
-class FormatBookListView(ListViewFilter):
+class FormatBookListView(ManagerListViewFilter):
     model = FormatBook
 
 
-class BindingListView(ListViewFilter):
+class BindingListView(ManagerListViewFilter):
     model = Binding
 
 
-class AgeRestrictionListView(ListViewFilter):
+class AgeRestrictionListView(ManagerListViewFilter):
     model = AgeRestriction
 
 
-class AuthorListView(ListViewFilter):
+class AuthorListView(ManagerListViewFilter):
     model = Author
     form = SearchFormAuthor
 
 
-class OrderStatusListView(ListViewFilter):
+class OrderStatusListView(ManagerListViewFilter):
     model = OrderStatus
 
 
-class MenuView(TemplateView):
+class MenuView(ManagerAuthorizationRequired, TemplateView):
     template_name = 'dimensionsapp/menu_view.html'
 
 
-class SerieCreateView(CreateView):
+class SerieCreateView(ManagerCreateView):
     model = Serie
     form_class = SerieModel
 
@@ -115,7 +121,7 @@ class SerieCreateView(CreateView):
         return url
 
 
-class AuthorCreateView(CreateView):
+class AuthorCreateView(ManagerCreateView):
     model = Author
     form_class = AuthorModel
 
@@ -128,7 +134,7 @@ class AuthorCreateView(CreateView):
         return url
 
 
-class JenreCreateView(CreateView):
+class JenreCreateView(ManagerCreateView):
     model = Jenre
     form_class = JenreModel
 
@@ -141,7 +147,7 @@ class JenreCreateView(CreateView):
         return url
 
 
-class PublishingHouseCreateView(CreateView):
+class PublishingHouseCreateView(ManagerCreateView):
     model = PublishingHouse
     form_class = PublishingHouseModel
 
@@ -154,7 +160,7 @@ class PublishingHouseCreateView(CreateView):
         return url
 
 
-class FormatBookCreateView(CreateView):
+class FormatBookCreateView(ManagerCreateView):
     model = FormatBook
     form_class = FormatBookModel
 
@@ -167,7 +173,7 @@ class FormatBookCreateView(CreateView):
         return url
 
 
-class BindingCreateView(CreateView):
+class BindingCreateView(ManagerCreateView):
     model = Binding
     form_class = BindingModel
 
@@ -180,7 +186,7 @@ class BindingCreateView(CreateView):
         return url
 
 
-class AgeRestrictionCreateView(CreateView):
+class AgeRestrictionCreateView(ManagerCreateView):
     model = AgeRestriction
     form_class = AgeRestrictionModel
 
@@ -193,7 +199,7 @@ class AgeRestrictionCreateView(CreateView):
         return url
 
 
-class OrderStatusCreateView(CreateView):
+class OrderStatusCreateView(ManagerCreateView):
     model = OrderStatus
     form_class = OrderStatusModel
 
@@ -206,7 +212,7 @@ class OrderStatusCreateView(CreateView):
         return url
 
 
-class SerieUpdateView(UpdateView):
+class SerieUpdateView(ManagerUpdateView):
     model = Serie
     form_class = SerieModel
 
@@ -219,7 +225,7 @@ class SerieUpdateView(UpdateView):
         return url
 
 
-class AuthorUpdateView(UpdateView):
+class AuthorUpdateView(ManagerUpdateView):
     model = Author
     form_class = AuthorModel
 
@@ -232,7 +238,7 @@ class AuthorUpdateView(UpdateView):
         return url
 
 
-class JenreUpdateView(UpdateView):
+class JenreUpdateView(ManagerUpdateView):
     model = Jenre
     form_class = JenreModel
 
@@ -245,7 +251,7 @@ class JenreUpdateView(UpdateView):
         return url
 
 
-class PublishingHouseUpdateView(UpdateView):
+class PublishingHouseUpdateView(ManagerUpdateView):
     model = PublishingHouse
     form_class = PublishingHouseModel
 
@@ -258,7 +264,7 @@ class PublishingHouseUpdateView(UpdateView):
         return url
 
 
-class FormatBookUpdateView(UpdateView):
+class FormatBookUpdateView(ManagerUpdateView):
     model = FormatBook
     form_class = FormatBookModel
 
@@ -271,7 +277,7 @@ class FormatBookUpdateView(UpdateView):
         return url
 
 
-class BindingUpdateView(UpdateView):
+class BindingUpdateView(ManagerUpdateView):
     model = Binding
     form_class = BindingModel
 
@@ -284,7 +290,7 @@ class BindingUpdateView(UpdateView):
         return url
 
 
-class AgeRestrictionUpdateView(UpdateView):
+class AgeRestrictionUpdateView(ManagerUpdateView):
     model = AgeRestriction
     form_class = AgeRestrictionModel
 
@@ -297,7 +303,7 @@ class AgeRestrictionUpdateView(UpdateView):
         return url
 
 
-class OrderStatusUpdateView(UpdateView):
+class OrderStatusUpdateView(ManagerUpdateView):
     model = OrderStatus
     form_class = OrderStatusModel
 
@@ -310,41 +316,41 @@ class OrderStatusUpdateView(UpdateView):
         return url
 
 
-class AuthorDeleteView(DeleteView):
+class AuthorDeleteView(ManagerDeleteView):
     model = Author
     success_url = reverse_lazy('author_list')
 
 
-class SerieDeleteView(DeleteView):
+class SerieDeleteView(ManagerDeleteView):
     model = Serie
     success_url = reverse_lazy('serie_list')
 
 
-class JenreDeleteView(DeleteView):
+class JenreDeleteView(ManagerDeleteView):
     model = Jenre
     success_url = reverse_lazy('jenre_list')
 
 
-class PublishingHouseDeleteView(DeleteView):
+class PublishingHouseDeleteView(ManagerDeleteView):
     model = PublishingHouse
     success_url = reverse_lazy('publishing_house_list')
 
 
-class FormatBookDeleteView(DeleteView):
+class FormatBookDeleteView(ManagerDeleteView):
     model = FormatBook
     success_url = reverse_lazy('format_book_list')
 
 
-class BindingDeleteView(DeleteView):
+class BindingDeleteView(ManagerDeleteView):
     model = Binding
     success_url = reverse_lazy('binding_list')
 
 
-class AgeRestrictionDeleteView(DeleteView):
+class AgeRestrictionDeleteView(ManagerDeleteView):
     model = AgeRestriction
     success_url = reverse_lazy('age_restriction_list')
 
 
-class OrderStatusDeleteView(DeleteView):
+class OrderStatusDeleteView(ManagerDeleteView):
     model = OrderStatus
     success_url = reverse_lazy('order_status_list')

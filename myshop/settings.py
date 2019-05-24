@@ -46,6 +46,7 @@ INSTALLED_APPS = [
         'home',
         'cartapp',
         'orderapp',
+        'authapp',
     ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -61,6 +62,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'myshop.urls'
+
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/auth/login'
 
 TEMPLATES = [
     {

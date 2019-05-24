@@ -1,6 +1,6 @@
 # from django.shortcuts import render
 from goodsapp.models import Book
-from goodsapp.views import BookListView
+from goodsapp.views import BaseBookListView
 from django.views.generic.detail import DetailView
 from cartapp.models import Cart, BookInCart
 from django.urls import reverse_lazy
@@ -10,7 +10,7 @@ COUNT_CARDS = 6
 # Create your views here.
 
 
-class BookTopNewListView(BookListView):
+class BookTopNewListView(BaseBookListView):
     """Main page"""
     # queryset = Book.objects.order_by('-date_create')[:COUNT_CARDS]
     template_name = "home/index.html"
@@ -21,13 +21,13 @@ class BookTopNewListView(BookListView):
         return Book.objects.order_by('-date_create')[:COUNT_CARDS]
 
 
-class BookSearchListView(BookListView):
+class BookSearchListView(BaseBookListView):
     """Search page"""
     # queryset = Book.objects.order_by('-date_create')[:COUNT_CARDS]
     template_name = "home/search.html"
 
 
-class BookCustomerDetailView(DetailView):
+class CustomerBookDetailView(DetailView):
     """Book for customers"""
     model = Book
     template_name = 'home/book_full.html'
@@ -51,4 +51,6 @@ class BookCustomerDetailView(DetailView):
         else:
             url_back = reverse_lazy('main-page')
         context['url'] = url_back
+        if 'search' in self.request.GET.keys() and self.request.GET['search']:
+            context['search_string'] = self.request.GET['search']
         return context

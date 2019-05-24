@@ -24,7 +24,9 @@ urlpatterns = [
     path('book/', include('goodsapp.urls')),
     path('', include('home.urls')),
     path('cart/', include('cartapp.urls')),
-    path('order/', include('orderapp.urls'))
+    path('order/', include('orderapp.urls')),
+    path('auth/', include('authapp.urls', namespace='auth')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 
 if settings.DEBUG:

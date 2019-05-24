@@ -7,6 +7,7 @@ from .models import Order
 from .form import OrderConfirmForm
 from cartapp.utils import CartContextMixin
 from cartapp.models import Cart
+from .permissions import ManagerListView
 
 # Create your views here.
 order_status_new = OrderStatus.objects.get(pk=1)
@@ -36,3 +37,5 @@ class OrderCreateView(CreateView, CartContextMixin):
         return HttpResponseRedirect(self.get_success_url())
 
 
+class ManagerOrderListView(ManagerListView):
+    model = Order
