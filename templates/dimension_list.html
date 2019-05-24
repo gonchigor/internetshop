@@ -4,14 +4,14 @@
 {% load crispy_forms_tags %}
 {% load paginator_page %}
 {% block navbar %}
-    {% include 'navbar.html' with search_tag="search" active="dimension"%}
+    {% include 'navbar.html' with search_tag="search" active="dimension" %}
 {% endblock %}
 {% block body %}
     <div class="container">
         <div class="row align-items-center">
             <div class="col-auto">
                 {% block header %}
-                <H1>Справочники</H1>
+                    <H1>Справочники</H1>
                 {% endblock %}
             </div>
             {% comment %}
@@ -25,11 +25,12 @@
                 <br>
             {% endblock %}
             {% endcomment %}
-            <div class="col text-right" >
+            <div class="col text-right">
 
-                    {% block create %}
-                    <a href="{% block create_ankor %}{{ object_list.model.get_create_url }}{% endblock %}" class="btn btn-primary my-1" >Добавить</a>
-                    {% endblock %}
+                {% block create %}
+                    <a href="{% block create_ankor %}{{ object_list.model.get_create_url }}{% endblock %}"
+                       class="btn btn-primary my-1">Добавить</a>
+                {% endblock %}
 
             </div>
 
@@ -38,58 +39,64 @@
         <table class="table table-bordered">
             {% block dimension_list %}
                 <thead class="thead-light">
-                    <tr>
-                        {% block list_header %}
-                            <th>Наименование</th>
-                            <th>Описание</th>
-                        {% endblock %}
-                        <th>Действия</th>
-                    </tr>
+                <tr>
+                    {% block list_header %}
+                        <th>Наименование</th>
+                        <th>Описание</th>
+                    {% endblock %}
+                    <th>Действия</th>
+                </tr>
                 </thead>
                 <tbody>
-                    {% for object in object_list %}
-                        <tr>
+                {% for object in object_list %}
+                    <tr>
                         {% block list_element %}
                             <td>{{ object.name }}</td>
-                            <td>{{  object.description }}</td>
+                            <td>{{ object.description }}</td>
                         {% endblock %}
+                        {% block actions %}
                             <td>
-                                <a href="{% block  url_view%}{{ object.get_detail_url }}{% endblock %}" title="Посмотреть"><i class="fas fa-book-open"></i></a>
-                                <a href="{% block  url_edit%}{{ object.get_update_url }}{% endblock %}" title="Править"><i class="far fa-edit"></i></a>
-                                <a href="{% block  url_delete%}{{ object.get_delete_url }}{% endblock %}" title="Удалить"><i class="fas fa-trash"></i></a>
+                                <a href="{% block  url_view %}{{ object.get_detail_url }}{% endblock %}"
+                                   title="Посмотреть"><i class="fas fa-book-open"></i></a>
+                                <a href="{% block  url_edit %}{{ object.get_update_url }}{% endblock %}"
+                                   title="Править"><i class="far fa-edit"></i></a>
+                                <a href="{% block  url_delete %}{{ object.get_delete_url }}{% endblock %}"
+                                   title="Удалить"><i class="fas fa-trash"></i></a>
                             </td>
-                        </tr>
-                    {% endfor %}
+                        {% endblock %}
+                    </tr>
+                {% endfor %}
                 </tbody>
             {% endblock %}
         </table>
         {% block paginator %}
-        {% if is_paginated %}
-            <ul class="pagination  justify-content-center">
-                {% if page_obj.has_previous %}
-                    <li class="page-item">
-                        <a href="{{ view.request.GET|paginator_page:page_obj.previous_page_number }}" class="page-link">Пред.</a>
+            {% if is_paginated %}
+                <ul class="pagination  justify-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a href="{{ view.request.GET|paginator_page:page_obj.previous_page_number }}"
+                               class="page-link">Пред.</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a href="#" tabindex="-1" class="page-link">Пред.</a>
+                        </li>
+                    {% endif %}
+                    <li class="page-item active">
+                        <span class="page-link"> Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
                     </li>
-                {% else %}
-                    <li class="page-item disabled">
-                        <a href="#" tabindex="-1" class="page-link">Пред.</a>
-                    </li>
-                {% endif %}
-                <li class="page-item active">
-                    <span class="page-link"> Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
-                </li>
-                {% if page_obj.has_next %}
-                    <li class="page-item">
-                        <a href="{{ view.request.GET|paginator_page:page_obj.next_page_number }}" class="page-link">След.</a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                        <a href="#" tabindex="-1" class="page-link">След.</a>
-                    </li>
-                {% endif %}
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a href="{{ view.request.GET|paginator_page:page_obj.next_page_number }}" class="page-link">След.</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a href="#" tabindex="-1" class="page-link">След.</a>
+                        </li>
+                    {% endif %}
 
-            </ul>
-        {% endif %}
-        {% endblock paginator%}
+                </ul>
+            {% endif %}
+        {% endblock paginator %}
     </div>
 {% endblock body %}

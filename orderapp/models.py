@@ -3,7 +3,7 @@
 from django.db import models
 from dimensionsapp.models import OrderStatus
 from cartapp.models import Cart
-
+from django.urls import reverse_lazy
 
 # Create your models here.
 
@@ -25,6 +25,13 @@ class Order(models.Model):
 
     def __str__(self):
         return "Заказ №" + str(self.pk) + " от " + self.date_create.strftime("%d.%m.%Y")
+
+    @classmethod
+    def get_list_url(cls):
+        return reverse_lazy('order_list')
+
+    def get_detail_url(self):
+        return reverse_lazy('order_detail', kwargs={'pk': self.pk})
 
     class Meta:
         verbose_name = 'заказ'

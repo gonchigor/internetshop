@@ -23,6 +23,7 @@
             <h3>{{ object.name }}</h3>
             <p><strong>Описание:</strong> {{ object.description }}</p>
         {% endblock %}
+
         {% block update %}
           <a href="{% block update_url %}{{ object.get_update_url }}{% endblock %}" class="btn btn-info">Редактировать</a>
         {% endblock %}

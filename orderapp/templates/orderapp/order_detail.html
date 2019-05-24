@@ -1,0 +1,61 @@
+{% extends 'dimension_detail.html' %}
+
+{% block title %}
+    Заказ
+{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html' with active="order" %}
+{% endblock %}
+
+{% block page_name %}
+    Заказ
+{% endblock %}
+
+{% block dimension %}
+    <h3>{{ object }}</h3>
+    <p><strong>Имя покупателя:</strong> {{ object.name }}</p>
+    <p><strong>Телефон:</strong> {{ object.phone }}</p>
+    {% if object.email %}
+        <p><strong>Почта:</strong> {{ object.email }}</p>
+    {% endif %}
+    <p><strong>Адрес доставки:</strong> {{ object.delivery_adress }}</p>
+    <p><strong>Комментарий покупателя:</strong> {{ object.comments }}</p>
+    <p><strong>Статус заказа:</strong> {{ object.status.name }}</p>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>№</th>
+            <th>Название</th>
+            <th>Количество</th>
+            <th>Цена за единицу</th>
+            <th>Стоимость</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for obj in object.cart.books.all %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ obj.book.description }}</td>
+                <td>{{ obj.quantity }}</td>
+                <td>{{ obj.book.price }}</td>
+                <td>{{ obj.cost }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="2">Итого:</td>
+            <td>{{ object.cart.total_quantity }}</td>
+            <td></td>
+            <td>{{ object.cart.total_cost }}</td>
+        </tr>
+        </tfoot>
+    </table>
+{% endblock %}
+
+{% block update %}
+{% endblock %}
+
+{% block delete %}
+{% endblock %}
