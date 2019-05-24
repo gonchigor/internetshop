@@ -1,6 +1,6 @@
 <header class="navbar navbar-expand-lg navbar-light bg-light">
     {% if perms.orderapp.manager %}
-        <a class="navbar-brand" href="#">Магазин книг - администрирование</a>
+        <a class="navbar-brand" href="#">Магазин книг - менеджер</a>
     {% else %}
         <a class="navbar-brand" href="{% url 'main-page' %}">Магазин книг</a>
     {% endif %}
@@ -74,12 +74,12 @@
                 <span class="">Добро пожаловать, {{ user.username }}</span>
                 <form action="{% url 'auth:log_out' %}" method="post">
                     {% csrf_token %}
-                    <a href="#">Личный кабинет</a>
+                    <a href="{% url 'auth:user' %}">Личный кабинет</a>
                     <button class="btn btn-secondary btn-sm">Выйти</button>
                 </form>
             {% else %}
                 <span>Вы не вошли на сайт</span>
-                <p class="m-0"><a href="#">Регистрация</a> <a href="{% url 'auth:log_in' %}">Вход</a></p>
+                <p class="m-0"><a href="#">Регистрация</a> <a href="{% url 'auth:log_in' %}?next={{ view.request.path }}">Вход</a></p>
             {% endif %}
         </div>
     </div>

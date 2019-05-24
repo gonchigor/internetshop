@@ -4,6 +4,7 @@ from goodsapp.views import BaseBookListView
 from django.views.generic.detail import DetailView
 from cartapp.models import Cart, BookInCart
 from django.urls import reverse_lazy
+from django.views.generic import RedirectView
 
 
 COUNT_CARDS = 6
@@ -54,3 +55,10 @@ class CustomerBookDetailView(DetailView):
         if 'search' in self.request.GET.keys() and self.request.GET['search']:
             context['search_string'] = self.request.GET['search']
         return context
+
+
+class MainRedirectView(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        if self.request.user.has_perm('orderapp.manager'):
+            return reverse_lazy('order_list')
+        return reverse_lazy('main-page')
