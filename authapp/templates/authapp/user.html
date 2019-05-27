@@ -1,10 +1,40 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block title %}личный кабинет{% endblock %}
 
 {% block body %}
-    <div class="container text-center">
-        <h1>Личный кабинет</h1>
+    <div class="container">
+        <h1 class="text-center">Личный кабинет</h1>
+        <div class="clearfix">
+            <div class="float-left">
+                <img src="
+                {% if object.extended.avatar %}
+                {{ object.extended.avatar.url }}
+                {% else %}
+                    {% static 'images/no_avatar.png' %}
+                {% endif %}">
+            </div>
+            <div class="float-left ml-3">
+                <p><b>Логин:</b> {{ object.username }}</p>
+                <p><b>E-mail:</b> {{ object.email }}</p>
+                <p><b>Имя:</b> {{ object.first_name }}</p>
+                <p><b>Фамилия:</b> {{ object.last_name }}</p>
+                <p><b>Телефон:</b> {{ object.extended.phone }}</p>
+            </div>
+        </div>
+        <div>
+            <h3>Домашний адрес:</h3>
+            <p><b>Страна:</b> {{ object.extended.home_country }}</p>
+            <p><b>Город:</b> {{ object.extended.home_city }}</p>
+            <p><b>Индекс:</b> {{ object.extended.home_index }}</p>
+            <p><b>Адрес1:</b> {{ object.extended.home_adress1 }}</p>
+            <p><b>Адрес2:</b> {{ object.extended.home_adress2 }}</p>
+        </div>
+        {% if object.extended.dop_info %}
+            <p><b>Дополнительная информация:</b><br> {{ object.extended.dop_info }}</p>
+        {% endif %}
         <a href="{% url 'auth:password_change' %}" class="btn btn-success">Сменить пароль</a>
+        <a href="{% url 'auth:user_update' %}" class="btn btn-success">Редактировать профиль</a>
     </div>
 {% endblock %}

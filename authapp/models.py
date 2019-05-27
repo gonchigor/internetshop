@@ -6,7 +6,8 @@ User = get_user_model()
 
 
 class UserExt(models.Model):
-    user = models.OneToOneField(User, models.CASCADE)
+    user = models.OneToOneField(User, models.CASCADE, related_query_name="extended",
+                                related_name="extended")
     avatar = models.ImageField('аватар', blank=True, null=True, upload_to='avatars')
     phone = models.CharField('телефон', max_length=15)
     dop_info = models.TextField('дополнительная информация', blank=True, null=True)
