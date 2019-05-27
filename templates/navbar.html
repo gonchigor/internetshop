@@ -79,7 +79,7 @@
                 </form>
             {% else %}
                 <span>Вы не вошли на сайт</span>
-                <p class="m-0"><a href="#">Регистрация</a> <a href="{% url 'auth:log_in' %}?next={{ view.request.path }}">Вход</a></p>
+                <p class="m-0"><a href="{% url 'auth:register' %}">Регистрация</a> <a href="{% url 'auth:log_in' %}?next={{ view.request.path }}">Вход</a></p>
             {% endif %}
         </div>
     </div>

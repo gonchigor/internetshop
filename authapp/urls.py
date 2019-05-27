@@ -1,5 +1,6 @@
 from django.urls import path, include
-from .views import ShopLoginView, ShopLogoutView, ShopPasswordChangeView, ShopPasswordChangeDoneView, ShopUserView
+from .views import ShopLoginView, ShopLogoutView, ShopPasswordChangeView, ShopPasswordChangeDoneView, ShopUserView, \
+    RegistrationUserView
 
 app_name = 'auth'
 urlpatterns = [
@@ -7,5 +8,6 @@ urlpatterns = [
     path('logout/', ShopLogoutView.as_view(), name='log_out'),
     path('password_change/', ShopPasswordChangeView.as_view(), name='password_change'),
     path('password_change/done/', ShopPasswordChangeDoneView.as_view(), name='password_change_done'),
-    path('user/', ShopUserView.as_view(), name='user')
+    path('user/', ShopUserView.as_view(), name='user'),
+    path('register/', RegistrationUserView.as_view(), name='register')
 ]
