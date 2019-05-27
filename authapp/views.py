@@ -9,6 +9,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth import login
 from django.contrib.auth.models import Group
 from .models import UserExt
+from PIL import Image
 # Create your views here.
 Customers = Group.objects.get(name="Customers")
 
@@ -68,5 +69,9 @@ class RegistrationUserView(CreateView):
             avatar=form.cleaned_data['avatar']
         )
         user_ext.save()
+        if user_ext.avatar:
+            im = Image.open(user_ext.avatar.path)
+            im = im.resize((191, 264))
+            im.save(user_ext.avatar.path)
         login(self.request, self.object)
         return response
