@@ -6,35 +6,82 @@
 {% block body %}
     <div class="container">
         <h1 class="text-center">Личный кабинет</h1>
-        <div class="clearfix">
-            <div class="float-left">
-                <img src="
-                {% if object.extended.avatar %}
-                {{ object.extended.avatar.url }}
-                {% else %}
-                    {% static 'images/no_avatar.png' %}
-                {% endif %}">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link {% if tab != '2' and tab != '3' %}active{% endif %}" id="nav-profile-tab"
+                   data-toggle="tab" href="#nav-profile"
+                   role="tab"
+                   aria-controls="nav-home" aria-selected="true">Личные данные</a>
+                <a class="nav-item nav-link {% if tab == '2' %}active{% endif %}" id="nav-order-tab" data-toggle="tab"
+                   href="#nav-order" role="tab"
+                   aria-controls="nav-profile" aria-selected="false">История заказов</a>
+                <a class="nav-item nav-link {% if tab == '3' %}active{% endif %}" id="nav-active-order-tab"
+                   data-toggle="tab" href="#nav-active-order"
+                   role="tab"
+                   aria-controls="nav-contact" aria-selected="false">Текущие заказы</a>
             </div>
-            <div class="float-left ml-3">
-                <p><b>Логин:</b> {{ object.username }}</p>
-                <p><b>E-mail:</b> {{ object.email }}</p>
-                <p><b>Имя:</b> {{ object.first_name }}</p>
-                <p><b>Фамилия:</b> {{ object.last_name }}</p>
-                <p><b>Телефон:</b> {{ object.extended.phone }}</p>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade {% if tab != '2' and tab != '3' %}show active{% endif %}" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <div class="clearfix my-2">
+                    <div class="float-left px-3">
+                        <img src="
+                            {% if object.extended.avatar %}
+                            {{ object.extended.avatar.url }}
+                            {% else %}
+                                {% static 'images/no_avatar.png' %}
+                            {% endif %}">
+                    </div>
+                    <div class="float-left ml-3">
+                        <p><b>Логин:</b> {{ object.username }}</p>
+                        <p><b>E-mail:</b> {{ object.email }}</p>
+                        <p><b>Имя:</b> {{ object.first_name }}</p>
+                        <p><b>Фамилия:</b> {{ object.last_name }}</p>
+                        <p><b>Телефон:</b> {{ object.extended.phone }}</p>
+                    </div>
+                </div>
+                <div>
+                    <h3>Домашний адрес:</h3>
+                    <p><b>Страна:</b> {{ object.extended.home_country }}</p>
+                    <p><b>Город:</b> {{ object.extended.home_city }}</p>
+                    <p><b>Индекс:</b> {{ object.extended.home_index }}</p>
+                    <p><b>Адрес1:</b> {{ object.extended.home_adress1 }}</p>
+                    <p><b>Адрес2:</b> {{ object.extended.home_adress2 }}</p>
+                </div>
+                {% if object.extended.dop_info %}
+                    <p><b>Дополнительная информация:</b><br> {{ object.extended.dop_info }}</p>
+                {% endif %}
+                <a href="{% url 'auth:password_change' %}" class="btn btn-success">Сменить пароль</a>
+                <a href="{% url 'auth:user_update' %}" class="btn btn-success">Редактировать профиль</a>
+
+            </div>
+            <div class="tab-pane fade {% if tab == '2'%}show active{% endif %} my-2" id="nav-order" role="tabpanel" aria-labelledby="nav-order-tab">
+                <table class="table">
+                    {% for order in archive_orders %}
+                        <tr>
+                            <td><a href="{% url 'cart_detail_arch' order.pk%}">{{ order }}</a></td>
+                            <td>{{ order.status }}</td>
+                        </tr>
+                    {% empty %}
+                        <P>Вы еще ничего не заказали.</P>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="tab-pane fade {% if tab == '3' %}show active{% endif %} my-2" id="nav-active-order" role="tabpanel"
+                 aria-labelledby="nav-active-order-tab">
+                <table class="table">
+                    {% for order in current_orders %}
+                        <tr>
+                            <td><a href="{% url 'cart_detail_current' order.pk%}">{{ order }}</a></td>
+                            <td>{{ order.status }}</td>
+                        </tr>
+                    {% empty %}
+                        <P>Нет активных заказов.</P>
+                    {% endfor %}
+                </table>
             </div>
         </div>
-        <div>
-            <h3>Домашний адрес:</h3>
-            <p><b>Страна:</b> {{ object.extended.home_country }}</p>
-            <p><b>Город:</b> {{ object.extended.home_city }}</p>
-            <p><b>Индекс:</b> {{ object.extended.home_index }}</p>
-            <p><b>Адрес1:</b> {{ object.extended.home_adress1 }}</p>
-            <p><b>Адрес2:</b> {{ object.extended.home_adress2 }}</p>
-        </div>
-        {% if object.extended.dop_info %}
-            <p><b>Дополнительная информация:</b><br> {{ object.extended.dop_info }}</p>
-        {% endif %}
-        <a href="{% url 'auth:password_change' %}" class="btn btn-success">Сменить пароль</a>
-        <a href="{% url 'auth:user_update' %}" class="btn btn-success">Редактировать профиль</a>
+
+
     </div>
 {% endblock %}

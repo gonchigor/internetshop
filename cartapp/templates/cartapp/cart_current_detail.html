@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+     {{ object.order.get }}
+{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html' with active="" %}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1> {{ object.order.get }}</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>№</th>
+                <th>Название</th>
+                <th>Количество</th>
+                <th>Цена за единицу</th>
+                <th>Стоимость</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for obj in cart.books.all %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ obj.book.description }}</td>
+                    <td>{{ obj.quantity }}</td>
+                    <td>{{ obj.book.price }}</td>
+                    <td>{{ obj.cost }}</td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="2">Итого:</td>
+                <td>{{ cart.total_quantity }}</td>
+                <td></td>
+                <td>{{ cart.total_cost }}</td>
+                <td></td>
+            </tr>
+            </tfoot>
+        </table>
+    <p>Ожидайте звонка.</p>
+    <a href="{% url 'auth:user' %}?tab=3" class="btn btn-primary">Назад</a>
+    </div>
+{% endblock %}

@@ -7,7 +7,7 @@ User = get_user_model()
 
 
 class Cart(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user', related_query_name='user', blank=True,
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cart', related_query_name='cart', blank=True,
                              null=True)
     date_create = models.DateTimeField("Дата создания", auto_now_add=True, )
     date_update = models.DateTimeField("Дата последнего изменения", auto_now=True)

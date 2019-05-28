@@ -12,6 +12,7 @@ from django.contrib.auth import login, get_user_model
 from django.contrib.auth.models import Group
 from .models import UserExt
 from PIL import Image
+from orderapp.models import Order
 # Create your views here.
 Customers = Group.objects.get(name="Customers")
 User = get_user_model()
@@ -86,6 +87,13 @@ class SelfUserDetailView(LoginRequiredMixin, DetailView):
 
     def get_object(self, queryset=None):
         return self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['archive_orders'] = Order.objects.filter(cart__user=self.request.user).exclude(status_id=1)
+        context['current_orders'] = Order.objects.filter(cart__user=self.request.user, status_id=1)
+        context['tab'] = self.request.GET.get('tab', '1')
+        return context
 
 
 class SelfUserUpdateView(LoginRequiredMixin, UpdateView):

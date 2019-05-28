@@ -3,6 +3,7 @@ from .models import Cart, BookInCart
 from goodsapp.models import Book
 from django.views.generic.edit import UpdateView, DeleteView, FormMixin
 from django.views.generic.detail import DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from orderapp.form import OrderConfirmForm
 
 
@@ -72,3 +73,13 @@ class CartDetailView(DetailView):
     #         'cart': cart_id
     #     }
     #     return initial
+
+
+class CartArchDetailView(LoginRequiredMixin, DetailView):
+    model = Cart
+    template_name = 'cartapp/cart_arhiv_detail.html'
+
+
+class CartCurrentDetailView(LoginRequiredMixin, DetailView):
+    model = Cart
+    template_name = 'cartapp/cart_current_detail.html'

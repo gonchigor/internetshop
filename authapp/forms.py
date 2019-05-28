@@ -18,9 +18,9 @@ class UserForm(UserCreationForm):
 
 
 class UserUpdateForm(forms.ModelForm):
-    email = forms.EmailField(label='E-mail')
     first_name = forms.CharField(max_length=30, required=False, label="Имя")
     last_name = forms.CharField(max_length=150, required=False, label="Фамилия")
+    email = forms.EmailField(label='E-mail')
     field_order = ['email', 'first_name', 'last_name', 'avatar', 'phone', 'home_country', 'home_city', 'home_index',
                    'home_adress1', 'home_adress2', 'dop_info']
 
