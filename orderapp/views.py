@@ -8,6 +8,7 @@ from .form import OrderConfirmForm, OrderCancelForm, OrderCustomerCommentForm
 from cartapp.utils import CartContextMixin
 from cartapp.models import Cart
 from .permissions import ManagerListView, ManagerDetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 order_status_new = OrderStatus.objects.get(pk=1)
@@ -46,7 +47,7 @@ class ManagerOrderDetailView(ManagerDetailView):
     model = Order
 
 
-class CustomerOrderUpdateView(UpdateView):
+class CustomerOrderUpdateView(LoginRequiredMixin, UpdateView):
     model = Order
     form_class = OrderConfirmForm
     template_name = 'orderapp/customer_order_update.html'
@@ -61,7 +62,7 @@ class CustomerOrderUpdateView(UpdateView):
         return reverse_lazy('cart_detail_current', kwargs={'pk': self.object.cart.pk})
 
 
-class CustomerOrderCancelView(UpdateView):
+class CustomerOrderCancelView(LoginRequiredMixin, UpdateView):
     model = Order
     form_class = OrderCancelForm
     template_name = 'orderapp/customer_order_cancel.html'
@@ -78,7 +79,7 @@ class CustomerOrderCancelView(UpdateView):
         return reverse_lazy('auth:user')+"?tab=3"
 
 
-class CustomerOrderCommentUpdateView(UpdateView):
+class CustomerOrderCommentUpdateView(LoginRequiredMixin, UpdateView):
     model = Order
     form_class = OrderCustomerCommentForm
     template_name = 'orderapp/customer_order_comment.html'
