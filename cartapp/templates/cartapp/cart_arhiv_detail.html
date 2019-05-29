@@ -1,23 +1,14 @@
-{% extends 'base.html' %}
+{% extends 'cartapp/cart_current_detail.html' %}
 {% load crispy_forms_tags %}
-{% block title %}
-    {{ object.order.get }}
-{% endblock %}
 
-{% block navbar %}
-    {% include 'navbar.html' with active="t" %}
-{% endblock %}
 
-{% block body %}
-    <div class="container">
-        <h1>{{ object.order.get }}</h1>
-        <table class="table">
+{% block table %}
+<table class="table">
             <thead>
             <tr>
                 <th>№</th>
                 <th>Название</th>
                 <th>Количество</th>
-
             </tr>
             </thead>
             <tbody>
@@ -38,6 +29,8 @@
             </tr>
             </tfoot>
         </table>
-    <p class="text-center"><a href="{% url 'auth:user' %}?tab=2" class="btn btn-primary">OK</a></p>
-    </div>
+    {% endblock %}
+{% block buttons %}
+    <a href="{% url 'order_customer_comment' object.order.get.pk %}" class="btn btn-primary">Изменить комментарий</a>
+    <a href="{% url 'auth:user' %}?tab=2" class="btn btn-primary">OK</a>
 {% endblock %}

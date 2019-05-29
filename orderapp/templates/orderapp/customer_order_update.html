@@ -1,0 +1,35 @@
+{% extends 'orderapp/order_form.html' %}
+
+{% load crispy_forms_tags %}
+{% block title %}
+    {{ object }}
+{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+
+{% block main_head %}{{ object }}{% endblock %}
+
+{% block order_block %}
+
+    <form method="post" class="border border-primary rounded p-3 mb-1">
+        <h2 class="text-center">Внести изменения в заказ</h2>
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button class="btn btn-success">Сохранить</button>
+        <a href="{{ next }}" class="btn btn-cancel">Отмена</a>
+    </form>
+{% endblock %}
+
+{% block head_func %}
+
+{% endblock %}
+
+{% block func %}
+
+{% endblock %}
+
+{% block tail_func %}
+
+{% endblock %}

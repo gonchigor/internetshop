@@ -1,0 +1,36 @@
+{% extends 'orderapp/order_form.html' %}
+
+{% block title %}
+    Отменить "{{ object }}"
+{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+
+{% block main_head %}Отменить "{{ object }}"{% endblock %}
+
+{% block order_block %}
+
+    <form method="post" class="border border-primary rounded p-3 mb-1 text-center">
+        {% csrf_token %}
+        {{ form }}
+        <div class="d-inline-block">
+            <h2>Отменить заказ?</h2>
+            <button class="btn btn-danger">Да</button>
+            <a href="{{ view.get_success_url }}" class="btn btn-secondary">Нет</a>
+        </div>
+    </form>
+{% endblock %}
+
+{% block head_func %}
+
+{% endblock %}
+
+{% block func %}
+
+{% endblock %}
+
+{% block tail_func %}
+
+{% endblock %}

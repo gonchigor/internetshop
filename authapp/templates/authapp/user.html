@@ -59,7 +59,7 @@
                 <table class="table">
                     {% for order in archive_orders %}
                         <tr>
-                            <td><a href="{% url 'cart_detail_arch' order.pk%}">{{ order }}</a></td>
+                            <td><a href="{% url 'cart_detail_arch' order.cart.pk%}">{{ order }}</a></td>
                             <td>{{ order.status }}</td>
                         </tr>
                     {% empty %}
@@ -72,7 +72,7 @@
                 <table class="table">
                     {% for order in current_orders %}
                         <tr>
-                            <td><a href="{% url 'cart_detail_current' order.pk%}">{{ order }}</a></td>
+                            <td><a href="{% url 'cart_detail_current' order.cart.pk%}">{{ order }}</a></td>
                             <td>{{ order.status }}</td>
                         </tr>
                     {% empty %}
