@@ -10,6 +10,7 @@
 
 {% block body %}
     <div class="container">
+    {% if object.user == view.request.user %}
         <h1> {{ object.order.get }}</h1>
         <p>Заказ на имя {{ object.order.get.name }}. Контактный телефон: {{ object.order.get.phone }}.
             {% if object.order.get.email %}Контактный e-mail: {{ object.order.get.email }}.{% endif %}</p>
@@ -60,5 +61,6 @@
             <a href="{% url 'order_customer_comment' object.order.get.pk %}" class="btn btn-primary">Изменить комментарий</a>
             <a href="{% url 'order_customer_cancel' object.order.get.pk %}" class="btn btn-primary">Отменить заказ</a>
         {% endblock %}
+    {% endif %}
     </div>
 {% endblock %}

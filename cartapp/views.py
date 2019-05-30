@@ -4,6 +4,7 @@ from goodsapp.models import Book
 from django.views.generic.edit import UpdateView, DeleteView, FormMixin
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import redirect_to_login
 from orderapp.form import OrderConfirmForm
 
 
@@ -83,3 +84,4 @@ class CartArchDetailView(LoginRequiredMixin, DetailView):
 class CartCurrentDetailView(LoginRequiredMixin, DetailView):
     model = Cart
     template_name = 'cartapp/cart_current_detail.html'
+

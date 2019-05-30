@@ -2,24 +2,29 @@
 
 {% load crispy_forms_tags %}
 {% block title %}
-    {{ object }}
+   {% if cart.user == view.request.user %}{{ object }}{% endif %}
 {% endblock %}
 
 {% block navbar %}
     {% include 'navbar.html' %}
 {% endblock %}
 
-{% block main_head %}{{ object }}{% endblock %}
-
+{% block main_head %}{% if cart.user == view.request.user %}{{ object }}{% endif %}{% endblock %}
+{% block cart_table %}
+    {% if cart.user == view.request.user %}
+        {{ block.super }}
+    {% endif %}
+{% endblock %}
 {% block order_block %}
-
-    <form method="post" class="border border-primary rounded p-3 mb-1">
-        <h2 class="text-center">Внести изменения в заказ</h2>
-        {% csrf_token %}
-        {{ form|crispy }}
-        <button class="btn btn-success">Сохранить</button>
-        <a href="{{ next }}" class="btn btn-cancel">Отмена</a>
-    </form>
+    {% if cart.user == view.request.user %}
+        <form method="post" class="border border-primary rounded p-3 mb-1">
+            <h2 class="text-center">Внести изменения в заказ</h2>
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button class="btn btn-success">Сохранить</button>
+            <a href="{{ next }}" class="btn btn-cancel">Отмена</a>
+        </form>
+    {% endif %}
 {% endblock %}
 
 {% block head_func %}

@@ -1,34 +1,24 @@
-{% extends 'orderapp/order_form.html' %}
+{% extends 'orderapp/customer_order_update.html' %}
 {% load crispy_forms_tags %}
 {% block title %}
-    {{ object }}
+    {% if cart.user == view.request.user %}{{ object }}{% endif %}
 {% endblock %}
 
 {% block navbar %}
     {% include 'navbar.html' %}
 {% endblock %}
 
-{% block main_head %}Комментарий к "{{ object }}"{% endblock %}
+    {% block main_head %}{% if cart.user == view.request.user %}Комментарий к "{{ object }}"{% endif %}{% endblock %}
 
-{% block order_block %}
+    {% block order_block %}
+        {% if cart.user == view.request.user %}
+            <form method="post" class="border border-primary rounded p-3 mb-1 text-center">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button class="btn btn-danger">Сохранить</button>
+                <a href="{{ view.get_success_url }}" class="btn btn-secondary">Отменить</a>
+                </div>
+            </form>
+        {% endif %}
+    {% endblock %}
 
-    <form method="post" class="border border-primary rounded p-3 mb-1 text-center">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <button class="btn btn-danger">Сохранить</button>
-        <a href="{{ view.get_success_url }}" class="btn btn-secondary">Отменить</a>
-        </div>
-    </form>
-{% endblock %}
-
-{% block head_func %}
-
-{% endblock %}
-
-{% block func %}
-
-{% endblock %}
-
-{% block tail_func %}
-
-{% endblock %}

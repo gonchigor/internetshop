@@ -9,6 +9,7 @@ from cartapp.utils import CartContextMixin
 from cartapp.models import Cart
 from .permissions import ManagerListView, ManagerDetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import redirect_to_login
 
 # Create your views here.
 order_status_new = OrderStatus.objects.get(pk=1)
@@ -92,3 +93,4 @@ class CustomerOrderCommentUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('auth:user')+"?tab=3"
+
