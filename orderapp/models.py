@@ -33,6 +33,12 @@ class Order(models.Model):
     def get_detail_url(self):
         return reverse_lazy('order_detail', kwargs={'pk': self.pk})
 
+    def get_absolute_url(self):
+        return reverse_lazy('order_detail', kwargs={'pk': self.pk})
+
+    def get_change_status_url(self):
+        return reverse_lazy('order_change_status', kwargs={'pk': self.pk})
+
     class Meta:
         verbose_name = 'заказ'
         verbose_name_plural = 'заказы'

@@ -7,7 +7,7 @@
 {% block header %}<h1>Заказы</h1>{% endblock %}
 
 {% block navbar %}
-    {% include 'navbar.html' with active="order"%}
+    {% include 'navbar.html' with active="order" %}
 {% endblock %}
 
 {% block create %}
@@ -22,4 +22,15 @@
 {% block list_element %}
     <td>{{ object }}</td>
     <td>{{ object.status.name }}</td>
+{% endblock %}
+
+{% block actions %}
+    <td>
+        <a href="{% block  url_view %}{{ object.get_detail_url }}{% endblock %}"
+           title="Посмотреть"><i class="fas fa-book-open"></i></a>
+        <a href="{% block  url_edit %}{{ object.get_update_url }}{% endblock %}"
+           title="Править"><i class="far fa-edit"></i></a>
+        <a href="{% block  url_delete %}{{ object.get_change_status_url }}{% endblock %}"
+           title="Изменить статус"><i class="fas fa-luggage-cart"></i></a>
+    </td>
 {% endblock %}

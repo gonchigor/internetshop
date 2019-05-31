@@ -4,10 +4,10 @@ from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from dimensionsapp.models import OrderStatus
 from .models import Order
-from .form import OrderConfirmForm, OrderCancelForm, OrderCustomerCommentForm
+from .form import OrderConfirmForm, OrderCancelForm, OrderCustomerCommentForm, OrderFieldStatusForm
 from cartapp.utils import CartContextMixin
 from cartapp.models import Cart
-from .permissions import ManagerListView, ManagerDetailView
+from .permissions import ManagerListView, ManagerDetailView, ManagerUpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import redirect_to_login
 
@@ -48,6 +48,16 @@ class ManagerOrderDetailView(ManagerDetailView):
     model = Order
 
 
+class ManagerOrderUpdateView(ManagerUpdateView):
+    model = Order
+
+
+class ManagerOrderChangeStatusView(ManagerUpdateView):
+    model = Order
+    form_class = OrderFieldStatusForm
+    template_name = 'orderapp/order_status_change.html'
+
+
 class CustomerOrderUpdateView(LoginRequiredMixin, UpdateView):
     model = Order
     form_class = OrderConfirmForm
@@ -57,10 +67,14 @@ class CustomerOrderUpdateView(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['cart'] = self.object.cart
         context['next'] = reverse_lazy('cart_detail_current', kwargs={'pk': self.object.cart.pk})
+        context['is_new'] = self.object.status_id == order_status_new.pk
         return context
 
     def get_success_url(self):
         return reverse_lazy('cart_detail_current', kwargs={'pk': self.object.cart.pk})
+
+    def get_queryset(self):
+        return self.model._default_manager.filter(status=order_status_new, cart__user=self.request.user)
 
 
 class CustomerOrderCancelView(LoginRequiredMixin, UpdateView):
@@ -74,10 +88,14 @@ class CustomerOrderCancelView(LoginRequiredMixin, UpdateView):
         context['cart'] = self.object.cart
         # context['next'] = reverse_lazy('cart_detail_current', kwargs={'pk': self.object.cart.pk})
         context['form'].fields['status'].instance = order_status_cancel_customer
+        context['is_new'] = self.object.status_id == order_status_new.pk
         return context
 
     def get_success_url(self):
         return reverse_lazy('auth:user')+"?tab=3"
+
+    def get_queryset(self):
+        return self.model._default_manager.filter(status=order_status_new, cart__user=self.request.user)
 
 
 class CustomerOrderCommentUpdateView(LoginRequiredMixin, UpdateView):
@@ -88,9 +106,14 @@ class CustomerOrderCommentUpdateView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['cart'] = self.object.cart
+        context['is_new'] = self.object.status_id == order_status_new.pk
         # context['next'] = reverse_lazy('cart_detail_current', kwargs={'pk': self.object.cart.pk})
         return context
 
     def get_success_url(self):
         return reverse_lazy('auth:user')+"?tab=3"
+
+    def get_queryset(self):
+        return self.model._default_manager.filter(cart__user=self.request.user)
+
 

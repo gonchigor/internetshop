@@ -1,4 +1,4 @@
-from django.forms import ModelForm, widgets, ValidationError
+from django.forms import ModelForm, widgets, ValidationError, ModelChoiceField
 from django.forms.widgets import HiddenInput
 from .models import Order
 from dimensionsapp.models import OrderStatus
@@ -22,6 +22,16 @@ class OrderConfirmForm(ModelForm):
         #     'cart': HiddenInput,
         #     'status': HiddenInput
         # }
+
+
+class OrderFieldStatusForm(ModelForm):
+    status = ModelChoiceField(queryset=OrderStatus.objects.filter(pk__in=[3, 4, 5]), empty_label=None)
+
+    class Meta:
+        model = Order
+        fields = ['status']
+        # widgets = {'status': widgets.ChoiceWidget(choices=tuple(OrderStatus.objects.filter(
+        #     pk__in=[1, 3, 4, 5]).values_list('id', 'name')))}
 
 
 class OrderCancelForm(ModelForm):

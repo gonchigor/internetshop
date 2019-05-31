@@ -16,7 +16,7 @@
     {% endif %}
 {% endblock %}
 {% block order_block %}
-    {% if cart.user == view.request.user %}
+    {% if cart.user == view.request.user and is_new%}
         <form method="post" class="border border-primary rounded p-3 mb-1">
             <h2 class="text-center">Внести изменения в заказ</h2>
             {% csrf_token %}

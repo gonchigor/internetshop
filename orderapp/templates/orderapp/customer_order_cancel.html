@@ -11,7 +11,7 @@
 {% block main_head %}{% if cart.user == view.request.user %}Отменить "{{ object }}"{% endif %}{% endblock %}
 
 {% block order_block %}
-    {% if cart.user == view.request.user %}
+    {% if cart.user == view.request.user and is_new %}
         <form method="post" class="border border-primary rounded p-3 mb-1 text-center">
             {% csrf_token %}
             {{ form }}
