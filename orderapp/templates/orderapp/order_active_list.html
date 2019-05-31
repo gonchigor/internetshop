@@ -4,10 +4,10 @@
     Заказы
 {% endblock %}
 
-{% block header %}<h1>Заказы</h1>{% endblock %}
+{% block header %}<h1>Активные заказы</h1>{% endblock %}
 
 {% block navbar %}
-    {% include 'navbar.html' with active="administration" %}
+    {% include 'navbar.html' with active="order" %}
 {% endblock %}
 
 {% block create %}
@@ -26,9 +26,9 @@
 
 {% block actions %}
     <td>
-        <a href="{% block  url_view %}{{ object.get_detail_url }}{% endblock %}"
+        <a href="{% block  url_view %}{{ object.get_active_detail_url }}{% endblock %}"
            title="Посмотреть"><i class="fas fa-book-open"></i></a>
-        <a href="{% block  url_edit %}{{ object.get_update_url }}{% endblock %}"
-           title="Править"><i class="far fa-edit"></i></a>
+        <a href="{% block  url_delete %}{{ object.get_change_status_url }}{% endblock %}"
+           title="Изменить статус"><i class="fas fa-luggage-cart"></i></a>
     </td>
 {% endblock %}

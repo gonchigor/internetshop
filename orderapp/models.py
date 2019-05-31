@@ -30,8 +30,15 @@ class Order(models.Model):
     def get_list_url(cls):
         return reverse_lazy('order_list')
 
+    @classmethod
+    def get_active_list_url(cls):
+        return reverse_lazy('order_active_list')
+
     def get_detail_url(self):
         return reverse_lazy('order_detail', kwargs={'pk': self.pk})
+
+    def get_active_detail_url(self):
+        return reverse_lazy('order_active_detail', kwargs={'pk': self.pk})
 
     def get_absolute_url(self):
         return reverse_lazy('order_detail', kwargs={'pk': self.pk})

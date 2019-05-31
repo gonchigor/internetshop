@@ -80,6 +80,11 @@ class RegistrationUserView(CreateView):
             im = im.resize((191, 264))
             im.save(user_ext.avatar.path)
         login(self.request, self.object)
+        cart_id = self.request.session.get('cart-id')
+        if cart_id:
+            cart = Cart.objects.get(pk=cart_id)
+            cart.user = self.request.user
+            cart.save()
         return response
 
 

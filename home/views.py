@@ -60,5 +60,5 @@ class CustomerBookDetailView(DetailView):
 class MainRedirectView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         if self.request.user.has_perm('orderapp.manager'):
-            return reverse_lazy('order_list')
+            return reverse_lazy('order_active_list')
         return reverse_lazy('main-page')

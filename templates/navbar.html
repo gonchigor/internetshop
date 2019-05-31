@@ -23,7 +23,7 @@
             {% endif %}
             {% if perms.orderapp.manager %}
                 <li class="nav-item {% if active == 'order' %}active{% endif %}">
-                    <a class="nav-link" href="{% url 'order_list' %}">Заказы</a>
+                    <a class="nav-link" href="{% url 'order_active_list' %}">Заказы</a>
                 </li>
             {% endif %}
             {% if perms.orderapp.manager %}
@@ -59,7 +59,7 @@
 
                     <div class="dropdown-menu bg-light" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{% url 'auth:manager_user_list' %}">Пользователи</a>
-
+                        <a class="dropdown-item" href="{% url 'order_list' %}">Все заказы</a>
                     </div>
                 </li>
             {% endif %}

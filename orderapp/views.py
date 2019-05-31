@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic.edit import CreateView, UpdateView
+from django.db.models import Q
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from dimensionsapp.models import OrderStatus
@@ -14,6 +15,7 @@ from django.contrib.auth.views import redirect_to_login
 # Create your views here.
 order_status_new = OrderStatus.objects.get(pk=1)
 order_status_cancel_customer = OrderStatus.objects.get_or_create(name='Отменен покупателем')[0]
+order_status_complect = OrderStatus.objects.get_or_create(name='Комплектуется')[0]
 
 
 class OrderCreateView(CreateView, CartContextMixin):
@@ -48,6 +50,22 @@ class ManagerOrderDetailView(ManagerDetailView):
     model = Order
 
 
+class ManagerOrderActiveListView(ManagerOrderListView):
+    template_name = 'orderapp/order_active_list.html'
+
+    def get_queryset(self):
+        return super().get_queryset().filter(Q(status=order_status_new) | Q(status=order_status_complect)).\
+            order_by('pk')
+
+
+class ManagerOrderActiveDetailView(ManagerOrderDetailView):
+    template_name = 'orderapp/order_active_detail.html'
+
+    def get_queryset(self):
+        return super().get_queryset().filter(Q(status=order_status_new) | Q(status=order_status_complect)).\
+            order_by('pk')
+
+
 class ManagerOrderUpdateView(ManagerUpdateView):
     model = Order
     template_name = 'orderapp/manager_order_form.html'
@@ -64,6 +82,11 @@ class ManagerOrderChangeStatusView(ManagerUpdateView):
     model = Order
     form_class = OrderFieldStatusForm
     template_name = 'orderapp/order_status_change.html'
+    success_url = reverse_lazy('order_active_list')
+
+    def get_queryset(self):
+        return super().get_queryset().filter(Q(status=order_status_new) | Q(status=order_status_complect)).\
+            order_by('pk')
 
 
 class CustomerOrderUpdateView(LoginRequiredMixin, UpdateView):

@@ -5,12 +5,14 @@
 {% endblock %}
 
 {% block navbar %}
-    {% include 'navbar.html' with active="administration" %}
+    {% include 'navbar.html' with active="order" %}
 {% endblock %}
 
 {% block page_name %}
     Заказ
 {% endblock %}
+
+{% block list_ankor %}{{ object.get_active_list_url }}{% endblock %}
 
 {% block dimension %}
     <h3>{{ object }}</h3>
@@ -57,7 +59,7 @@
 {% endblock %}
 
 {% block update %}
-    <a href="{% url 'order_update' object.pk%}" class="btn btn-success">Изменить</a>
+    <a href="{% url 'order_change_status' object.pk%}" class="btn btn-success">Изменить статус</a>
 {% endblock %}
 
 {% block delete %}

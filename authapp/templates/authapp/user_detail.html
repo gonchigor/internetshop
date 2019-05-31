@@ -16,11 +16,11 @@
     <div class="clearfix my-2">
         <div class="float-left px-3">
             <img src="
-                            {% if object.extended.avatar %}
-                            {{ object.extended.avatar.url }}
-                            {% else %}
-                                {% static 'images/no_avatar.png' %}
-                            {% endif %}">
+                {% if object.extended.avatar %}
+                    {{ object.extended.avatar.url }}
+                {% else %}
+                    {% static 'images/no_avatar.png' %}
+                {% endif %}">
         </div>
         <div class="float-left ml-3">
             <p><b>Логин:</b> {{ object.username }}</p>
