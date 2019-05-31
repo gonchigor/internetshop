@@ -51,6 +51,18 @@
                     <a class="nav-link" href="{% url 'book_list' %}">Книги</a>
                 </li>
             {% endif %}
+            {% if perms.orderapp.manager %}
+                <li class="nav-item dropdown {% if active == 'administration' %}active{% endif %}">
+                    <a class="nav-link dropdown-toggle" href="{% url 'dimensions_list' %}" id="navbarDropdown"
+                       role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Администрирование</a>
+
+                    <div class="dropdown-menu bg-light" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'auth:manager_user_list' %}">Пользователи</a>
+
+                    </div>
+                </li>
+            {% endif %}
 
         </ul>
 
@@ -79,7 +91,8 @@
                 </form>
             {% else %}
                 <span>Вы не вошли на сайт</span>
-                <p class="m-0"><a href="{% url 'auth:register' %}">Регистрация</a> <a href="{% url 'auth:log_in' %}?next={{ view.request.path }}">Вход</a></p>
+                <p class="m-0"><a href="{% url 'auth:register' %}">Регистрация</a> <a
+                        href="{% url 'auth:log_in' %}?next={{ view.request.path }}">Вход</a></p>
             {% endif %}
         </div>
     </div>

@@ -1,0 +1,53 @@
+{% extends 'dimension_list.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+{% load paginator_page %}
+{% block navbar %}
+    {% include 'navbar.html' with search_tag="search" active="administration" %}
+{% endblock %}
+{% block header %}
+    <H1>Пользователи</H1>
+{% endblock %}
+{% block title %}
+    Пользователи
+{% endblock %}
+
+{% block create %}
+{% endblock %}
+
+
+
+<table class="table table-bordered">
+    {% block dimension_list %}
+        <thead class="thead-light">
+        <tr>
+            {% block list_header %}
+                <th>Имя пользователя</th>
+                <th>Группа</th>
+            {% endblock %}
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for object in object_list %}
+            <tr>
+                {% block list_element %}
+                    <td>{{ object.username }}</td>
+                    <td>{{ object.groups.last }}</td>
+                {% endblock %}
+                {% block actions %}
+                    <td>
+                        <a href="{% block  url_view %}{% url 'auth:manager_user_detail' object.pk %}{% endblock %}"
+                           title="Посмотреть"><i class="fas fa-book-open"></i></a>
+                        <a href="{% block  url_edit %}{% url 'auth:manager_user_update' object.pk %}{% endblock %}"
+                           title="Править"><i class="far fa-edit"></i></a>
+
+                    </td>
+                {% endblock %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    {% endblock %}
+</table>
+

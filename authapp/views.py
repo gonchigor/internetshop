@@ -13,6 +13,8 @@ from django.contrib.auth.models import Group
 from .models import UserExt
 from PIL import Image
 from orderapp.models import Order
+from orderapp.permissions import ManagerListView, ManagerDetailView, ManagerUpdateView
+from dimensionsapp.form import SearchForm
 # Create your views here.
 Customers = Group.objects.get(name="Customers")
 User = get_user_model()
@@ -123,3 +125,67 @@ class SelfUserUpdateView(LoginRequiredMixin, UpdateView):
             im = im.resize((191, 264))
             im.save(self.object.avatar.path)
         return response
+
+
+class ManagerUserListView(ManagerListView):
+    model = User
+    template_name = 'authapp/user_list.html'
+    form = SearchForm
+    paginate_by = 15
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if 'search' in self.request.GET:
+            context['form'] = self.form({'search': self.request.GET['search']})
+            context['search_string'] = self.request.GET['search']
+        else:
+            context['form'] = self.form()
+        return context
+
+    def get_queryset(self):
+        qs = super().get_queryset().order_by('username')
+        if 'search' in self.request.GET and self.request.GET['search'] != '':
+            name = self.request.GET['search']
+            qs = qs.filter(username__icontains=name)
+        return qs
+
+
+class ManagerUserDetailView(ManagerDetailView):
+    model = User
+    template_name = 'authapp/user_detail.html'
+
+
+class ManagerUserUpdateView(ManagerUpdateView):
+    model = UserExt
+    form_class = UserUpdateForm
+    template_name = 'authapp/user_form.html'
+    success_url = reverse_lazy('auth:manager_user_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'].fields['email'].initial = self.object.user.email
+        context['form'].fields['first_name'].initial = self.object.user.first_name
+        context['form'].fields['last_name'].initial = self.object.user.last_name
+        return context
+
+    def form_valid(self, form):
+        user = self.object.user
+        user.email = form.cleaned_data['email']
+        user.first_name = form.cleaned_data['first_name']
+        user.last_name = form.cleaned_data['last_name']
+        user.save()
+        response = super().form_valid(form)
+        if 'avatar' in form.changed_data and self.object.avatar:
+            im = Image.open(self.object.avatar.path)
+            im = im.resize((191, 264))
+            im.save(self.object.avatar.path)
+        return response
+
+    def get_object(self, queryset=None):
+        user = User._default_manager.get(pk=self.kwargs['pk'])
+        if hasattr(user, 'extended'):
+            return user.extended
+        else:
+            user_ext = UserExt(user=user)
+            return user_ext
+
