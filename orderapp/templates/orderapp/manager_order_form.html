@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+    {{ object }}
+{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html' with active="order" %}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>{% block main_head %}{{ object }}{% endblock %}</h1>
+        {% block cart_table %}
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Название</th>
+                    <th>Количество</th>
+                    <th>Цена за единицу</th>
+                    <th>Стоимость</th>
+                    {% block head_func %}
+                        <th>Действия</th>
+                    {% endblock %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for obj in cart.books.all %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ obj.book.description }}</td>
+                        <td>{{ obj.quantity }}</td>
+                        <td>{{ obj.book.price }}</td>
+                        <td>{{ obj.cost }}</td>
+                        {% block func %}
+                            <td>
+                                <a href="{% url 'book_in_cart_delete' obj.pk %}?group=manager"><i
+                                        class="fas fa-trash text-danger"></i></a>
+                                <a href="{% url 'book_in_cart_update' obj.pk %}?group=manager"><i class="fas fa-edit"></i></a>
+                            </td>
+                        {% endblock %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="2">Итого:</td>
+                    <td>{{ cart.total_quantity }}</td>
+                    <td></td>
+                    <td>{{ cart.total_cost }}</td>
+                    {% block tail_func %}
+                        <td></td>
+                    {% endblock %}
+                </tr>
+                </tfoot>
+            </table>
+        {% endblock %}
+        {% block order_block %}
+
+                <form method="post" class="border border-primary rounded p-3 mb-1">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button class="btn btn-success">Изменить</button>
+                </form>
+
+        {% endblock %}
+    </div>
+{% endblock %}

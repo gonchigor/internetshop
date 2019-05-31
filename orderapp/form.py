@@ -24,6 +24,12 @@ class OrderConfirmForm(ModelForm):
         # }
 
 
+class OrderForm(ModelForm):
+    class Meta:
+        model = Order
+        fields = ['name', 'status', 'phone', 'email', 'delivery_adress']
+
+
 class OrderFieldStatusForm(ModelForm):
     status = ModelChoiceField(queryset=OrderStatus.objects.filter(pk__in=[3, 4, 5]), empty_label=None)
 

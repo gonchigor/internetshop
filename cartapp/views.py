@@ -4,6 +4,7 @@ from goodsapp.models import Book
 from django.views.generic.edit import UpdateView, DeleteView, FormMixin
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from orderapp.permissions import ManagerUpdateView
 from django.contrib.auth.views import redirect_to_login
 from orderapp.form import OrderConfirmForm
 
@@ -84,4 +85,19 @@ class CartArchDetailView(LoginRequiredMixin, DetailView):
 class CartCurrentDetailView(LoginRequiredMixin, DetailView):
     model = Cart
     template_name = 'cartapp/cart_current_detail.html'
+
+
+class BookInCartUpdateView(ManagerUpdateView):
+    model = BookInCart
+    fields = ['quantity']
+    template_name = 'cartapp/add_book_to_cart.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['url'] = self.request.META['HTTP_REFERER']
+        return context
+
+    def get_success_url(self):
+        return self.request.POST['url']
+
 

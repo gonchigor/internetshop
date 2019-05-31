@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from dimensionsapp.models import OrderStatus
 from .models import Order
-from .form import OrderConfirmForm, OrderCancelForm, OrderCustomerCommentForm, OrderFieldStatusForm
+from .form import OrderConfirmForm, OrderCancelForm, OrderCustomerCommentForm, OrderFieldStatusForm, OrderForm
 from cartapp.utils import CartContextMixin
 from cartapp.models import Cart
 from .permissions import ManagerListView, ManagerDetailView, ManagerUpdateView
@@ -50,6 +50,14 @@ class ManagerOrderDetailView(ManagerDetailView):
 
 class ManagerOrderUpdateView(ManagerUpdateView):
     model = Order
+    template_name = 'orderapp/manager_order_form.html'
+    form_class = OrderForm
+    success_url = reverse_lazy('order_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['cart'] = self.object.cart
+        return context
 
 
 class ManagerOrderChangeStatusView(ManagerUpdateView):
