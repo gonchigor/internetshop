@@ -27,6 +27,7 @@ urlpatterns = [
     path('order/', include('orderapp.urls')),
     path('auth/', include('authapp.urls', namespace='auth')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('comments/', include('commentsapp.urls', namespace='comments'))
 ]
 
 if settings.DEBUG:

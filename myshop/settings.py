@@ -47,6 +47,7 @@ INSTALLED_APPS = [
         'cartapp',
         'orderapp',
         'authapp',
+        'commentsapp',
     ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
