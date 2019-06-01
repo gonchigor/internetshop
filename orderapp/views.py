@@ -49,6 +49,11 @@ class ManagerOrderListView(ManagerListView):
 class ManagerOrderDetailView(ManagerDetailView):
     model = Order
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comments'] = self.object.user_comments.all().order_by('-date_create')
+        return context
+
 
 class ManagerOrderActiveListView(ManagerOrderListView):
     template_name = 'orderapp/order_active_list.html'

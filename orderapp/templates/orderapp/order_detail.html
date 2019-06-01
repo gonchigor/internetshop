@@ -1,5 +1,5 @@
 {% extends 'dimension_detail.html' %}
-
+{% load static %}
 {% block title %}
     Заказ
 {% endblock %}
@@ -61,4 +61,25 @@
 {% endblock %}
 
 {% block delete %}
+{% endblock %}
+
+{% block comments %}
+    {% for comment in comments %}
+
+        <div class="clearfix border border-secondary rounded py-1 mt-1">
+            <div class="float-left px-3">
+                {% if comment.user.extended.avatar %}
+                    <img src="{{ comment.user.extended.avatar.url }}" style="width: 5rem">
+                {% else %}
+                    <img src="{% static 'images/no_avatar.png' %}" style="width: 5rem">
+                {% endif %}
+            </div>
+            <div class="px-3">
+                <strong>{{ comment.user.username }}</strong>
+                <p>{{ comment.comment_text }}</p>
+            </div>
+
+        </div>
+    {% endfor %}
+
 {% endblock %}

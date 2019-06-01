@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
+
 {% block title %}
     {{ object.order.get }}
 {% endblock %}
@@ -10,57 +12,77 @@
 
 {% block body %}
     <div class="container">
-    {% if object.user == view.request.user %}
-        <h1> {{ object.order.get }}</h1>
-        <p>Заказ на имя {{ object.order.get.name }}. Контактный телефон: {{ object.order.get.phone }}.
-            {% if object.order.get.email %}Контактный e-mail: {{ object.order.get.email }}.{% endif %}</p>
-        <p>Адрес доставки: {{ object.order.get.delivery_adress }}</p>
-        {% block table %}
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>№</th>
-                    <th>Название</th>
-                    <th>Количество</th>
-                    <th>Цена за единицу</th>
-                    <th>Стоимость</th>
-
-                </tr>
-                </thead>
-                <tbody>
-                {% for obj in cart.books.all %}
+        {% if object.user == view.request.user %}
+            <h1> {{ object.order.get }}</h1>
+            <p>Заказ на имя {{ object.order.get.name }}. Контактный телефон: {{ object.order.get.phone }}.
+                {% if object.order.get.email %}Контактный e-mail: {{ object.order.get.email }}.{% endif %}</p>
+            <p>Адрес доставки: {{ object.order.get.delivery_adress }}</p>
+            {% block table %}
+                <table class="table">
+                    <thead>
                     <tr>
-                        <td>{{ forloop.counter }}</td>
-                        <td>{{ obj.book.description }}</td>
-                        <td>{{ obj.quantity }}</td>
-                        <td>{{ obj.book.price }}</td>
-                        <td>{{ obj.cost }}</td>
+                        <th>№</th>
+                        <th>Название</th>
+                        <th>Количество</th>
+                        <th>Цена за единицу</th>
+                        <th>Стоимость</th>
 
                     </tr>
-                {% endfor %}
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td colspan="2">Итого:</td>
-                    <td>{{ cart.total_quantity }}</td>
-                    <td></td>
-                    <td>{{ cart.total_cost }}</td>
-                    <td></td>
-                </tr>
-                </tfoot>
-            </table>
-        {% endblock %}
-        {% if object.order.get.comments %}
-            <p>Ваш комментарий: {{ object.order.get.comments }}</p>
+                    </thead>
+                    <tbody>
+                    {% for obj in cart.books.all %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ obj.book.description }}</td>
+                            <td>{{ obj.quantity }}</td>
+                            <td>{{ obj.book.price }}</td>
+                            <td>{{ obj.cost }}</td>
 
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="2">Итого:</td>
+                        <td>{{ cart.total_quantity }}</td>
+                        <td></td>
+                        <td>{{ cart.total_cost }}</td>
+                        <td></td>
+                    </tr>
+                    </tfoot>
+                </table>
+            {% endblock %}
+            {% if object.order.get.comments %}
+                <p>Ваш комментарий: {{ object.order.get.comments }}</p>
+
+            {% endif %}
+            {% block buttons %}
+                <p>Ожидайте звонка.</p>
+                <a href="{% url 'auth:user' %}?tab=3" class="btn btn-primary">Назад</a>
+                <a href="{% url 'order_customer_update' object.order.get.pk %}" class="btn btn-primary">Изменить
+                    данные</a>
+                <a href="{% url 'order_customer_comment' object.order.get.pk %}" class="btn btn-primary">Изменить
+                    комментарий</a>
+                <a href="{% url 'order_customer_cancel' object.order.get.pk %}" class="btn btn-primary">Отменить
+                    заказ</a>
+            {% endblock %}
         {% endif %}
-        {% block buttons %}
-            <p>Ожидайте звонка.</p>
-            <a href="{% url 'auth:user' %}?tab=3" class="btn btn-primary">Назад</a>
-            <a href="{% url 'order_customer_update' object.order.get.pk %}" class="btn btn-primary">Изменить данные</a>
-            <a href="{% url 'order_customer_comment' object.order.get.pk %}" class="btn btn-primary">Изменить комментарий</a>
-            <a href="{% url 'order_customer_cancel' object.order.get.pk %}" class="btn btn-primary">Отменить заказ</a>
-        {% endblock %}
-    {% endif %}
+        {% for comment in comments %}
+
+            <div class="clearfix border border-secondary rounded py-1 mt-1">
+                <div class="float-left px-3">
+                    {% if comment.user.extended.avatar %}
+                        <img src="{{ comment.user.extended.avatar.url }}" style="width: 5rem">
+                    {% else %}
+                        <img src="{% static 'images/no_avatar.png' %}" style="width: 5rem">
+                    {% endif %}
+                </div>
+                <div class="px-3">
+                    <strong>{{ comment.user.username }}</strong>
+                    <p>{{ comment.comment_text }}</p>
+                </div>
+
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}

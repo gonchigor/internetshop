@@ -1,35 +1,40 @@
 {% extends 'base.html' %}
 
 {% block navbar %}
-    {% include 'navbar.html' with active="dimension"%}
+    {% include 'navbar.html' with active="dimension" %}
 {% endblock %}
 {% block body %}
     <div class="container">
         {% block page_title %}
-          <div class="row align-items-center">
-            <div class="col-auto">
-              <h1>{% block page_name %}
-                Справочник
-              {% endblock %}</h1>
-            </div>
-            <div class="col text-right">
-                {% block list %}
-                    <a href="{% block list_ankor %}{{ object.get_list_url }}{% endblock %}" class="btn btn-primary my-1" >Список</a>
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    <h1>{% block page_name %}
+                        Справочник
+                    {% endblock %}</h1>
+                </div>
+                <div class="col text-right">
+                    {% block list %}
+                        <a href="{% block list_ankor %}{{ object.get_list_url }}{% endblock %}"
+                           class="btn btn-primary my-1">Список</a>
                     {% endblock %}
+                </div>
             </div>
-          </div>
         {% endblock %}
         {% block dimension %}
             <h3>{{ object.name }}</h3>
             <p><strong>Описание:</strong> {{ object.description }}</p>
         {% endblock %}
-
+        {% block comment_link %}
+        {% endblock %}
         {% block update %}
-          <a href="{% block update_url %}{{ object.get_update_url }}{% endblock %}" class="btn btn-info">Редактировать</a>
+            <a href="{% block update_url %}{{ object.get_update_url }}{% endblock %}"
+               class="btn btn-info">Редактировать</a>
         {% endblock %}
         {% block delete %}
-          <a href="{% block delete_url %}{{ object.get_delete_url }}{% endblock %}" class="btn btn-danger">Удалить</a>
+            <a href="{% block delete_url %}{{ object.get_delete_url }}{% endblock %}" class="btn btn-danger">Удалить</a>
         {% endblock %}
+
+        {% block comments %}{% endblock %}
 
     </div>
 {% endblock body %}

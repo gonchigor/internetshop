@@ -81,10 +81,20 @@ class CartArchDetailView(LoginRequiredMixin, DetailView):
     model = Cart
     template_name = 'cartapp/cart_arhiv_detail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comments'] = self.object.order.last().user_comments.all().order_by('-date_create')
+        return context
+
 
 class CartCurrentDetailView(LoginRequiredMixin, DetailView):
     model = Cart
     template_name = 'cartapp/cart_current_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comments'] = self.object.order.last().user_comments.all().order_by('-date_create')
+        return context
 
 
 class BookInCartUpdateView(ManagerUpdateView):

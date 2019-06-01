@@ -25,7 +25,7 @@ class ShopLoginView(LoginView):
 
     def get_success_url(self):
         if self.request.user.has_perm('orderapp.manager'):
-            return reverse_lazy('order_list')
+            return reverse_lazy('order_active_list')
         cart_id = self.request.session.get('cart-id')
         if cart_id:
             cart = Cart.objects.get(pk=cart_id)

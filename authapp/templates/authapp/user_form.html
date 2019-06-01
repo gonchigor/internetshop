@@ -1,13 +1,16 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
-
+{% block navbar %}
+    {% include 'navbar.html' with active="administration" %}
+{% endblock %}
 {% block body_container %}
     <H1>Редактирование {{ object.user.username }}</H1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form|crispy }}
-        <button class="btn btn-primary btn-block">Сохранить</button>
+        <input type="button" onclick="history.back();" value="Назад" class="btn btn-primary"/>
+        <button class="btn btn-primary">Сохранить</button>
     </form>
 
 {% endblock %}

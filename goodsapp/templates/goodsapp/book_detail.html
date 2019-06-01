@@ -2,20 +2,20 @@
 {% load boolparser %}
 {% load static %}
 {% block title %}
-  Книга {{ object.description }}
+    Книга {{ object.description }}
 {% endblock %}
 
 {% block page_name %}
-        Книга
-      {% endblock %}
+    Книга
+{% endblock %}
 {% block navbar %}
-        {% include 'navbar.html' with active="book"%}
-    {% endblock %}
+    {% include 'navbar.html' with active="book" %}
+{% endblock %}
 
 {% block dimension %}
     <h3>{{ object.description }}</h3>
     <div class="row">
-        <div class="col image-container" >
+        <div class="col image-container">
             {% if object.image_field %}
                 <img src="{{ object.image_field.url }}" alt="{{ object.description }}" class="img-fluid">
             {% else %}
@@ -29,16 +29,16 @@
         <div class="col">
             <p><strong>Название:</strong> {{ object.name }}</p>
             <p><strong>Авторы:</strong>
-                {% for  author  in object.authors.all%}
+                {% for  author  in object.authors.all %}
                     <a href="{{ author.get_detail_url }}">{{ author.name }}</a>
                 {% endfor %}
-                </p>
+            </p>
             <p><strong>Серия:</strong> {{ object.serie|default_if_none:"Не указана" }}</p>
             <p><strong>Жанры:</strong>
                 {% for jenre in object.jenre.all %}
-                    <a href="{{  jenre.get_detail_url }}">{{ jenre.name }}</a>
+                    <a href="{{ jenre.get_detail_url }}">{{ jenre.name }}</a>
                 {% endfor %}
-                </p>
+            </p>
             <p><strong>Год издания:</strong> {{ object.year_publishing }}</p>
             <p><strong>Количество страниц:</strong> {{ object.count_pages }}</p>
             <p><strong>Переплет:</strong> {{ object.binding }}</p>
@@ -52,5 +52,26 @@
             <p><strong>Рейтинг:</strong> {{ object.rate }}</p>
         </div>
     </div>
+
+{% endblock %}
+
+{% block comments %}
+    {% for comment in comments %}
+
+        <div class="clearfix border border-secondary rounded py-1 mt-1">
+            <div class="float-left px-3">
+                {% if comment.user.extended.avatar %}
+                    <img src="{{ comment.user.extended.avatar.url }}" style="width: 5rem">
+                {% else %}
+                    <img src="{% static 'images/no_avatar.png' %}" style="width: 5rem">
+                {% endif %}
+            </div>
+            <div class="px-3">
+                <strong>{{ comment.user.username }}</strong>
+                <p>{{ comment.comment_text }}</p>
+            </div>
+
+        </div>
+    {% endfor %}
 
 {% endblock %}

@@ -97,22 +97,42 @@
                 </table>
             </div>
         </div>
-
-        <a href="{{ url }}" class="btn btn-info mt-1" value="Назад">Назад</a>
-        <div class="float-right text-right">
-            {% if cart_quantity %}
-                <a href="{% url 'book_in_cart_delete' book_in_cart_id %}" class="btn btn-lg btn-outline-danger"><i class="fas fa-trash"></i></a>
-                <a href="{% url 'add_book_to_cart' object.pk %}" class="btn btn-lg btn-outline-secondary"><i class="fas fa-edit"></i></a>
-            {% else %}
-                <a {% if object.is_active %}href="{% url 'add_book_to_cart' object.pk %}?{{ get_response }}"
-                   class="btn btn-lg btn-outline-secondary"
-                   {% else %}
-                   tabindex="-1" href="" class="btn btn-lg btn-outline-secondary disabled"
-                   aria-disabled="true"
-                   {% endif %}
-                ><i class="fas fa-cart-plus"></i></a>
-            {% endif %}
+        <div class="clearfix">
+            <a href="{{ url }}" class="btn btn-info mt-1" value="Назад">Назад</a>
+            <div class="float-right text-right">
+                {% if cart_quantity %}
+                    <a href="{% url 'book_in_cart_delete' book_in_cart_id %}" class="btn btn-lg btn-outline-danger"><i
+                            class="fas fa-trash"></i></a>
+                    <a href="{% url 'add_book_to_cart' object.pk %}" class="btn btn-lg btn-outline-secondary"><i
+                            class="fas fa-edit"></i></a>
+                {% else %}
+                    <a {% if object.is_active %}href="{% url 'add_book_to_cart' object.pk %}?{{ get_response }}"
+                       class="btn btn-lg btn-outline-secondary"
+                       {% else %}
+                       tabindex="-1" href="" class="btn btn-lg btn-outline-secondary disabled"
+                       aria-disabled="true"
+                       {% endif %}
+                    ><i class="fas fa-cart-plus"></i></a>
+                {% endif %}
+            </div>
         </div>
+        {% for comment in comments %}
+
+            <div class="clearfix border border-secondary rounded py-1 mt-1">
+                <div class="float-left px-3">
+                    {% if comment.user.extended.avatar %}
+                        <img src="{{ comment.user.extended.avatar.url }}" style="width: 5rem">
+                    {% else %}
+                        <img src="{% static 'images/no_avatar.png' %}" style="width: 5rem">
+                    {% endif %}
+                </div>
+                <div class="px-3">
+                    <strong>{{ comment.user.username }}</strong>
+                    <p>{{ comment.comment_text }}</p>
+                </div>
+
+            </div>
+        {% endfor %}
 
     </div>
 

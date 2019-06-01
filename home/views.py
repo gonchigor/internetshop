@@ -54,6 +54,7 @@ class CustomerBookDetailView(DetailView):
         context['url'] = url_back
         if 'search' in self.request.GET.keys() and self.request.GET['search']:
             context['search_string'] = self.request.GET['search']
+        context['comments'] = self.object.user_comments.all().order_by('-date_create')
         return context
 
 

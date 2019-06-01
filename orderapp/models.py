@@ -1,9 +1,10 @@
 # from datetime import datetime
-
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from dimensionsapp.models import OrderStatus
 from cartapp.models import Cart
 from django.urls import reverse_lazy
+from commentsapp.models import Comment
 
 # Create your models here.
 
@@ -22,6 +23,7 @@ class Order(models.Model):
     comments = models.TextField(verbose_name='комментарий', blank=True, null=True)
     date_create = models.DateTimeField("Дата создания", auto_now_add=True, )
     date_update = models.DateTimeField("Дата последнего изменения", auto_now=True)
+    user_comments = GenericRelation(Comment, related_query_name='order')
 
     def __str__(self):
         return "Заказ №" + str(self.pk) + " от " + self.date_create.strftime("%d.%m.%Y")

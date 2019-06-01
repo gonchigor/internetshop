@@ -40,6 +40,11 @@ class BookDetailView(ManagerDetailView):
     """Book view for managers """
     model = Book
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comments'] = self.object.user_comments.all().order_by('-date_create')
+        return context
+
 
 class BookCreateView(ManagerCreateView):
     model = Book

@@ -1,7 +1,8 @@
 from django.db import models
 from dimensionsapp import models as referen
 from django.urls import reverse_lazy
-
+from django.contrib.contenttypes.fields import GenericRelation
+from commentsapp.models import Comment
 # Create your models here.
 
 
@@ -26,6 +27,7 @@ class Book(models.Model):
     rate = models.FloatField("Рейтинг")
     date_create = models.DateTimeField("Дата внесения в каталог", auto_now_add=True, )
     date_update = models.DateTimeField("Дата последнего изменения карточки", auto_now=True)
+    user_comments = GenericRelation(Comment, related_query_name='book')
 
     def description(self):
         return ', '.join([s.namePublic for s in self.authors.all()]) + " \"" + self.name + "\""
