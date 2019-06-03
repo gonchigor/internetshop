@@ -5,6 +5,7 @@ from django.views.generic.edit import UpdateView, DeleteView, FormMixin
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from orderapp.permissions import ManagerUpdateView
+import requests
 from django.contrib.auth.views import redirect_to_login
 from orderapp.form import OrderConfirmForm
 
@@ -35,6 +36,8 @@ class AddBookToCartView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['url'] = self.request.META['HTTP_REFERER']
+        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+            json()['Cur_OfficialRate']
         return context
 
     def get_success_url(self):
@@ -47,6 +50,8 @@ class BookInCartDeleteView(DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['url'] = self.request.META['HTTP_REFERER']
+        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+            json()['Cur_OfficialRate']
         return context
 
     def get_success_url(self):
@@ -66,6 +71,8 @@ class CartDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['get'] = self.request.GET
+        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+            json()['Cur_OfficialRate']
         return context
 
     # def get_initial(self):
@@ -84,6 +91,8 @@ class CartArchDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['comments'] = self.object.order.last().user_comments.all().order_by('-date_create')
+        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+            json()['Cur_OfficialRate']
         return context
 
 
@@ -94,6 +103,8 @@ class CartCurrentDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['comments'] = self.object.order.last().user_comments.all().order_by('-date_create')
+        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+            json()['Cur_OfficialRate']
         return context
 
 

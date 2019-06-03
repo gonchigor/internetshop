@@ -3,6 +3,7 @@
         <a class="navbar-brand" href="#">Магазин книг - менеджер</a>
     {% else %}
         <a class="navbar-brand" href="{% url 'main-page' %}">Магазин книг</a>
+
     {% endif %}
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,7 +66,11 @@
             {% endif %}
 
         </ul>
-
+        {% if not perms.orderapp.manager and usd_rate %}
+            <div class="mx-3">
+                <span>1 USD = {{ usd_rate }} BYN</span>
+            </div>
+        {% endif %}
         {% if perms.orderapp.manager %}
             {% if search_tag %}
                 <form class="form-inline my-2 my-lg-0" {% if search_page %}action="{% url search_page %}"{% endif %}>

@@ -6,9 +6,12 @@ from .form import BookForm
 from dimensionsapp.models import Author
 from django.urls import reverse_lazy
 from django.db.models import Q
-from orderapp.permissions import ManagerAuthorizationRequired, ManagerUpdateView, ManagerDeleteView, ManagerCreateView,\
+from orderapp.permissions import ManagerAuthorizationRequired, ManagerUpdateView, ManagerDeleteView, ManagerCreateView, \
     ManagerDetailView
+import requests
 from django.http import HttpResponseRedirect
+
+
 # Create your views here.
 
 
@@ -19,6 +22,8 @@ class BaseBookListView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+            json()['Cur_OfficialRate']
         if 'search' in self.request.GET.keys() and self.request.GET['search']:
             context['search_string'] = self.request.GET['search']
         return context

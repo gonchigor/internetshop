@@ -15,6 +15,7 @@ from PIL import Image
 from orderapp.models import Order
 from orderapp.permissions import ManagerListView, ManagerDetailView, ManagerUpdateView
 from dimensionsapp.form import SearchForm
+import requests
 # Create your views here.
 Customers = Group.objects.get(name="Customers")
 User = get_user_model()
@@ -33,22 +34,52 @@ class ShopLoginView(LoginView):
             cart.save()
         return super().get_success_url()
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2').\
+            json()['Cur_OfficialRate']
+        return context
+
 
 class ShopPasswordChangeView(PasswordChangeView):
     template_name = 'authapp/password_change.html'
     success_url = reverse_lazy('auth:password_change_done')
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2').\
+            json()['Cur_OfficialRate']
+        return context
+
 
 class ShopPasswordChangeDoneView(PasswordChangeDoneView):
     template_name = 'authapp/password_change_done.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2').\
+            json()['Cur_OfficialRate']
+        return context
 
 
 class ShopLogoutView(LogoutView):
     next_page = reverse_lazy('main-page')
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2').\
+            json()['Cur_OfficialRate']
+        return context
+
 
 class ShopUserView(TemplateView):
     template_name = "authapp/user.html"
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2').\
+            json()['Cur_OfficialRate']
+        return context
 
 
 class RegistrationUserView(CreateView):
@@ -87,6 +118,12 @@ class RegistrationUserView(CreateView):
             cart.save()
         return response
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2').\
+            json()['Cur_OfficialRate']
+        return context
+
 
 class SelfUserDetailView(LoginRequiredMixin, DetailView):
     model = User
@@ -100,6 +137,8 @@ class SelfUserDetailView(LoginRequiredMixin, DetailView):
         context['archive_orders'] = Order.objects.filter(cart__user=self.request.user).exclude(status_id=1)
         context['current_orders'] = Order.objects.filter(cart__user=self.request.user, status_id=1)
         context['tab'] = self.request.GET.get('tab', '1')
+        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+            json()['Cur_OfficialRate']
         return context
 
 
@@ -116,6 +155,8 @@ class SelfUserUpdateView(LoginRequiredMixin, UpdateView):
         context['form'].fields['email'].initial = self.request.user.email
         context['form'].fields['first_name'].initial = self.request.user.first_name
         context['form'].fields['last_name'].initial = self.request.user.last_name
+        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+            json()['Cur_OfficialRate']
         return context
 
     def form_valid(self, form):

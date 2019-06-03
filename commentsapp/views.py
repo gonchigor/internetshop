@@ -6,7 +6,7 @@ from .form import CommentForm, CommentFormCreate
 from orderapp.permissions import ManagerDeleteView, ManagerUpdateView
 from django.contrib.contenttypes.models import ContentType
 from django.urls import reverse_lazy
-
+import requests
 # Create your views here.
 
 
@@ -23,6 +23,12 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return self.request.POST.get('url', reverse_lazy('main-page'))
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2').\
+            json()['Cur_OfficialRate']
+        return context
 
 
 class CommentUpdateView(ManagerUpdateView):

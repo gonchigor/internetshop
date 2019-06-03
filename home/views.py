@@ -5,6 +5,7 @@ from django.views.generic.detail import DetailView
 from cartapp.models import Cart, BookInCart
 from django.urls import reverse_lazy
 from django.views.generic import RedirectView
+import requests
 
 
 COUNT_CARDS = 6
@@ -21,11 +22,23 @@ class BookTopNewListView(BaseBookListView):
             return super().get_queryset()
         return Book.objects.order_by('-date_create')[:COUNT_CARDS]
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2').\
+            json()['Cur_OfficialRate']
+        return context
+
 
 class BookSearchListView(BaseBookListView):
     """Search page"""
     # queryset = Book.objects.order_by('-date_create')[:COUNT_CARDS]
     template_name = "home/search.html"
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2').\
+            json()['Cur_OfficialRate']
+        return context
 
 
 class CustomerBookDetailView(DetailView):
@@ -35,6 +48,8 @@ class CustomerBookDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+            json()['Cur_OfficialRate']
         cart_id = self.request.session.get('cart-id')
         if cart_id:
             cart = Cart.objects.get(pk=cart_id)
