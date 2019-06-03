@@ -31,6 +31,6 @@
         </table>
     {% endblock %}
 {% block buttons %}
-    <a href="{% url 'order_customer_comment' object.order.get.pk %}" class="btn btn-primary">Изменить комментарий</a>
+    <a href="{% url 'comments:create' 'order' object.order.get.pk %}" class="btn btn-primary">Добавить комментарий</a>
     <a href="{% url 'auth:user' %}?tab=2" class="btn btn-primary">OK</a>
 {% endblock %}

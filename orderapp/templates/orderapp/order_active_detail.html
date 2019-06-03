@@ -60,7 +60,7 @@
 {% endblock %}
 
 {% block update %}
-    <a href="{% url 'order_change_status' object.pk%}" class="btn btn-success">Изменить статус</a>
+    <a href="{% url 'order_change_status' object.pk %}" class="btn btn-success">Изменить статус</a>
 {% endblock %}
 
 {% block delete %}
@@ -81,8 +81,15 @@
                 <strong>{{ comment.user.username }}</strong>
                 <p>{{ comment.comment_text }}</p>
             </div>
+            <div>
+                {{ comment.date_create|date:"j.m.Y H:i" }}
+            </div>
 
         </div>
     {% endfor %}
 
+{% endblock %}
+
+{% block comment_link %}
+    <a href="{% url 'comments:create' 'order' object.pk %}" class="btn btn-info">Добавить комментарий</a>
 {% endblock %}

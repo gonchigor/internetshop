@@ -97,8 +97,11 @@
                 </table>
             </div>
         </div>
-        <div class="clearfix">
-            <a href="{{ url }}" class="btn btn-info mt-1" value="Назад">Назад</a>
+        <div class="clearfix mt-1">
+            <a href="{{ url }}" class="btn btn-info" value="Назад">Назад</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'comments:create' 'book' object.pk %}" class="btn btn-info">Добавить комментарий</a>
+            {% endif %}
             <div class="float-right text-right">
                 {% if cart_quantity %}
                     <a href="{% url 'book_in_cart_delete' book_in_cart_id %}" class="btn btn-lg btn-outline-danger"><i
@@ -129,6 +132,9 @@
                 <div class="px-3">
                     <strong>{{ comment.user.username }}</strong>
                     <p>{{ comment.comment_text }}</p>
+                </div>
+                <div>
+                    {{ comment.date_create|date:"j.m.Y H:i" }}
                 </div>
 
             </div>
