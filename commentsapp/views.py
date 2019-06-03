@@ -3,7 +3,7 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Comment
 from .form import CommentForm, CommentFormCreate
-from orderapp.permissions import ManagerDeleteView, ManagerUpdateView
+from orderapp.permissions import ManagerDeleteView, ManagerUpdateView, ManagerListView
 from django.contrib.contenttypes.models import ContentType
 from django.urls import reverse_lazy
 import requests
@@ -34,10 +34,15 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
 class CommentUpdateView(ManagerUpdateView):
     model = Comment
     form_class = CommentForm
+    success_url = reverse_lazy('comments:list')
 
 
 class CommentDeleteView(ManagerDeleteView):
     model = Comment
+    success_url = reverse_lazy('comments:list')
 
-    def get_success_url(self):
-        pass
+
+class CommentListView(ManagerListView):
+    model = Comment
+    paginate_by = 15
+

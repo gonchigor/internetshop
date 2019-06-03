@@ -1,0 +1,33 @@
+{% extends 'dimension_list.html' %}
+
+{% block title %}
+    Комментарии
+{% endblock %}
+
+{% block header %}
+        <H1>Комментарии</H1>
+{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html' with active="administration" %}
+{% endblock %}
+
+{% block searchform %}
+{% endblock %}
+{% block create %}{% endblock %}
+
+{% block list_header %}
+   <th>Пользователь</th>
+    <th>Дата</th>
+    <th>Комментарий</th>
+    <th>Объект</th>
+{% endblock %}
+
+{% block list_element %}
+    <td>{{ object.user }}</td>
+    <td>{{ object.date_create }}</td>
+    <td>{{ object.comment_text }}</td>
+    <td>{{ object.content_object }}</td>
+{% endblock %}
+
+{% block  url_view %}{{ object.content_object.get_detail_url }}{% endblock %}
