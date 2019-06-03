@@ -1,0 +1,48 @@
+{% extends 'dimension_detail.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+{% load paginator_page %}
+{% block title %}
+    Пользователь
+{% endblock %}
+{% block navbar %}
+    {% include 'navbar.html' with search_tag="search" %}
+{% endblock %}
+{% block page_name %}
+    <H1>Пользователь {{ object.username }}</H1>
+{% endblock %}
+{% block list %}{% endblock %}
+{% block dimension %}
+    <div class="clearfix my-2">
+        <div class="float-left px-3">
+            <img src="
+                {% if object.extended.avatar %}
+                    {{ object.extended.avatar.url }}
+                {% else %}
+                    {% static 'images/no_avatar.png' %}
+                {% endif %}">
+        </div>
+        <div class="float-left ml-3">
+            <p><b>Логин:</b> {{ object.username }}</p>
+            {% if object.groups.all.0.name != 'Customers' %}
+                <p><b>Имя:</b> {{ object.first_name }}</p>
+                <p><b>Фамилия:</b> {{ object.last_name }}</p>
+            {% endif %}
+            <p><b>Группа:</b> {{ object.groups.last }}</p>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block list_ankor %}{% url 'auth:manager_user_list' %}{% endblock %}
+
+
+
+
+{% block delete %}
+{% endblock %}
+
+{% block update %}
+    <input type="button" value="Назад" onclick="history.back()" class="btn btn-primary">
+{% endblock %}

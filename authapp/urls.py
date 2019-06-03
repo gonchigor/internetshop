@@ -1,7 +1,7 @@
 from django.urls import path, include
 from .views import ShopLoginView, ShopLogoutView, ShopPasswordChangeView, ShopPasswordChangeDoneView, ShopUserView, \
     RegistrationUserView, SelfUserDetailView, SelfUserUpdateView, ManagerUserUpdateView, ManagerUserDetailView, \
-    ManagerUserListView
+    ManagerUserListView, CustomerUserDetailView
 
 app_name = 'auth'
 urlpatterns = [
@@ -15,4 +15,5 @@ urlpatterns = [
     path('man/user/', ManagerUserListView.as_view(), name='manager_user_list'),
     path('man/user/<int:pk>/', ManagerUserDetailView.as_view(), name='manager_user_detail'),
     path('man/user/<int:pk>/update/', ManagerUserUpdateView.as_view(), name='manager_user_update'),
+    path('<int:pk>/', CustomerUserDetailView.as_view(), name='customer_user_detail'),
 ]

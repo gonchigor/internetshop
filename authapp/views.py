@@ -235,3 +235,13 @@ class ManagerUserUpdateView(ManagerUpdateView):
             user_ext = UserExt(user=user)
             return user_ext
 
+
+class CustomerUserDetailView(LoginRequiredMixin, DetailView):
+    model = User
+    template_name = 'authapp/customer_user_detail.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2').\
+            json()['Cur_OfficialRate']
+        return context

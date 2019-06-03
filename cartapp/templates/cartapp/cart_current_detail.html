@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% load static %}
+{% load comment_div %}
 
 {% block title %}
     {{ object.order.get }}
@@ -69,23 +70,7 @@
         {% endif %}
         {% for comment in comments %}
 
-            <div class="clearfix border border-secondary rounded py-1 mt-1">
-                <div class="float-left px-3">
-                    {% if comment.user.extended.avatar %}
-                        <img src="{{ comment.user.extended.avatar.url }}" style="width: 5rem">
-                    {% else %}
-                        <img src="{% static 'images/no_avatar.png' %}" style="width: 5rem">
-                    {% endif %}
-                </div>
-                <div class="px-3">
-                    <strong>{{ comment.user.username }}</strong>
-                    <p>{{ comment.comment_text }}</p>
-                </div>
-                <div>
-                    {{ comment.date_create|date:"j.m.Y H:i" }}
-                </div>
-
-            </div>
+             {{  comment|comment_card:perms.orderapp.manager }}
         {% endfor %}
     </div>
 {% endblock %}

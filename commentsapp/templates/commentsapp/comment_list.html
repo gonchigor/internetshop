@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block header %}
-        <H1>Комментарии</H1>
+    <H1>Комментарии</H1>
 {% endblock %}
 
 {% block navbar %}
@@ -17,7 +17,7 @@
 {% block create %}{% endblock %}
 
 {% block list_header %}
-   <th>Пользователь</th>
+    <th>Пользователь</th>
     <th>Дата</th>
     <th>Комментарий</th>
     <th>Объект</th>
@@ -25,7 +25,7 @@
 
 {% block list_element %}
     <td>{{ object.user }}</td>
-    <td>{{ object.date_create }}</td>
+    <td>{{ object.date_create|date:"d.m.Y H:i" }}</td>
     <td>{{ object.comment_text }}</td>
     <td>{{ object.content_object }}</td>
 {% endblock %}
