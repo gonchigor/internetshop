@@ -1,0 +1,17 @@
+{% extends 'dimension_create.html' %}
+
+{% block title %}
+    Акция
+{% endblock %}
+
+{% block maincaption %}Акция{% endblock %}
+
+{% block to_list %}
+
+{% endblock %}
+
+{% block saveas_url %}{% url 'book_action_create' %}{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html' with active="administration" %}
+{% endblock %}

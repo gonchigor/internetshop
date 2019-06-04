@@ -1,5 +1,5 @@
 # from django.shortcuts import render
-from goodsapp.models import Book
+from goodsapp.models import Book, BookAction
 from goodsapp.views import BaseBookListView
 from django.views.generic.detail import DetailView
 from cartapp.models import Cart, BookInCart
@@ -11,7 +11,7 @@ from django.db.models import Count, Subquery, OuterRef
 import requests
 
 
-order_status_new = OrderStatus.objects.get_or_create(name='Доставлен')
+order_status_ok = OrderStatus.objects.get_or_create(name='Доставлен')[0]
 COUNT_CARDS = 6
 # Create your views here.
 
@@ -30,10 +30,13 @@ class BookTopNewListView(BaseBookListView):
         context = super().get_context_data(**kwargs)
         context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2').\
             json()['Cur_OfficialRate']
-        book_popular_id = BookInCart.objects.filter(cart__order__status__in=order_status_new).values(
+        book_popular_id = BookInCart.objects.filter(cart__order__status=order_status_ok).values(
             'book').annotate(count=Count('cart')).filter(book=OuterRef('pk'))
         context['book_popular_list'] = Book.objects.annotate(count=Subquery(book_popular_id.values('count'))).order_by(
             '-count')[:COUNT_CARDS]
+        book_action = BookAction.objects.filter(book=OuterRef('pk'))
+        context['book_action_list'] = Book.objects.annotate(date_action=Subquery(
+            book_action.values('date_update'))).order_by('-date_action')[:COUNT_CARDS]
         return context
 
 

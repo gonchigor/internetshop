@@ -18,5 +18,14 @@ class BookAdmin(admin.ModelAdmin):
     readonly_fields = ['date_create', 'date_update', 'image_tag']
 
 
+class BookActionAdmin(admin.ModelAdmin):
+    def book_description(self, obj):
+        return obj.book.description()
+
+    list_display = ['book', 'book_description', 'date_create', 'date_update']
+    readonly_fields = ['date_create', 'date_update', 'book_description']
+
+
 admin.site.register(models.Book, BookAdmin)
+admin.site.register(models.BookAction, BookActionAdmin)
 

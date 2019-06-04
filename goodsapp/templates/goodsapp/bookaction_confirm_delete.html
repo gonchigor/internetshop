@@ -1,0 +1,13 @@
+{% extends 'dimension_delete.html' %}
+
+{% block title %}
+    Удалить книгу с акции
+{% endblock %}
+
+{% block maincaption %}Удалить книгу c акции{% endblock %}
+
+{% block  to_list%}{% url 'book_action_list' %}{% endblock %}
+
+{% block navbar %}
+        {% include 'navbar.html' with active="administration"%}
+    {% endblock %}

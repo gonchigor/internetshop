@@ -61,3 +61,33 @@ class Book(models.Model):
     class Meta:
         verbose_name = "книга"
         verbose_name_plural = "книги"
+
+
+class BookAction(models.Model):
+    book = models.OneToOneField(Book, on_delete=models.CASCADE, verbose_name='книга', unique=True)
+    date_create = models.DateTimeField("Дата внесения в каталог", auto_now_add=True, )
+    date_update = models.DateTimeField("Дата последнего изменения карточки", auto_now=True)
+
+    def get_absolute_url(self):
+        return reverse_lazy('book_action_detail', kwargs={'pk': self.pk})
+
+    @classmethod
+    def get_list_url(cls):
+        return reverse_lazy('book_action_list')
+
+    @classmethod
+    def get_create_url(cls):
+        return reverse_lazy('book_action_create')
+
+    def get_detail_url(self):
+        return reverse_lazy('book_action_detail', args=[self.pk])
+
+    def get_update_url(self):
+        return reverse_lazy('book_action_update', args=[self.pk])
+
+    def get_delete_url(self):
+        return reverse_lazy('book_action_delete', args=[self.pk])
+
+    class Meta:
+        verbose_name = "акция"
+        verbose_name_plural = "акции"

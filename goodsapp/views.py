@@ -1,13 +1,13 @@
 from django.views.generic.list import ListView
 # from django.views.generic.detail import DetailView
 # from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Book
-from .form import BookForm
+from .models import Book, BookAction
+from .form import BookForm, BookActionForm
 from dimensionsapp.models import Author
 from django.urls import reverse_lazy
 from django.db.models import Q
 from orderapp.permissions import ManagerAuthorizationRequired, ManagerUpdateView, ManagerDeleteView, ManagerCreateView, \
-    ManagerDetailView
+    ManagerDetailView, ManagerListView
 import requests
 from django.http import HttpResponseRedirect
 
@@ -84,3 +84,46 @@ class BookUpdateView(ManagerUpdateView):
 class BookDeleteView(ManagerDeleteView):
     model = Book
     success_url = reverse_lazy('book_list')
+
+
+class BookActionListView(ManagerListView):
+    model = BookAction
+
+
+class BookActionDetailView(ManagerDetailView):
+    model = BookAction
+
+
+class BookActionCreateView(ManagerCreateView):
+    model = BookAction
+    form_class = BookActionForm
+
+    def get_success_url(self):
+        url = super().get_success_url()
+        if 'save-and-close' in self.request.POST.keys():
+            url = reverse_lazy('book_action_list')
+        elif 'save' in self.request.POST.keys():
+            url = reverse_lazy('book_action_detail', kwargs={'pk': self.object.pk})
+        return url
+
+
+class BookActionUpdateView(ManagerUpdateView):
+    model = BookAction
+    form_class = BookActionForm
+
+    def get_success_url(self):
+        url = super().get_success_url()
+        if 'save-and-close' in self.request.POST.keys():
+            url = reverse_lazy('book_action_list')
+        elif 'save' in self.request.POST.keys():
+            url = reverse_lazy('book_action_detail', kwargs={'pk': self.object.pk})
+        return url
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
+class BookActionDeleteView(ManagerDeleteView):
+    model = BookAction
+    success_url = reverse_lazy('book_action_list')

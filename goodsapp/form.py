@@ -1,5 +1,5 @@
 from django import forms
-from .models import Book
+from .models import Book, BookAction
 
 
 class BookForm(forms.ModelForm):
@@ -11,4 +11,17 @@ class BookForm(forms.ModelForm):
 
     class Meta:
         model = Book
+        fields = '__all__'
+
+
+class BookModelChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return obj.description()
+
+
+class BookActionForm(forms.ModelForm):
+    book = BookModelChoiceField(queryset=Book.objects.all())
+
+    class Meta:
+        model = BookAction
         fields = '__all__'

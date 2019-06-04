@@ -1,0 +1,19 @@
+{% extends 'dimension_detail.html' %}
+{% load boolparser %}
+{% load static %}
+{% load comment_div %}
+{% block title %}
+    Акция
+{% endblock %}
+
+{% block page_name %}
+    Акция
+{% endblock %}
+{% block navbar %}
+    {% include 'navbar.html' with active="administration" %}
+{% endblock %}
+
+{% block dimension %}
+    <h3>{{ object.book.description }}</h3>
+{% endblock %}
+

@@ -1,0 +1,32 @@
+{% extends 'dimension_list.html' %}
+
+{% block title %}
+    Акции
+{% endblock %}
+
+{% block header %}
+        <H1>Акции</H1>
+{% endblock %}
+
+{% block searchform %}
+{% endblock %}
+{% block create_ankor %}{% url 'book_action_create' %}{% endblock %}
+
+{% block list_header %}
+   <th>Наименование</th>
+    <th>Дата обновления</th>
+{% endblock %}
+
+{% block list_element %}
+    <td>{{ object.book.description }}</td>
+    <td>{{  object.date_update|date:"d.m.Y H:i" }}</td>
+{% endblock %}
+
+
+{% block  url_view%}{% url 'book_action_detail' object.pk%}{% endblock %}
+{% block  url_edit%}{% url 'book_action_update' object.pk%}{% endblock %}
+{% block  url_delete%}{% url 'book_action_delete' object.pk%}{% endblock %}
+
+{% block navbar %}
+        {% include 'navbar.html' with active="administration"%}
+    {% endblock %}
