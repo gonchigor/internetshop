@@ -11,6 +11,10 @@ from cartapp.models import Cart
 from .permissions import ManagerListView, ManagerDetailView, ManagerUpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 import requests
+from django.contrib.auth.models import Group
+from django.core.mail import send_mail
+
+# python -m smtpd -n -c DebuggingServer localhost:1025
 from django.contrib.auth.views import redirect_to_login
 
 # Create your views here.
@@ -27,6 +31,9 @@ class OrderCreateView(CreateView, CartContextMixin):
 
     def get_success_url(self):
         cart_id = self.request.session.pop('cart-id')
+        g = Group.objects.get(name='Managers')
+        mails = [u.email for u in g.user_set.all()]
+        send_mail('Новый заказ', f'Поступил заказ №{cart_id} ', 'gg@myshop.sh', mails, fail_silently=True,)
         return reverse_lazy('cart_detail') + "?cart={}".format(cart_id)
 
     # def get_form(self, form_class=None):
