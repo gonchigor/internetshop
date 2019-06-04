@@ -18,7 +18,7 @@ from django.core.mail import send_mail
 from django.contrib.auth.views import redirect_to_login
 
 # Create your views here.
-order_status_new = OrderStatus.objects.get(pk=1)
+order_status_new = OrderStatus.objects.get_or_create(name='Доставлен')
 order_status_cancel_customer = OrderStatus.objects.get_or_create(name='Отменен покупателем')[0]
 order_status_complect = OrderStatus.objects.get_or_create(name='Комплектуется')[0]
 

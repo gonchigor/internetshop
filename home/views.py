@@ -5,9 +5,13 @@ from django.views.generic.detail import DetailView
 from cartapp.models import Cart, BookInCart
 from django.urls import reverse_lazy
 from django.views.generic import RedirectView
+from dimensionsapp.models import OrderStatus
+from django.db.models import Count, Subquery, OuterRef
+
 import requests
 
 
+order_status_new = OrderStatus.objects.get_or_create(name='Доставлен')
 COUNT_CARDS = 6
 # Create your views here.
 
@@ -26,6 +30,10 @@ class BookTopNewListView(BaseBookListView):
         context = super().get_context_data(**kwargs)
         context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2').\
             json()['Cur_OfficialRate']
+        book_popular_id = BookInCart.objects.filter(cart__order__status__in=order_status_new).values(
+            'book').annotate(count=Count('cart')).filter(book=OuterRef('pk'))
+        context['book_popular_list'] = Book.objects.annotate(count=Subquery(book_popular_id.values('count'))).order_by(
+            '-count')[:COUNT_CARDS]
         return context
 
 

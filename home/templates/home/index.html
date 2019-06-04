@@ -12,7 +12,7 @@
             Последние поступления
         {% endif %}
         </h2>
-        <div class="row flex-wrap">
+        <div class="row flex-wrap mb-3">
             {% for object in object_list %}
 
                 <div class="card col-sm-4 col-xl-2 justify-content-between pt-1 px-0">
@@ -51,5 +51,44 @@
 
             {% endfor %}
         </div>
+        <h2>Наиболее популярные</h2>
+        <div class="row flex-wrap">
+            {% for object in book_popular_list %}
+
+                <div class="card col-sm-4 col-xl-2 justify-content-between pt-1 px-0">
+
+                    <div class="px-1">
+                        {% if object.image_field %}
+                            <img src="{{ object.image_field.url }}" class="card-img-top" alt="{{ object.name }}">
+                        {% else %}
+                            <img src="{% static 'images/nophoto.png' %}" class="card-img-top" alt="Нет фото">
+                        {% endif %}
+                    </div>
+                    <div class="card-body p-0">
+
+                    </div>
+                    <div class="px-3 pb-2">
+                        <p class="card-text">{{ object.description }}</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between px-1 align-items-center">
+                        <div class="btn-group">
+                            <a href="{{ object.get_detail_customer_url }}" class="btn btn-sm btn-outline-secondary"><i
+                                    class="fas fa-eye"></i></a>
+                            {% if object.is_active %}
+                                <a href="{% url 'add_book_to_cart' object.pk %}"
+                                   class="btn btn-sm btn-outline-secondary"><i class="fas fa-cart-plus"></i></a>
+                            {% endif %}
+                        </div>
+                        <div class="text-break text-nowrap overflow-hidden">
+                            {% if object.is_active %}
+                                <p class="card-text font-weight-bold">{{ object.price }} руб.</p>
+                            {% else %}
+                                <p class="card-text text-truncate">Скоро в продаже</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
     </div>
 {% endblock body %}
