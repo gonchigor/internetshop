@@ -1,5 +1,5 @@
 {% extends 'base_main.html' %}
-
+{% load crispy_forms_tags %}
 {% block title %}
     Добавить в корзину
 {% endblock %}
@@ -8,10 +8,11 @@
     <div class="container">
         <form method="post">
             {% csrf_token %}
-            {{ form }}
+            {{ form|crispy }}
             <input type="hidden" name="url" value="{{ url }}">
             <a href="{{ url }}" class="btn btn-info">Назад</a>
-            <button class="btn btn-success">ОК</button>
+            <button class="btn btn-success">Добавить</button>
+            <button class="btn btn-success" name="add-and-cart">Добавить и оформить заказ</button>
 
         </form>
     </div>

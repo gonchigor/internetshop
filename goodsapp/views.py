@@ -38,7 +38,7 @@ class BaseBookListView(ListView):
 
 
 class BookListView(ManagerAuthorizationRequired, BaseBookListView):
-    pass
+    paginate_by = 15
 
 
 class BookDetailView(ManagerDetailView):

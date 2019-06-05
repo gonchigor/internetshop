@@ -36,7 +36,7 @@ class BookTopNewListView(BaseBookListView):
             '-count')[:COUNT_CARDS]
         book_action = BookAction.objects.filter(book=OuterRef('pk'))
         context['book_action_list'] = Book.objects.annotate(date_action=Subquery(
-            book_action.values('date_update'))).order_by('-date_action')[:COUNT_CARDS]
+            book_action.values('date_update'))).filter(date_action__isnull=False).order_by('-date_action')[:COUNT_CARDS]
         return context
 
 
@@ -44,6 +44,7 @@ class BookSearchListView(BaseBookListView):
     """Search page"""
     # queryset = Book.objects.order_by('-date_create')[:COUNT_CARDS]
     template_name = "home/search.html"
+    paginate_by = 15
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)

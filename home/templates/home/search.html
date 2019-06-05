@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Магазин книг {% endblock %}
 {% load static %}
+{% load paginator_page %}
 {% block navbar %}
     {% include 'navbar.html' with search_tag='search' active='main' %}
 {% endblock %}
@@ -56,5 +57,34 @@
             </div>
 
         {% endfor %}
+        {% block paginator %}
+            {% if is_paginated %}
+                <ul class="pagination  justify-content-center mt-2">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a href="{{ view.request.GET|paginator_page:page_obj.previous_page_number }}"
+                               class="page-link">Пред.</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a href="#" tabindex="-1" class="page-link">Пред.</a>
+                        </li>
+                    {% endif %}
+                    <li class="page-item active">
+                        <span class="page-link"> Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+                    </li>
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a href="{{ view.request.GET|paginator_page:page_obj.next_page_number }}" class="page-link">След.</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a href="#" tabindex="-1" class="page-link">След.</a>
+                        </li>
+                    {% endif %}
+
+                </ul>
+            {% endif %}
+        {% endblock paginator %}
     </div>
 {% endblock body %}

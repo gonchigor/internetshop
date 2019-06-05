@@ -55,6 +55,19 @@ class OrderCreateView(CreateView, CartContextMixin):
             json()['Cur_OfficialRate']
         return context
 
+    def get_initial(self):
+        initial = super().get_initial()
+        if self.request.user.is_authenticated:
+            initial['name'] = self.request.user.first_name
+            if self.request.user.email:
+                initial['email'] = self.request.user.email
+            initial['phone'] = self.request.user.extended.phone
+            if self.request.user.extended.home_adress1:
+                initial['delivery_adress'] = self.request.user.extended.home_adress1
+            elif self.request.user.extended.home_adress2:
+                initial['delivery_adress'] = self.request.user.extended.home_adress2
+        return initial
+
 
 class ManagerOrderListView(ManagerListView):
     model = Order

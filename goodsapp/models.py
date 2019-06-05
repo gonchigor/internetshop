@@ -61,6 +61,7 @@ class Book(models.Model):
     class Meta:
         verbose_name = "книга"
         verbose_name_plural = "книги"
+        ordering = ['pk']
 
 
 class BookAction(models.Model):

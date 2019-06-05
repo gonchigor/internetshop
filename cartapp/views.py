@@ -6,6 +6,7 @@ from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from orderapp.permissions import ManagerUpdateView
 import requests
+from django.urls import reverse_lazy
 from django.contrib.auth.views import redirect_to_login
 from orderapp.form import OrderConfirmForm
 
@@ -41,6 +42,8 @@ class AddBookToCartView(UpdateView):
         return context
 
     def get_success_url(self):
+        if 'add-and-cart' in self.request.POST.keys():
+            return reverse_lazy('order_create')
         return self.request.POST['url']
 
 
