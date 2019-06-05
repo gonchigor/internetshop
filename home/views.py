@@ -7,12 +7,14 @@ from django.urls import reverse_lazy
 from django.views.generic import RedirectView
 from dimensionsapp.models import OrderStatus
 from django.db.models import Count, Subquery, OuterRef
+from .form import JenreNavForm
 
 import requests
 
-
 order_status_ok = OrderStatus.objects.get_or_create(name='Доставлен')[0]
 COUNT_CARDS = 6
+
+
 # Create your views here.
 
 
@@ -28,7 +30,7 @@ class BookTopNewListView(BaseBookListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2').\
+        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
             json()['Cur_OfficialRate']
         book_popular_id = BookInCart.objects.filter(cart__order__status=order_status_ok).values(
             'book').annotate(count=Count('cart')).filter(book=OuterRef('pk'))
@@ -48,9 +50,40 @@ class BookSearchListView(BaseBookListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2').\
+        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
             json()['Cur_OfficialRate']
         return context
+
+
+class BookNavigationListView(BaseBookListView):
+    template_name = "home/navigation.html"
+    paginate_by = 10
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+            json()['Cur_OfficialRate']
+        initial = {}
+        if 'j' in self.request.GET.keys():
+            initial['j'] = self.request.GET.getlist('j')
+        if 'p' in self.request.GET.keys():
+            initial['p'] = self.request.GET.getlist('p')
+        if 'active' in self.request.GET.keys():
+            initial['active'] = 'on'
+        if 'search' in self.request.GET.keys() and self.request.GET['search']:
+            initial['search'] = self.request.GET['search']
+        context['nav_form'] = JenreNavForm(initial=initial)
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if 'active' in self.request.GET.keys():
+            queryset = queryset.filter(is_active=True)
+        if 'j' in self.request.GET.keys():
+            queryset = queryset.filter(jenre__pk__in=self.request.GET.getlist('j'))
+        if 'p' in self.request.GET.keys():
+            queryset = queryset.filter(publisher__pk__in=self.request.GET.getlist('p'))
+        return queryset.distinct()
 
 
 class CustomerBookDetailView(DetailView):

@@ -18,10 +18,16 @@
                 </li>
             {% endif %}
             {% if not perms.orderapp.manager %}
+                <li class="nav-item {% if active == 'catalog' %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'book-catalog' %}">Каталог</a>
+                </li>
+            {% endif %}
+            {% if not perms.orderapp.manager %}
                 <li class="nav-item {% if active == 'cart' %}active{% endif %}">
                     <a class="nav-link" href="{% url 'order_create' %}">Корзина</a>
                 </li>
             {% endif %}
+
             {% if perms.orderapp.manager %}
                 <li class="nav-item {% if active == 'order' %}active{% endif %}">
                     <a class="nav-link" href="{% url 'order_active_list' %}">Заказы</a>

@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block title %}Магазин книг {% endblock %}
+{% load static %}
+{% load paginator_page %}
+{% load crispy_forms_tags %}
+{% block navbar %}
+    {% include 'navbar.html' with search_tag='search' active='catalog' %}
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <h2>Каталог</h2>
+        <div class="row">
+            <div class="col-lg-3 col-2">
+                <form method="get">
+                    {{ nav_form|crispy }}
+                    <button class="btn btn-primary">Фильтр</button>
+                </form>
+            </div>
+            <div class="col">
+                {% for object in object_list %}
+
+                    <div class="card">
+                        <div class="row no-gutters">
+                            <div class="col-auto">
+
+                                {% if object.image_field %}
+                                    <img src="{{ object.image_field.url }}" class="card-img"
+                                         style="max-width:100px; max-height:150px;" alt="{{ object.name }}">
+                                {% else %}
+                                    <img src="{% static 'images/nophoto.png' %}" class="card-img"
+                                         style="max-width:100px; max-height:150px;" alt="Нет фото">
+                                {% endif %}
+
+                            </div>
+                            <div class="col clearfix">
+                                <div>
+                                    <h4 class="card-header">{{ object.description }}</h4>
+                                </div>
+                                <div class="card-body">
+                                    {% if object.is_active %}
+                                        <p class="card-text font-weight-bold">Цена: {{ object.price }} руб.</p>
+                                    {% else %}
+                                        <p class="card-text">Скоро в продаже</p>
+                                    {% endif %}
+                                </div>
+
+
+                                <div class="btn-group float-right">
+                                    <a href="{{ object.get_detail_customer_url }}?type=search&search={{ search_string }}"
+                                       class="btn btn-outline-secondary"><i
+                                            class="fas fa-eye"></i></a>
+
+                                    <a {% if object.is_active %}href="{% url 'add_book_to_cart' object.pk %}?type=search&search={{ search_string }}"
+                                       class="btn btn-outline-secondary"
+                                       {% else %}
+                                       tabindex="-1" href="" class="btn btn-outline-secondary disabled"
+                                       aria-disabled="true"
+                                       {% endif %}
+                                    ><i class="fas fa-cart-plus"></i></a>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+                {% block paginator %}
+                    {% if is_paginated %}
+                        <ul class="pagination  justify-content-center mt-2">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a href="{{ view.request.GET|paginator_page:page_obj.previous_page_number }}"
+                                       class="page-link">Пред.</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <a href="#" tabindex="-1" class="page-link">Пред.</a>
+                                </li>
+                            {% endif %}
+                            <li class="page-item active">
+                                <span class="page-link"> Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+                            </li>
+                            {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a href="{{ view.request.GET|paginator_page:page_obj.next_page_number }}"
+                                       class="page-link">След.</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <a href="#" tabindex="-1" class="page-link">След.</a>
+                                </li>
+                            {% endif %}
+
+                        </ul>
+                    {% endif %}
+                {% endblock paginator %}
+            </div>
+        </div>
+    </div>
+{% endblock body %}
