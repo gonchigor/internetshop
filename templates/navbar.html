@@ -12,16 +12,20 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            {% if not perms.orderapp.manager %}
-                <li class="nav-item {% if active == 'main' %}active{% endif %}">
-                    <a class="nav-link" href="{% url 'main-page' %}">Home <span class="sr-only">(current)</span></a>
-                </li>
-            {% endif %}
-            {% if not perms.orderapp.manager %}
-                <li class="nav-item {% if active == 'catalog' %}active{% endif %}">
-                    <a class="nav-link" href="{% url 'book-catalog' %}">Каталог</a>
-                </li>
-            {% endif %}
+
+            <li class="nav-item {% if active == 'main' %}active{% endif %}">
+                <a class="nav-link" href="{% url 'main-page' %}">Home <span class="sr-only">(current)</span></a>
+            </li>
+
+
+            <li class="nav-item {% if active == 'catalog' %}active{% endif %}">
+                <a class="nav-link" href="{% url 'book-catalog' %}">Каталог</a>
+            </li>
+
+            <li class="nav-item {% if active == 'jenre' %}active{% endif %}">
+                <a class="nav-link" href="{% url 'book-jenre-list' %}">Жанры</a>
+            </li>
+
             {% if not perms.orderapp.manager %}
                 <li class="nav-item {% if active == 'cart' %}active{% endif %}">
                     <a class="nav-link" href="{% url 'order_create' %}">Корзина</a>

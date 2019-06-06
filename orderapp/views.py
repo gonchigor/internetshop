@@ -80,6 +80,7 @@ class OrderCreateView(CreateView, CartContextMixin):
 
 class ManagerOrderListView(ManagerListView):
     model = Order
+    paginate_by = 15
 
 
 class ManagerOrderDetailView(ManagerDetailView):
@@ -193,5 +194,3 @@ class CustomerOrderCommentUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_queryset(self):
         return self.model._default_manager.filter(cart__user=self.request.user)
-
-

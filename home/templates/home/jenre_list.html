@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Жанры {% endblock %}
+
+{% block navbar %}
+    {# Навигационная панель в зависимости от пользователя #}
+    {% include 'navbar.html' with active="jenre" %}
+{% endblock %}
+
+{% block body %}
+    <ul class="nav nav-pills justify-content-center">
+        {% for jen_object in object_list %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'book-jenre-detail' jen_object.pk%}">{{ jen_object.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

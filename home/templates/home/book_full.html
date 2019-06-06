@@ -104,6 +104,7 @@
                 <a href="{% url 'comments:create' 'book' object.pk %}" class="btn btn-info">Добавить комментарий</a>
             {% endif %}
             <div class="float-right text-right">
+            {% if not perms.orderapp.manager %}
                 {% if cart_quantity %}
                     <a href="{% url 'book_in_cart_delete' book_in_cart_id %}" class="btn btn-lg btn-outline-danger"><i
                             class="fas fa-trash"></i></a>
@@ -118,6 +119,7 @@
                        {% endif %}
                     ><i class="fas fa-cart-plus"></i></a>
                 {% endif %}
+            {% endif %}
             </div>
         </div>
         {% for comment in comments %}

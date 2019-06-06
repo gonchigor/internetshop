@@ -2,10 +2,11 @@
 from goodsapp.models import Book, BookAction
 from goodsapp.views import BaseBookListView
 from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
 from cartapp.models import Cart, BookInCart
 from django.urls import reverse_lazy
 from django.views.generic import RedirectView
-from dimensionsapp.models import OrderStatus
+from dimensionsapp.models import OrderStatus, Jenre
 from django.db.models import Count, Subquery, OuterRef
 from .form import JenreNavForm
 
@@ -115,6 +116,8 @@ class CustomerBookDetailView(DetailView):
             url_back = reverse_lazy('book-search') + '?search=' + self.request.GET.get('search', ' ')
         elif redirect == 'catalog':
             url_back = reverse_lazy('book-catalog')
+        elif redirect == 'jenre':
+            url_back = self.request.META['HTTP_REFERER']
         else:
             url_back = reverse_lazy('main-page')
         context['url'] = url_back
@@ -129,3 +132,26 @@ class MainRedirectView(RedirectView):
         if self.request.user.has_perm('orderapp.manager'):
             return reverse_lazy('order_active_list')
         return reverse_lazy('main-page')
+
+
+class CustomerJenreListView(ListView):
+    model = Jenre
+    template_name = "home/jenre_list.html"
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+            json()['Cur_OfficialRate']
+        return context
+
+
+class CustomerJenreDetailView(DetailView):
+    model = Jenre
+    template_name = "home/jenre_books.html"
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+            json()['Cur_OfficialRate']
+        context['jenre_list'] = Jenre.objects.all()
+        return context

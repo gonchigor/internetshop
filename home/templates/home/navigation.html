@@ -14,6 +14,7 @@
                 <form method="get">
                     {{ nav_form|crispy }}
                     <button class="btn btn-primary">Фильтр</button>
+                    <button class="btn btn-primary" type="reset">Очистить</button>
                 </form>
             </div>
             <div class="col">
@@ -49,14 +50,15 @@
                                     <a href="{{ object.get_detail_customer_url }}?type=catalog"
                                        class="btn btn-outline-secondary"><i
                                             class="fas fa-eye"></i></a>
-
-                                    <a {% if object.is_active %}href="{% url 'add_book_to_cart' object.pk %}?type=search&search={{ search_string }}"
-                                       class="btn btn-outline-secondary"
-                                       {% else %}
-                                       tabindex="-1" href="" class="btn btn-outline-secondary disabled"
-                                       aria-disabled="true"
-                                       {% endif %}
-                                    ><i class="fas fa-cart-plus"></i></a>
+                                    {% if not perms.orderapp.manager %}
+                                        <a {% if object.is_active %}href="{% url 'add_book_to_cart' object.pk %}?type=catalog"
+                                           class="btn btn-outline-secondary"
+                                           {% else %}
+                                           tabindex="-1" href="" class="btn btn-outline-secondary disabled"
+                                           aria-disabled="true"
+                                           {% endif %}
+                                        ><i class="fas fa-cart-plus"></i></a>
+                                    {% endif %}
 
                                 </div>
 
