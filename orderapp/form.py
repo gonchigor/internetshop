@@ -17,11 +17,25 @@ class OrderConfirmForm(ModelForm):
     class Meta:
         model = Order
         # fields = '__all__'
-        exclude = ['cart', 'status']
-        # widgets = {
-        #     'cart': HiddenInput,
-        #     'status': HiddenInput
-        # }
+        exclude = ['status']
+        widgets = {
+            'cart': HiddenInput,
+            # 'status': HiddenInput
+        }
+
+    def clean(self):
+        clean_data = super().clean()
+        if 'cart' in self.changed_data:
+            raise ValidationError('Не меняй HTML код!!!')
+        cart = clean_data.get("cart")
+        error = []
+        for book_in_cart in cart.books.all():
+            if not book_in_cart.book.is_active:
+                error.append(f"Книга {book_in_cart.book.description()} не доступна для заказа")
+            elif book_in_cart.quantity > book_in_cart.book.count_books:
+                error.append(f"На складе всего {book_in_cart.book.count_books} книг {book_in_cart.book.description()}")
+        if error:
+            raise ValidationError(error)
 
 
 class OrderForm(ModelForm):

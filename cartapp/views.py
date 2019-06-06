@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from orderapp.permissions import ManagerUpdateView
 import requests
 from django.urls import reverse_lazy
+from .form import AddBookToCartForm
 from django.contrib.auth.views import redirect_to_login
 from orderapp.form import OrderConfirmForm
 
@@ -16,7 +17,7 @@ from orderapp.form import OrderConfirmForm
 
 class AddBookToCartView(UpdateView):
     model = BookInCart
-    fields = ['quantity']
+    form_class = AddBookToCartForm
     template_name = 'cartapp/add_book_to_cart.html'
 
     def get_object(self, queryset=None):
@@ -36,7 +37,10 @@ class AddBookToCartView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['url'] = self.request.META['HTTP_REFERER']
+        if self.request.method == 'GET':
+            context['url'] = self.request.META['HTTP_REFERER']
+        else:
+            context['url'] = self.request.POST.get('url')
         context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
             json()['Cur_OfficialRate']
         return context
@@ -45,6 +49,12 @@ class AddBookToCartView(UpdateView):
         if 'add-and-cart' in self.request.POST.keys():
             return reverse_lazy('order_create')
         return self.request.POST['url']
+
+    def get_initial(self):
+        initial = super().get_initial()
+        if self.request.method == 'GET':
+            initial['url'] = self.request.META['HTTP_REFERER']
+        return initial
 
 
 class BookInCartDeleteView(DeleteView):

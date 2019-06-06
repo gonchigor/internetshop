@@ -3,13 +3,15 @@
 {% block title %}
     Добавить в корзину
 {% endblock %}
+{% block navbar %}
+    {% include 'navbar.html' with active="catalog" %}
+{% endblock %}
 
 {% block body %}
     <div class="container">
-        <form method="post">
+        <form method="post" class="mt-3">
             {% csrf_token %}
             {{ form|crispy }}
-            <input type="hidden" name="url" value="{{ url }}">
             <a href="{{ url }}" class="btn btn-info">Назад</a>
             <button class="btn btn-success">Добавить</button>
             <button class="btn btn-success" name="add-and-cart">Добавить и оформить заказ</button>

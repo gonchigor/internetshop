@@ -47,6 +47,14 @@ class OrderCreateView(CreateView, CartContextMixin):
         self.object.cart = Cart.objects.get(pk=self.request.session.get('cart-id'))
         self.object.status = order_status_new
         self.object.save()
+        for book_in_cart in self.object.cart.books.all():
+            book = book_in_cart.book
+            if book_in_cart.quantity < book.count_books:
+                book.count_books -= book_in_cart.quantity
+            else:
+                book.count_books = 0
+                book.is_active = False
+            book.save()
         return HttpResponseRedirect(self.get_success_url())
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -66,6 +74,7 @@ class OrderCreateView(CreateView, CartContextMixin):
                 initial['delivery_adress'] = self.request.user.extended.home_adress1
             elif self.request.user.extended.home_adress2:
                 initial['delivery_adress'] = self.request.user.extended.home_adress2
+        initial['cart'] = self.request.session.get('cart-id')
         return initial
 
 

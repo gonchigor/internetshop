@@ -30,8 +30,8 @@ class BookTopNewListView(BaseBookListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
-            json()['Cur_OfficialRate']
+        # context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+        #     json()['Cur_OfficialRate']
         book_popular_id = BookInCart.objects.filter(cart__order__status=order_status_ok).values(
             'book').annotate(count=Count('cart')).filter(book=OuterRef('pk'))
         context['book_popular_list'] = Book.objects.annotate(count=Subquery(book_popular_id.values('count'))).order_by(
@@ -46,7 +46,7 @@ class BookSearchListView(BaseBookListView):
     """Search page"""
     # queryset = Book.objects.order_by('-date_create')[:COUNT_CARDS]
     template_name = "home/search.html"
-    paginate_by = 15
+    paginate_by = 10
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -68,6 +68,8 @@ class BookNavigationListView(BaseBookListView):
             initial['j'] = self.request.GET.getlist('j')
         if 'p' in self.request.GET.keys():
             initial['p'] = self.request.GET.getlist('p')
+        if 's' in self.request.GET.keys():
+            initial['s'] = self.request.GET.getlist('s')
         if 'active' in self.request.GET.keys():
             initial['active'] = 'on'
         if 'search' in self.request.GET.keys() and self.request.GET['search']:
@@ -83,6 +85,8 @@ class BookNavigationListView(BaseBookListView):
             queryset = queryset.filter(jenre__pk__in=self.request.GET.getlist('j'))
         if 'p' in self.request.GET.keys():
             queryset = queryset.filter(publisher__pk__in=self.request.GET.getlist('p'))
+        if 's' in self.request.GET.keys():
+            queryset = queryset.filter(serie__pk__in=self.request.GET.getlist('s'))
         return queryset.distinct()
 
 
@@ -109,6 +113,8 @@ class CustomerBookDetailView(DetailView):
             url_back = reverse_lazy('main-page')
         elif redirect == 'search':
             url_back = reverse_lazy('book-search') + '?search=' + self.request.GET.get('search', ' ')
+        elif redirect == 'catalog':
+            url_back = reverse_lazy('book-catalog')
         else:
             url_back = reverse_lazy('main-page')
         context['url'] = url_back
