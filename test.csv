@@ -1,0 +1,3 @@
+name;authors;serie;jenre;year_publishing;count_pages;binding;format_book;isbn;weight;age_restrictions;publisher;count_books;is_active;price;rate
+C#;Шилд;load;Компьютерная литература, C#;2019;654;Твердый;B4;4558kj;690;16+;Питер;50;true;70,65;8,8
+C# 4.0 полное руководство ;Герберт Шилд;load;Компьютерная литература, C#;2018;500;Мягкий;A4;8566;858;16+;АСТ;45;true;70,52;9,5

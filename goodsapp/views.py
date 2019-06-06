@@ -10,6 +10,7 @@ from orderapp.permissions import ManagerAuthorizationRequired, ManagerUpdateView
     ManagerDetailView, ManagerListView
 import requests
 from django.views.generic import FormView
+from .csvload import loadcsv
 from django.http import HttpResponseRedirect
 
 
@@ -134,3 +135,8 @@ class BookLoadView(ManagerAuthorizationRequired, FormView):
     form_class = BookLoadForm
     template_name = "goodsapp/book_load.html"
     success_url = reverse_lazy('book_list')
+
+    def form_valid(self, form):
+        loadcsv(self.request.FILES['file'])
+        return super().form_valid(form)
+
