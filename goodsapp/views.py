@@ -2,13 +2,14 @@ from django.views.generic.list import ListView
 # from django.views.generic.detail import DetailView
 # from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Book, BookAction
-from .form import BookForm, BookActionForm
+from .form import BookForm, BookActionForm, BookLoadForm
 from dimensionsapp.models import Author
 from django.urls import reverse_lazy
 from django.db.models import Q
 from orderapp.permissions import ManagerAuthorizationRequired, ManagerUpdateView, ManagerDeleteView, ManagerCreateView, \
     ManagerDetailView, ManagerListView
 import requests
+from django.views.generic import FormView
 from django.http import HttpResponseRedirect
 
 
@@ -127,3 +128,9 @@ class BookActionUpdateView(ManagerUpdateView):
 class BookActionDeleteView(ManagerDeleteView):
     model = BookAction
     success_url = reverse_lazy('book_action_list')
+
+
+class BookLoadView(ManagerAuthorizationRequired, FormView):
+    form_class = BookLoadForm
+    template_name = "goodsapp/book_load.html"
+    success_url = reverse_lazy('book_list')

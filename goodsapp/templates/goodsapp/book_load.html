@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Книги{% endblock %}
+
+{% load crispy_forms_tags %}
+{% block navbar %}
+    {% include 'navbar.html' with active='administration' %}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+    <h1>Загрузка товаров в каталог магазина</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button class="btn btn-primary" onclick="history.back()" type="button">Назад</button>
+        <button class="btn btn-success">Загрузить</button>
+    </form>
+    </div>
+{% endblock %}

@@ -25,3 +25,7 @@ class BookActionForm(forms.ModelForm):
     class Meta:
         model = BookAction
         fields = '__all__'
+
+
+class BookLoadForm(forms.Form):
+    file = forms.FileField(label="Файл csv")
