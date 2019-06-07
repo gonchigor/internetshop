@@ -24,8 +24,11 @@ class BaseBookListView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
-            json()['Cur_OfficialRate']
+        try:
+            context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+                json()['Cur_OfficialRate']
+        except requests.ConnectionError:
+            print('Can\'t get usd rate')
         if 'search' in self.request.GET.keys() and self.request.GET['search']:
             context['search_string'] = self.request.GET['search']
         return context

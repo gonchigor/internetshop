@@ -59,8 +59,11 @@ class OrderCreateView(CreateView, CartContextMixin):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
-            json()['Cur_OfficialRate']
+        try:
+            context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+                json()['Cur_OfficialRate']
+        except requests.ConnectionError:
+            print('Can\'t get usd rate')
         return context
 
     def get_initial(self):
@@ -141,8 +144,11 @@ class CustomerOrderUpdateView(LoginRequiredMixin, UpdateView):
         context['cart'] = self.object.cart
         context['next'] = reverse_lazy('cart_detail_current', kwargs={'pk': self.object.cart.pk})
         context['is_new'] = self.object.status_id == order_status_new.pk
-        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
-            json()['Cur_OfficialRate']
+        try:
+            context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+                json()['Cur_OfficialRate']
+        except requests.ConnectionError:
+            print('Can\'t get usd rate')
         return context
 
     def get_success_url(self):
@@ -164,8 +170,11 @@ class CustomerOrderCancelView(LoginRequiredMixin, UpdateView):
         # context['next'] = reverse_lazy('cart_detail_current', kwargs={'pk': self.object.cart.pk})
         context['form'].fields['status'].instance = order_status_cancel_customer
         context['is_new'] = self.object.status_id == order_status_new.pk
-        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
-            json()['Cur_OfficialRate']
+        try:
+            context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+                json()['Cur_OfficialRate']
+        except requests.ConnectionError:
+            print('Can\'t get usd rate')
         return context
 
     def get_success_url(self):
@@ -185,8 +194,11 @@ class CustomerOrderCommentUpdateView(LoginRequiredMixin, UpdateView):
         context['cart'] = self.object.cart
         context['is_new'] = self.object.status_id == order_status_new.pk
         # context['next'] = reverse_lazy('cart_detail_current', kwargs={'pk': self.object.cart.pk})
-        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
-            json()['Cur_OfficialRate']
+        try:
+            context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+                json()['Cur_OfficialRate']
+        except requests.ConnectionError:
+            print('Can\'t get usd rate')
         return context
 
     def get_success_url(self):

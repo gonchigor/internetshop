@@ -10,6 +10,12 @@ def decode_utf8(input_iterator):
 
 
 def loadcsv(file):
+    """
+    Load books to catalog without any validation
+    Create or update books, key values: authors and name
+    :param file: uploaded file, which open as binary
+    :return: None
+    """
     reader = csv.DictReader(decode_utf8(file), delimiter=';')
     for row in reader:
         book_queryset=Book.objects.all()

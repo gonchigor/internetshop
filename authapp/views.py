@@ -15,10 +15,12 @@ from PIL import Image
 from orderapp.models import Order
 from orderapp.permissions import ManagerListView, ManagerDetailView, ManagerUpdateView
 from dimensionsapp.form import SearchForm
+from dimensionsapp.models import OrderStatus
 import requests
 # Create your views here.
 Customers = Group.objects.get(name="Customers")
 User = get_user_model()
+order_status_new = OrderStatus.objects.get_or_create(name='Новый')[0]
 
 
 class ShopLoginView(LoginView):
@@ -36,8 +38,11 @@ class ShopLoginView(LoginView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2').\
-            json()['Cur_OfficialRate']
+        try:
+            context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+                json()['Cur_OfficialRate']
+        except requests.ConnectionError:
+            print('Can\'t get usd rate')
         return context
 
 
@@ -47,8 +52,11 @@ class ShopPasswordChangeView(PasswordChangeView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2').\
-            json()['Cur_OfficialRate']
+        try:
+            context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+                json()['Cur_OfficialRate']
+        except requests.ConnectionError:
+            print('Can\'t get usd rate')
         return context
 
 
@@ -57,8 +65,11 @@ class ShopPasswordChangeDoneView(PasswordChangeDoneView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2').\
-            json()['Cur_OfficialRate']
+        try:
+            context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+                json()['Cur_OfficialRate']
+        except requests.ConnectionError:
+            print('Can\'t get usd rate')
         return context
 
 
@@ -67,8 +78,11 @@ class ShopLogoutView(LogoutView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2').\
-            json()['Cur_OfficialRate']
+        try:
+            context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+                json()['Cur_OfficialRate']
+        except requests.ConnectionError:
+            print('Can\'t get usd rate')
         return context
 
 
@@ -77,8 +91,11 @@ class ShopUserView(TemplateView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2').\
-            json()['Cur_OfficialRate']
+        try:
+            context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+                json()['Cur_OfficialRate']
+        except requests.ConnectionError:
+            print('Can\'t get usd rate')
         return context
 
 
@@ -120,8 +137,11 @@ class RegistrationUserView(CreateView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2').\
-            json()['Cur_OfficialRate']
+        try:
+            context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+                json()['Cur_OfficialRate']
+        except requests.ConnectionError:
+            print('Can\'t get usd rate')
         return context
 
 
@@ -134,11 +154,14 @@ class SelfUserDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['archive_orders'] = Order.objects.filter(cart__user=self.request.user).exclude(status_id=1)
-        context['current_orders'] = Order.objects.filter(cart__user=self.request.user, status_id=1)
+        context['archive_orders'] = Order.objects.filter(cart__user=self.request.user).exclude(status=order_status_new)
+        context['current_orders'] = Order.objects.filter(cart__user=self.request.user, status=order_status_new)
         context['tab'] = self.request.GET.get('tab', '1')
-        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
-            json()['Cur_OfficialRate']
+        try:
+            context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+                json()['Cur_OfficialRate']
+        except requests.ConnectionError:
+            print('Can\'t get usd rate')
         return context
 
 
@@ -155,8 +178,11 @@ class SelfUserUpdateView(LoginRequiredMixin, UpdateView):
         context['form'].fields['email'].initial = self.request.user.email
         context['form'].fields['first_name'].initial = self.request.user.first_name
         context['form'].fields['last_name'].initial = self.request.user.last_name
-        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
-            json()['Cur_OfficialRate']
+        try:
+            context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+                json()['Cur_OfficialRate']
+        except requests.ConnectionError:
+            print('Can\'t get usd rate')
         return context
 
     def form_valid(self, form):
@@ -242,6 +268,9 @@ class CustomerUserDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2').\
-            json()['Cur_OfficialRate']
+        try:
+            context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+                json()['Cur_OfficialRate']
+        except requests.ConnectionError:
+            print('Can\'t get usd rate')
         return context

@@ -48,12 +48,6 @@ class BookSearchListView(BaseBookListView):
     template_name = "home/search.html"
     paginate_by = 10
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
-            json()['Cur_OfficialRate']
-        return context
-
 
 class BookNavigationListView(BaseBookListView):
     template_name = "home/navigation.html"
@@ -61,8 +55,8 @@ class BookNavigationListView(BaseBookListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
-            json()['Cur_OfficialRate']
+        # context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+        #     json()['Cur_OfficialRate']
         initial = {}
         if 'j' in self.request.GET.keys():
             initial['j'] = self.request.GET.getlist('j')
@@ -97,8 +91,11 @@ class CustomerBookDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
-            json()['Cur_OfficialRate']
+        try:
+            context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+                json()['Cur_OfficialRate']
+        except requests.ConnectionError:
+            print('Can\'t get usd rate')
         cart_id = self.request.session.get('cart-id')
         if cart_id:
             cart = Cart.objects.get(pk=cart_id)
@@ -139,8 +136,11 @@ class CustomerJenreListView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
-            json()['Cur_OfficialRate']
+        try:
+            context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+                json()['Cur_OfficialRate']
+        except requests.ConnectionError:
+            print('Can\'t get usd rate')
         return context
 
 
@@ -150,7 +150,10 @@ class CustomerJenreDetailView(DetailView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
-            json()['Cur_OfficialRate']
+        try:
+            context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+                json()['Cur_OfficialRate']
+        except requests.ConnectionError:
+            print('Can\'t get usd rate')
         context['jenre_list'] = self.get_queryset()
         return context
