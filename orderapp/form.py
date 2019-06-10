@@ -5,6 +5,7 @@ from dimensionsapp.models import OrderStatus
 
 order_status_cancel_customer = OrderStatus.objects.get_or_create(name='Отменен покупателем')[0]
 # from django import forms
+manger_status_list = ['Доставлен', 'Комплектуется', 'Отменен']
 
 
 class OrderConfirmForm(ModelForm):
@@ -45,7 +46,7 @@ class OrderForm(ModelForm):
 
 
 class OrderFieldStatusForm(ModelForm):
-    status = ModelChoiceField(queryset=OrderStatus.objects.filter(pk__in=[3, 4, 5]), empty_label=None)
+    status = ModelChoiceField(queryset=OrderStatus.objects.filter(name__in=manger_status_list), empty_label=None)
 
     class Meta:
         model = Order

@@ -18,7 +18,7 @@ from dimensionsapp.form import SearchForm
 from dimensionsapp.models import OrderStatus
 import requests
 # Create your views here.
-Customers = Group.objects.get(name="Customers")
+Customers = Group.objects.get_or_create(name="Customers")[0]
 User = get_user_model()
 order_status_new = OrderStatus.objects.get_or_create(name='Новый')[0]
 
