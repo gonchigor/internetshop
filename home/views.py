@@ -36,7 +36,7 @@ class BookTopNewListView(BaseBookListView):
         book_popular_id = BookInCart.objects.filter(cart__order__status=order_status_ok).values(
             'book').annotate(count=Count('cart')).filter(book=OuterRef('pk'))
         context['book_popular_list'] = Book.objects.annotate(count=Subquery(book_popular_id.values('count'))).order_by(
-            '-count')[:COUNT_CARDS]
+            '-count').filter(count__gt=0)[:COUNT_CARDS]
         context['book_action_list'] = Book.objects.filter(bookaction__pk__isnull=False).order_by(
             '-bookaction__date_update')[:COUNT_CARDS]
         return context
