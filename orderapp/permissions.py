@@ -18,11 +18,23 @@ class ManagerListView(ManagerAuthorizationRequired, ListView):
 
 
 class ManagerCreateView(ManagerAuthorizationRequired, CreateView):
-    pass
+    def get_success_url(self):
+        url = super().get_success_url()
+        if 'save-and-close' in self.request.POST.keys():
+            url = self.object.get_list_url()
+        elif 'save' in self.request.POST.keys():
+            url = self.object.get_detail_url()
+        return url
 
 
 class ManagerUpdateView(ManagerAuthorizationRequired, UpdateView):
-    pass
+    def get_success_url(self):
+        url = super().get_success_url()
+        if 'save-and-close' in self.request.POST.keys():
+            url = self.object.get_list_url()
+        elif 'save' in self.request.POST.keys():
+            url = self.object.get_detail_url()
+        return url
 
 
 class ManagerDeleteView(ManagerAuthorizationRequired, DeleteView):

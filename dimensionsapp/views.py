@@ -112,208 +112,208 @@ class SerieCreateView(ManagerCreateView):
     model = Serie
     form_class = SerieModel
 
-    def get_success_url(self):
-        url = super().get_success_url()
-        if 'save-and-close' in self.request.POST.keys():
-            url = reverse_lazy('serie_list')
-        elif 'save' in self.request.POST.keys():
-            url = reverse_lazy('serie_detail', kwargs={'pk': self.object.pk})
-        return url
+    # def get_success_url(self):
+    #     url = super().get_success_url()
+    #     if 'save-and-close' in self.request.POST.keys():
+    #         url = reverse_lazy('serie_list')
+    #     elif 'save' in self.request.POST.keys():
+    #         url = reverse_lazy('serie_detail', kwargs={'pk': self.object.pk})
+    #     return url
 
 
 class AuthorCreateView(ManagerCreateView):
     model = Author
     form_class = AuthorModel
 
-    def get_success_url(self):
-        url = super().get_success_url()
-        if 'save-and-close' in self.request.POST.keys():
-            url = reverse_lazy('author_list')
-        elif 'save' in self.request.POST.keys():
-            url = reverse_lazy('author_detail', kwargs={'pk': self.object.pk})
-        return url
+    # def get_success_url(self):
+    #     url = super().get_success_url()
+    #     if 'save-and-close' in self.request.POST.keys():
+    #         url = reverse_lazy('author_list')
+    #     elif 'save' in self.request.POST.keys():
+    #         url = reverse_lazy('author_detail', kwargs={'pk': self.object.pk})
+    #     return url
 
 
 class JenreCreateView(ManagerCreateView):
     model = Jenre
     form_class = JenreModel
 
-    def get_success_url(self):
-        url = super().get_success_url()
-        if 'save-and-close' in self.request.POST.keys():
-            url = reverse_lazy('jenre_list')
-        elif 'save' in self.request.POST.keys():
-            url = reverse_lazy('jenre_detail', kwargs={'pk': self.object.pk})
-        return url
+    # def get_success_url(self):
+    #     url = super().get_success_url()
+    #     if 'save-and-close' in self.request.POST.keys():
+    #         url = reverse_lazy('jenre_list')
+    #     elif 'save' in self.request.POST.keys():
+    #         url = reverse_lazy('jenre_detail', kwargs={'pk': self.object.pk})
+    #     return url
 
 
 class PublishingHouseCreateView(ManagerCreateView):
     model = PublishingHouse
     form_class = PublishingHouseModel
 
-    def get_success_url(self):
-        url = super().get_success_url()
-        if 'save-and-close' in self.request.POST.keys():
-            url = reverse_lazy('publishing_house_list')
-        elif 'save' in self.request.POST.keys():
-            url = reverse_lazy('publishing_house_detail', kwargs={'pk': self.object.pk})
-        return url
+    # def get_success_url(self):
+    #     url = super().get_success_url()
+    #     if 'save-and-close' in self.request.POST.keys():
+    #         url = reverse_lazy('publishing_house_list')
+    #     elif 'save' in self.request.POST.keys():
+    #         url = reverse_lazy('publishing_house_detail', kwargs={'pk': self.object.pk})
+    #     return url
 
 
 class FormatBookCreateView(ManagerCreateView):
     model = FormatBook
     form_class = FormatBookModel
 
-    def get_success_url(self):
-        url = super().get_success_url()
-        if 'save-and-close' in self.request.POST.keys():
-            url = reverse_lazy('format_book_list')
-        elif 'save' in self.request.POST.keys():
-            url = reverse_lazy('format_book_detail', kwargs={'pk': self.object.pk})
-        return url
+    # def get_success_url(self):
+    #     url = super().get_success_url()
+    #     if 'save-and-close' in self.request.POST.keys():
+    #         url = reverse_lazy('format_book_list')
+    #     elif 'save' in self.request.POST.keys():
+    #         url = reverse_lazy('format_book_detail', kwargs={'pk': self.object.pk})
+    #     return url
 
 
 class BindingCreateView(ManagerCreateView):
     model = Binding
     form_class = BindingModel
 
-    def get_success_url(self):
-        url = super().get_success_url()
-        if 'save-and-close' in self.request.POST.keys():
-            url = reverse_lazy('binding_list')
-        elif 'save' in self.request.POST.keys():
-            url = reverse_lazy('binding_detail', kwargs={'pk': self.object.pk})
-        return url
+    # def get_success_url(self):
+    #     url = super().get_success_url()
+    #     if 'save-and-close' in self.request.POST.keys():
+    #         url = reverse_lazy('binding_list')
+    #     elif 'save' in self.request.POST.keys():
+    #         url = reverse_lazy('binding_detail', kwargs={'pk': self.object.pk})
+    #     return url
 
 
 class AgeRestrictionCreateView(ManagerCreateView):
     model = AgeRestriction
     form_class = AgeRestrictionModel
 
-    def get_success_url(self):
-        url = super().get_success_url()
-        if 'save-and-close' in self.request.POST.keys():
-            url = reverse_lazy('age_restriction_list')
-        elif 'save' in self.request.POST.keys():
-            url = reverse_lazy('age_restriction_detail', kwargs={'pk': self.object.pk})
-        return url
+    # def get_success_url(self):
+    #     url = super().get_success_url()
+    #     if 'save-and-close' in self.request.POST.keys():
+    #         url = reverse_lazy('age_restriction_list')
+    #     elif 'save' in self.request.POST.keys():
+    #         url = reverse_lazy('age_restriction_detail', kwargs={'pk': self.object.pk})
+    #     return url
 
 
 class OrderStatusCreateView(ManagerCreateView):
     model = OrderStatus
     form_class = OrderStatusModel
 
-    def get_success_url(self):
-        url = super().get_success_url()
-        if 'save-and-close' in self.request.POST.keys():
-            url = reverse_lazy('order_status_list')
-        elif 'save' in self.request.POST.keys():
-            url = reverse_lazy('order_status_detail', kwargs={'pk': self.object.pk})
-        return url
+    # def get_success_url(self):
+    #     url = super().get_success_url()
+    #     if 'save-and-close' in self.request.POST.keys():
+    #         url = reverse_lazy('order_status_list')
+    #     elif 'save' in self.request.POST.keys():
+    #         url = reverse_lazy('order_status_detail', kwargs={'pk': self.object.pk})
+    #     return url
 
 
 class SerieUpdateView(ManagerUpdateView):
     model = Serie
     form_class = SerieModel
 
-    def get_success_url(self):
-        url = super().get_success_url()
-        if 'save-and-close' in self.request.POST.keys():
-            url = reverse_lazy('serie_list')
-        elif 'save' in self.request.POST.keys():
-            url = reverse_lazy('serie_detail', kwargs={'pk': self.object.pk})
-        return url
+    # def get_success_url(self):
+    #     url = super().get_success_url()
+    #     if 'save-and-close' in self.request.POST.keys():
+    #         url = reverse_lazy('serie_list')
+    #     elif 'save' in self.request.POST.keys():
+    #         url = reverse_lazy('serie_detail', kwargs={'pk': self.object.pk})
+    #     return url
 
 
 class AuthorUpdateView(ManagerUpdateView):
     model = Author
     form_class = AuthorModel
 
-    def get_success_url(self):
-        url = super().get_success_url()
-        if 'save-and-close' in self.request.POST.keys():
-            url = reverse_lazy('author_list')
-        elif 'save' in self.request.POST.keys():
-            url = reverse_lazy('author_detail', kwargs={'pk': self.object.pk})
-        return url
+    # def get_success_url(self):
+    #     url = super().get_success_url()
+    #     if 'save-and-close' in self.request.POST.keys():
+    #         url = reverse_lazy('author_list')
+    #     elif 'save' in self.request.POST.keys():
+    #         url = reverse_lazy('author_detail', kwargs={'pk': self.object.pk})
+    #     return url
 
 
 class JenreUpdateView(ManagerUpdateView):
     model = Jenre
     form_class = JenreModel
 
-    def get_success_url(self):
-        url = super().get_success_url()
-        if 'save-and-close' in self.request.POST.keys():
-            url = reverse_lazy('jenre_list')
-        elif 'save' in self.request.POST.keys():
-            url = reverse_lazy('jenre_detail', kwargs={'pk': self.object.pk})
-        return url
+    # def get_success_url(self):
+    #     url = super().get_success_url()
+    #     if 'save-and-close' in self.request.POST.keys():
+    #         url = reverse_lazy('jenre_list')
+    #     elif 'save' in self.request.POST.keys():
+    #         url = reverse_lazy('jenre_detail', kwargs={'pk': self.object.pk})
+    #     return url
 
 
 class PublishingHouseUpdateView(ManagerUpdateView):
     model = PublishingHouse
     form_class = PublishingHouseModel
 
-    def get_success_url(self):
-        url = super().get_success_url()
-        if 'save-and-close' in self.request.POST.keys():
-            url = reverse_lazy('publishing_house_list')
-        elif 'save' in self.request.POST.keys():
-            url = reverse_lazy('publishing_house_detail', kwargs={'pk': self.object.pk})
-        return url
+    # def get_success_url(self):
+    #     url = super().get_success_url()
+    #     if 'save-and-close' in self.request.POST.keys():
+    #         url = reverse_lazy('publishing_house_list')
+    #     elif 'save' in self.request.POST.keys():
+    #         url = reverse_lazy('publishing_house_detail', kwargs={'pk': self.object.pk})
+    #     return url
 
 
 class FormatBookUpdateView(ManagerUpdateView):
     model = FormatBook
     form_class = FormatBookModel
 
-    def get_success_url(self):
-        url = super().get_success_url()
-        if 'save-and-close' in self.request.POST.keys():
-            url = reverse_lazy('format_book_list')
-        elif 'save' in self.request.POST.keys():
-            url = reverse_lazy('format_book_detail', kwargs={'pk': self.object.pk})
-        return url
+    # def get_success_url(self):
+    #     url = super().get_success_url()
+    #     if 'save-and-close' in self.request.POST.keys():
+    #         url = reverse_lazy('format_book_list')
+    #     elif 'save' in self.request.POST.keys():
+    #         url = reverse_lazy('format_book_detail', kwargs={'pk': self.object.pk})
+    #     return url
 
 
 class BindingUpdateView(ManagerUpdateView):
     model = Binding
     form_class = BindingModel
 
-    def get_success_url(self):
-        url = super().get_success_url()
-        if 'save-and-close' in self.request.POST.keys():
-            url = reverse_lazy('binding_list')
-        elif 'save' in self.request.POST.keys():
-            url = reverse_lazy('binding_detail', kwargs={'pk': self.object.pk})
-        return url
+    # def get_success_url(self):
+    #     url = super().get_success_url()
+    #     if 'save-and-close' in self.request.POST.keys():
+    #         url = reverse_lazy('binding_list')
+    #     elif 'save' in self.request.POST.keys():
+    #         url = reverse_lazy('binding_detail', kwargs={'pk': self.object.pk})
+    #     return url
 
 
 class AgeRestrictionUpdateView(ManagerUpdateView):
     model = AgeRestriction
     form_class = AgeRestrictionModel
 
-    def get_success_url(self):
-        url = super().get_success_url()
-        if 'save-and-close' in self.request.POST.keys():
-            url = reverse_lazy('age_restriction_list')
-        elif 'save' in self.request.POST.keys():
-            url = reverse_lazy('age_restriction_detail', kwargs={'pk': self.object.pk})
-        return url
+    # def get_success_url(self):
+    #     url = super().get_success_url()
+    #     if 'save-and-close' in self.request.POST.keys():
+    #         url = reverse_lazy('age_restriction_list')
+    #     elif 'save' in self.request.POST.keys():
+    #         url = reverse_lazy('age_restriction_detail', kwargs={'pk': self.object.pk})
+    #     return url
 
 
 class OrderStatusUpdateView(ManagerUpdateView):
     model = OrderStatus
     form_class = OrderStatusModel
 
-    def get_success_url(self):
-        url = super().get_success_url()
-        if 'save-and-close' in self.request.POST.keys():
-            url = reverse_lazy('order_status_list')
-        elif 'save' in self.request.POST.keys():
-            url = reverse_lazy('order_status_detail', kwargs={'pk': self.object.pk})
-        return url
+    # def get_success_url(self):
+    #     url = super().get_success_url()
+    #     if 'save-and-close' in self.request.POST.keys():
+    #         url = reverse_lazy('order_status_list')
+    #     elif 'save' in self.request.POST.keys():
+    #         url = reverse_lazy('order_status_detail', kwargs={'pk': self.object.pk})
+    #     return url
 
 
 class AuthorDeleteView(ManagerDeleteView):
