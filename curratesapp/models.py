@@ -4,8 +4,8 @@ from django.db import models
 
 
 class CurRates(models.Model):
-    day = models.DateField("Дата")
-    rate = models.DecimalField("Курс доллара", max_digits=10, decimal_places=6)
+    day = models.DateField("Дата", unique=True)
+    rate = models.DecimalField("Курс доллара", max_digits=10, decimal_places=4)
 
     def __str__(self):
         return str(self.day)
