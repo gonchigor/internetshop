@@ -9,6 +9,7 @@ from django.views.generic import RedirectView
 from dimensionsapp.models import OrderStatus, Jenre
 from django.db.models import Count, Subquery, OuterRef
 from .form import JenreNavForm
+from  curratesapp.utils import RateContextMixin
 
 import requests
 
@@ -84,18 +85,18 @@ class BookNavigationListView(BaseBookListView):
         return queryset.distinct()
 
 
-class CustomerBookDetailView(DetailView):
+class CustomerBookDetailView(RateContextMixin, DetailView):
     """Book for customers"""
     model = Book
     template_name = 'home/book_full.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        try:
-            context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
-                json()['Cur_OfficialRate']
-        except requests.ConnectionError:
-            print('Can\'t get usd rate')
+        # try:
+        #     context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+        #         json()['Cur_OfficialRate']
+        # except requests.ConnectionError:
+        #     print('Can\'t get usd rate')
         cart_id = self.request.session.get('cart-id')
         if cart_id:
             cart = Cart.objects.get(pk=cart_id)
