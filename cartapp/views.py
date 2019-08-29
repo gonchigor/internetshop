@@ -10,12 +10,13 @@ from django.urls import reverse_lazy
 from .form import AddBookToCartForm
 from django.contrib.auth.views import redirect_to_login
 from orderapp.form import OrderConfirmForm
+from curratesapp.utils import RateContextMixin
 
 
 # Create your views here.
 
 
-class AddBookToCartView(UpdateView):
+class AddBookToCartView(RateContextMixin, UpdateView):
     model = BookInCart
     form_class = AddBookToCartForm
     template_name = 'cartapp/add_book_to_cart.html'
@@ -41,11 +42,11 @@ class AddBookToCartView(UpdateView):
             context['url'] = self.request.META['HTTP_REFERER']
         else:
             context['url'] = self.request.POST.get('url')
-        try:
-            context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
-                json()['Cur_OfficialRate']
-        except requests.ConnectionError:
-            print('Can\'t get usd rate')
+        # try:
+        #     context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+        #         json()['Cur_OfficialRate']
+        # except requests.ConnectionError:
+        #     print('Can\'t get usd rate')
         return context
 
     def get_success_url(self):
@@ -60,17 +61,17 @@ class AddBookToCartView(UpdateView):
         return initial
 
 
-class BookInCartDeleteView(DeleteView):
+class BookInCartDeleteView(RateContextMixin, DeleteView):
     model = BookInCart
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['url'] = self.request.META['HTTP_REFERER']
-        try:
-            context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
-                json()['Cur_OfficialRate']
-        except requests.ConnectionError:
-            print('Can\'t get usd rate')
+        # try:
+        #     context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+        #         json()['Cur_OfficialRate']
+        # except requests.ConnectionError:
+        #     print('Can\'t get usd rate')
         return context
 
     def get_success_url(self):
@@ -78,7 +79,7 @@ class BookInCartDeleteView(DeleteView):
 
 
 # class CartDetailView(DetailView, FormMixin):
-class CartDetailView(DetailView):
+class CartDetailView(RateContextMixin, DetailView):
     model = Cart
     # form_class = OrderConfirmForm
 
@@ -90,11 +91,11 @@ class CartDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['get'] = self.request.GET
-        try:
-            context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
-                json()['Cur_OfficialRate']
-        except requests.ConnectionError:
-            print('Can\'t get usd rate')
+        # try:
+        #     context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+        #         json()['Cur_OfficialRate']
+        # except requests.ConnectionError:
+        #     print('Can\'t get usd rate')
         return context
 
     # def get_initial(self):
@@ -106,33 +107,33 @@ class CartDetailView(DetailView):
     #     return initial
 
 
-class CartArchDetailView(LoginRequiredMixin, DetailView):
+class CartArchDetailView(LoginRequiredMixin, RateContextMixin, DetailView):
     model = Cart
     template_name = 'cartapp/cart_arhiv_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['comments'] = self.object.order.last().user_comments.all().order_by('-date_create')
-        try:
-            context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
-                json()['Cur_OfficialRate']
-        except requests.ConnectionError:
-            print('Can\'t get usd rate')
+        # try:
+        #     context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+        #         json()['Cur_OfficialRate']
+        # except requests.ConnectionError:
+        #     print('Can\'t get usd rate')
         return context
 
 
-class CartCurrentDetailView(LoginRequiredMixin, DetailView):
+class CartCurrentDetailView(LoginRequiredMixin, RateContextMixin, DetailView):
     model = Cart
     template_name = 'cartapp/cart_current_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['comments'] = self.object.order.last().user_comments.all().order_by('-date_create')
-        try:
-            context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
-                json()['Cur_OfficialRate']
-        except requests.ConnectionError:
-            print('Can\'t get usd rate')
+        # try:
+        #     context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+        #         json()['Cur_OfficialRate']
+        # except requests.ConnectionError:
+        #     print('Can\'t get usd rate')
         return context
 
 
