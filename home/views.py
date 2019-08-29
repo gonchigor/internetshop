@@ -9,9 +9,8 @@ from django.views.generic import RedirectView
 from dimensionsapp.models import OrderStatus, Jenre
 from django.db.models import Count, Subquery, OuterRef
 from .form import JenreNavForm
-from  curratesapp.utils import RateContextMixin
-
-import requests
+from curratesapp.utils import RateContextMixin
+# import requests
 
 order_status_ok = OrderStatus.objects.get_or_create(name='Доставлен')[0]
 COUNT_CARDS = 6
@@ -131,30 +130,21 @@ class MainRedirectView(RedirectView):
         return reverse_lazy('main-page')
 
 
-class CustomerJenreListView(ListView):
+class CustomerJenreListView(RateContextMixin, ListView):
     queryset = Jenre.objects.filter(book__isnull=False).distinct()
     template_name = "home/jenre_list.html"
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        try:
-            context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
-                json()['Cur_OfficialRate']
-        except requests.ConnectionError:
-            print('Can\'t get usd rate')
-        return context
 
-
-class CustomerJenreDetailView(DetailView):
+class CustomerJenreDetailView(RateContextMixin, DetailView):
     queryset = Jenre.objects.filter(book__isnull=False).distinct()
     template_name = "home/jenre_books.html"
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        try:
-            context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
-                json()['Cur_OfficialRate']
-        except requests.ConnectionError:
-            print('Can\'t get usd rate')
+        # try:
+        #     context['usd_rate'] = requests.get('http://www.nbrb.by/API/ExRates/Rates/USD?ParamMode=2'). \
+        #         json()['Cur_OfficialRate']
+        # except requests.ConnectionError:
+        #     print('Can\'t get usd rate')
         context['jenre_list'] = self.get_queryset()
         return context
